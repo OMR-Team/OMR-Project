@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("versioncatalog")
     repositories {
         gradlePluginPortal()
         google()
@@ -13,4 +14,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "OMRChecker"
-include ':app'
+include(":app")
