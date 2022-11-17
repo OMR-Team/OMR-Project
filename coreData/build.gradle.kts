@@ -49,4 +49,5 @@ dependencies {
 
     implementation(project(":commonUtil"))
     implementation(project(":commonModel"))
+    implementation(project(":coreDataBase"))
 }

@@ -10,7 +10,10 @@ junit = "4.13.2"
 androidx-test-junit = "1.1.3"
 androidx-test-espresso = "3.4.0"
 
+coroutine = "1.6.4"
 hilt = "2.44"
+room = "2.4.3"
+
 
 
 [libraries]
@@ -28,9 +31,18 @@ test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref =
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 
+coroutine-core = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine"}
+coroutine-android = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutine"}
+
+room = {module = "androidx.room:room-ktx", version.ref = "room"}
+room-runtime = {module = "androidx.room:room-runtime", version.ref = "room"}
+room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
+
 [bundles]
 
 android = ["android-material"]
 androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-constraint"]
+room = ["room", "room-runtime"]
+coroutine = ["coroutine-core", "coroutine-android"]
 
 junit = ["junit", "test-junit", "test-espresso"]

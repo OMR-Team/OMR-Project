@@ -47,6 +47,10 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    implementation(libs.bundles.coroutine)
+    implementation(libs.bundles.room)
+    kapt(libs.room.compiler)
+
     implementation(project(":commonUtil"))
     implementation(project(":commonModel"))
 }
