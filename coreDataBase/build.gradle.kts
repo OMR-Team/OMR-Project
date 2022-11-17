@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.bundles.coroutine)
     implementation(libs.bundles.room)
     kapt(libs.room.compiler)
+    implementation(libs.gson)
 
     implementation(project(":commonUtil"))
     implementation(project(":commonModel"))

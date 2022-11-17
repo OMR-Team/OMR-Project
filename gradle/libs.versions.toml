@@ -13,6 +13,7 @@ androidx-test-espresso = "3.4.0"
 coroutine = "1.6.4"
 hilt = "2.44"
 room = "2.4.3"
+gson = "2.8.6"
 
 
 
@@ -37,6 +38,8 @@ coroutine-android = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-android"
 room = {module = "androidx.room:room-ktx", version.ref = "room"}
 room-runtime = {module = "androidx.room:room-runtime", version.ref = "room"}
 room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
+
+gson = {module = "com.google.code.gson:gson", version.ref = "gson"}
 
 [bundles]
 
