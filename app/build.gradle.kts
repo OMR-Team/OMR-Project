@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
+    id("com.google.dagger.hilt.android") version "2.44" apply false
 }
 
 android {
@@ -43,4 +44,12 @@ dependencies {
     implementation(libs.bundles.androidx)
     implementation(libs.bundles.junit)
 
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    implementation(project(":coreData"))
+    implementation(project(":coreDataBase"))
+    implementation(project(":commonBase"))
+    implementation(project(":commonModel"))
+    implementation(project(":commonUtil"))
 }

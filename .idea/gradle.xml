@@ -22,6 +22,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/commonBase" />
+            <option value="$PROJECT_DIR$/commonModel" />
+            <option value="$PROJECT_DIR$/commonUtil" />
+            <option value="$PROJECT_DIR$/coreData" />
+            <option value="$PROJECT_DIR$/coreDataBase" />
             <option value="$PROJECT_DIR$/versioncatalog" />
           </set>
         </option>

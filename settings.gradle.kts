@@ -15,3 +15,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "OMRChecker"
 include(":app")
+include(":coreData")
+include(":coreDataBase")
+include(":commonModel")
+include(":commonBase")
+include(":commonUtil")
