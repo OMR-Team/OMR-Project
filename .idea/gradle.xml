@@ -7,9 +7,10 @@
         <compositeConfiguration>
           <compositeBuild compositeDefinitionSource="SCRIPT">
             <builds>
-              <build path="$PROJECT_DIR$/versioncatalog" name="versioncatalog">
+              <build path="$PROJECT_DIR$/build-logic" name="build-logic">
                 <projects>
-                  <project path="$PROJECT_DIR$/versioncatalog" />
+                  <project path="$PROJECT_DIR$/build-logic" />
+                  <project path="$PROJECT_DIR$/build-logic/convention" />
                 </projects>
               </build>
             </builds>
@@ -22,12 +23,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/build-logic" />
+            <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/commonBase" />
             <option value="$PROJECT_DIR$/commonModel" />
             <option value="$PROJECT_DIR$/commonUtil" />
             <option value="$PROJECT_DIR$/coreData" />
             <option value="$PROJECT_DIR$/coreDataBase" />
-            <option value="$PROJECT_DIR$/versioncatalog" />
           </set>
         </option>
       </GradleProjectSettings>

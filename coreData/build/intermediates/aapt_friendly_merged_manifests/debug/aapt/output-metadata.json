@@ -4,7 +4,7 @@
     "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.example.coredata",
+  "applicationId": "com.lok.dev.coreData",
   "variantName": "debug",
   "elements": [
     {

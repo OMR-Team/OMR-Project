@@ -1,17 +1,11 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android") version "2.44" apply false
+    id("omr.android.application")
+    id("omr.android.hilt")
 }
 
 android {
-    compileSdk = 32
-
     defaultConfig {
         applicationId = "com.lok.dev.omrchecker"
-        minSdk = 27
-        targetSdk = 32
         versionCode = 1
         versionName = "1.0"
 
@@ -24,13 +18,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"

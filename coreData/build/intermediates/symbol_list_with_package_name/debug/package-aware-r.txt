@@ -1,1 +1,1 @@
-com.example.coredata
+com.lok.dev.coreData

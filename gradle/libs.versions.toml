@@ -1,5 +1,6 @@
 [versions]
-
+kotlin = "1.7.0"
+androidGradle = "7.2.2"
 android-material = "1.6.1"
 
 androidx-core = "1.7.0"
@@ -12,6 +13,7 @@ androidx-test-espresso = "3.4.0"
 
 coroutine = "1.6.4"
 hilt = "2.44"
+androidxHilt = "1.0.0"
 room = "2.4.3"
 gson = "2.8.6"
 
@@ -41,6 +43,9 @@ room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
 
 gson = {module = "com.google.code.gson:gson", version.ref = "gson"}
 
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradle" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
 [bundles]
 
 android = ["android-material"]
@@ -49,3 +54,11 @@ room = ["room", "room-runtime"]
 coroutine = ["coroutine-core", "coroutine-android"]
 
 junit = ["junit", "test-junit", "test-espresso"]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradle" }
+android-library = { id = "com.android.library", version.ref = "androidGradle" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
