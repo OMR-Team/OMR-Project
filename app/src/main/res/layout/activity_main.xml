@@ -7,6 +7,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <FrameLayout
+            android:id="@+id/testContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/omrFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="omrFragment"/>
+
+            <Button
+                android:id="@+id/answerFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="120dp"
+                android:text="answerFragment"/>
+
+
+        </FrameLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
