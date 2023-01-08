@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">OMRChecker</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- OMR Input -->
+    <string name="omr_input_title">내 답안 입력하기</string>
+
 </resources>
