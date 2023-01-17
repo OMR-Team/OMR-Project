@@ -3,5 +3,6 @@
 
     <!-- OMR Input -->
     <string name="omr_input_title">내 답안 입력하기</string>
+    <string name="omr_input_next">다음</string>
 
 </resources>

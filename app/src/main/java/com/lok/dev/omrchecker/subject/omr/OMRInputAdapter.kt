@@ -1,4 +1,4 @@
-package com.lok.dev.omrchecker.omrscreen.omrinput
+package com.lok.dev.omrchecker.subject.omr
 
 import android.content.Context
 import android.view.LayoutInflater
