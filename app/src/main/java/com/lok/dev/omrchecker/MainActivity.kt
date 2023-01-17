@@ -7,6 +7,7 @@ import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.navigator.FragmentNavigator
 import com.lok.dev.omrchecker.navigator.OMRScreen
 import com.lok.dev.omrchecker.omrscreen.omrinput.OMRInputFragment
+import com.lok.dev.omrchecker.omrscreen.setting.SettingBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     @Inject lateinit var fragmentNavigator : FragmentNavigator
+    @Inject lateinit var settingFragment: SettingBottomSheetDialogFragment
 
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
@@ -28,6 +30,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         binding.answerFragment.setOnClickListener {
             fragmentNavigator.naviOMRScreen(OMRScreen.AnswerInput)
+        }
+
+        binding.settingFragment.setOnClickListener {
+            settingFragment.show(supportFragmentManager, settingFragment.tag)
         }
 
     }
