@@ -7,7 +7,6 @@ import com.lok.dev.commonbase.BaseActivity
 import com.lok.dev.commonbase.launchDialog
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.subject.SubjectDialog
-import com.lok.dev.omrchecker.omrscreen.setting.SettingBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +20,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private val viewModel by viewModels<MainViewModel>()
-    @Inject lateinit var settingFragment: SettingBottomSheetDialogFragment
 
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
@@ -35,10 +33,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 type = SubjectDialog::class.java,
                 args = bundleOf("type" to OMR_INPUT_SCREEN)
             )
-        }
-
-        binding.settingFragment.setOnClickListener {
-            settingFragment.show(supportFragmentManager, settingFragment.tag)
         }
 
     }
