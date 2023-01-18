@@ -7,34 +7,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/testContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <Button
+            android:id="@+id/omrFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginStart="100dp"
+            android:text="Open OMR Dialog"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-            <Button
-                android:id="@+id/omrFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="omrFragment"/>
-
-            <Button
-                android:id="@+id/answerFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="120dp"
-                android:text="answerFragment"/>
-
-
-            <Button
-                android:id="@+id/settingFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="200dp"
-                android:text="settingFragment"/>
-
-        </FrameLayout>
-
+        <Button
+            android:id="@+id/settingFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:text="settingFragment"
+            app:layout_constraintTop_toBottomOf="@id/omrFragment"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.omrchecker.R
-import com.lok.dev.omrchecker.omrscreen.answerinput.AnswerInputFragment
-import com.lok.dev.omrchecker.omrscreen.omrinput.OMRInputFragment
+import com.lok.dev.omrchecker.subject.answer.AnswerInputFragment
+import com.lok.dev.omrchecker.subject.omr.OMRInputFragment
 import javax.inject.Inject
 
 
@@ -33,7 +33,7 @@ class FragmentNavigatorImpl @Inject constructor(
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )
         fragmentActivity.supportFragmentManager.beginTransaction()
-            .replace(R.id.testContainer, fragment)
+            .replace(R.id.subjectFrame, fragment)
             .addToBackStack(fragment::class.java.canonicalName)
             .commit()
     }

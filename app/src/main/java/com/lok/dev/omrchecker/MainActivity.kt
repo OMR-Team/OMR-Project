@@ -1,20 +1,26 @@
 package com.lok.dev.omrchecker
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import com.lok.dev.commonbase.BaseActivity
+import com.lok.dev.commonbase.launchDialog
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
-import com.lok.dev.omrchecker.navigator.FragmentNavigator
-import com.lok.dev.omrchecker.navigator.OMRScreen
-import com.lok.dev.omrchecker.omrscreen.omrinput.OMRInputFragment
+import com.lok.dev.omrchecker.subject.SubjectDialog
 import com.lok.dev.omrchecker.omrscreen.setting.SettingBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    @Inject lateinit var fragmentNavigator : FragmentNavigator
+    companion object {
+        const val OMR_INPUT_SCREEN = "omrInput"
+        const val ANSWER_INPUT_SCREEN = "answerInput"
+        const val RESULT_SCREEN = "resultScreen"
+
+    }
+
+    private val viewModel by viewModels<MainViewModel>()
     @Inject lateinit var settingFragment: SettingBottomSheetDialogFragment
 
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
@@ -25,11 +31,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         // fragment 화면 전환 샘플
         binding.omrFragment.setOnClickListener {
-            fragmentNavigator.naviOMRScreen(OMRScreen.OMRInput)
-        }
-
-        binding.answerFragment.setOnClickListener {
-            fragmentNavigator.naviOMRScreen(OMRScreen.AnswerInput)
+            launchDialog(
+                type = SubjectDialog::class.java,
+                args = bundleOf("type" to OMR_INPUT_SCREEN)
+            )
         }
 
         binding.settingFragment.setOnClickListener {
