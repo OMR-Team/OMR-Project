@@ -9,30 +9,45 @@ import android.view.*
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
 import com.lok.dev.commonBase.R
 
 abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFragment() {
 
-    protected val TAG get() = this::class.java.simpleName
-
     private var _binding: Binding? = null
     protected val binding get() = _binding!!
 
-    protected var dismissResult: Result? = null
-    var success: ((result: Result?) -> Unit)? = null
+    private var dismissResult: Result? = null
+    var result: ((result: Result?) -> Unit)? = null
     var cancel: () -> Unit = {}
 
-    var windowWidth = ViewGroup.LayoutParams.MATCH_PARENT
-    var windowHeight = ViewGroup.LayoutParams.MATCH_PARENT
+    var canceledOnTouchOutside = true
+    var fullScreen = false
     var bottomSlideAnimation = false
-    open var cancelOnTouchOutside = true
-    var dimBehind = false
-    var showKeyboardInput = false
 
     protected abstract fun createFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): Binding
+
+    protected open fun initData() = Unit
+    protected open fun initDataBinding() = Unit
+    protected open fun initDialogFragment(savedInstanceState: Bundle?) = Unit
+    protected open fun onDialogBackPressed() { dismiss() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initStyle()
+    }
+
+    protected open fun initStyle() {
+        if (fullScreen)
+            setStyle(STYLE_NO_TITLE, R.style.DialogFullScreen)
+        else if (bottomSlideAnimation)
+            setStyle(STYLE_NO_TITLE, R.style.BottomSlideDialog)
+        else
+            setStyle(STYLE_NO_TITLE, R.style.DialogCornerRadius)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = object : Dialog(requireContext(), theme) {
@@ -43,50 +58,28 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
         return dialog
     }
 
-    protected open fun onDialogBackPressed() = Unit
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (bottomSlideAnimation) setStyle(STYLE_NO_TITLE, R.style.BottomSlideDialog)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = createFragmentBinding(inflater, container).apply {
-            lifecycleOwner = viewLifecycleOwner
+    ): View = createFragmentBinding(inflater, container).apply {
+        lifecycleOwner = viewLifecycleOwner
+        _binding = this
+        initData()
+        initDataBinding()
+    }.root
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.apply {
+            isCancelable = canceledOnTouchOutside
+            setCanceledOnTouchOutside(canceledOnTouchOutside)
         }
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initFragment()
-    }
-
-    protected open fun initFragment() = Unit
-
-    override fun onStart() {
-        super.onStart()
-
-        dialog?.apply {
-            setCanceledOnTouchOutside(cancelOnTouchOutside)
-            window?.apply {
-                val gravity = if (bottomSlideAnimation) Gravity.BOTTOM else Gravity.CENTER
-                setGravity(gravity)
-                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                setLayout(windowWidth, windowHeight)
-                if (dimBehind) {
-                    addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-                    setDimAmount(0.5f)
-                } else {
-                    clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-                }
-            }
-        }
+        initDialogFragment(savedInstanceState)
     }
 
     override fun onDestroyView() {
@@ -94,20 +87,14 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
         super.onDestroyView()
     }
 
-    override fun show(manager: FragmentManager, tag: String?) {
-        if (!manager.isDestroyed && !manager.isStateSaved) super.show(manager, tag)
-    }
-
     override fun onDismiss(dialog: DialogInterface) {
-        if(dismissResult != null) {
-            success?.invoke(dismissResult)
-        }else {
-            cancel.invoke()
+        if (dismissResult != null) {
+            result?.invoke(dismissResult)
         }
         super.onDismiss(dialog)
     }
 
-    protected fun dismiss(data: Result) {
+    protected fun setResultOnDismiss(data: Result) {
         dismissResult = data
         dismiss()
     }

@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import com.lok.dev.commonbase.BaseActivity
-import com.lok.dev.commonbase.launchDialog
+import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
+import com.lok.dev.omrchecker.omrscreen.setting.SettingDialog
 import com.lok.dev.omrchecker.subject.SubjectDialog
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -21,6 +23,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel by viewModels<MainViewModel>()
 
+    @Inject lateinit var settingDialog: SettingDialog
+    @Inject lateinit var subjectDialog: SubjectDialog
+
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initActivity(savedInstanceState: Bundle?) {
@@ -29,9 +34,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         // fragment 화면 전환 샘플
         binding.omrFragment.setOnClickListener {
-            launchDialog(
-                type = SubjectDialog::class.java,
-                args = bundleOf("type" to OMR_INPUT_SCREEN)
+            launchDialogFragment(
+                dialogFragment = subjectDialog.apply {
+                    arguments = bundleOf("type" to OMR_INPUT_SCREEN)
+                },
+                fullScreen = true,
+                fragmentManager = supportFragmentManager
+            )
+        }
+
+        binding.settingFragment.setOnClickListener {
+            launchDialogFragment(
+                dialogFragment = settingDialog,
+                fullScreen = true,
+                fragmentManager = supportFragmentManager
             )
         }
 

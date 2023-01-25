@@ -1,5 +1,6 @@
 package com.lok.dev.omrchecker.subject
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -29,7 +30,7 @@ class SubjectDialog @Inject constructor() : BaseDialogFragment<DialogSubjectBind
         container: ViewGroup?
     ) = DialogSubjectBinding.inflate(inflater, container, false)
 
-    override fun initFragment() {
+    override fun initDialogFragment(savedInstanceState: Bundle?) {
 
         initScreen()
 
