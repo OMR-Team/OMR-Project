@@ -1,5 +1,6 @@
 package com.lok.dev.omrchecker
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Debug
 import android.util.Log
@@ -12,6 +13,7 @@ import com.lok.dev.commonutil.onUiState
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.omrlist.OmrListFragment
+import com.lok.dev.omrchecker.subject.OmrActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -32,7 +34,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initActivity(savedInstanceState: Bundle?) {
-        supportFragmentManager.beginTransaction().add(R.id.fragment, omrListFragment).commit()
+        //supportFragmentManager.beginTransaction().add(R.id.fragment, omrListFragment).commit()
+
+        val intent = Intent(this, OmrActivity::class.java)
+        intent.putExtras(bundleOf("type" to "omr"))
+        startActivity(intent)
+
 
 //        binding.testDataInsert.setOnClickListener {
 //            val data = OMRTable(

@@ -7,7 +7,7 @@ import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.omrchecker.databinding.ItemOmrInputBinding
 
-class OMRInputAdapter(
+class OmrInputAdapter(
     private val context : Context
 ) : BaseAdapter<ItemOmrInputBinding, List<Int>>() {
 
