@@ -34,20 +34,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initActivity(savedInstanceState: Bundle?) {
         supportFragmentManager.beginTransaction().add(R.id.fragment, omrListFragment).commit()
 
-        binding.testDataInsert.setOnClickListener {
-            val data = OMRTable(
-                subject = 100,
-                title = "테스트야",
-                problemNum = 10,
-                selectNum = 5,
-                tag = listOf(1,2,3)
-            )
-            viewModel.addTestInfo(data)
-        }
-
-        binding.getTestData.setOnClickListener {
-            viewModel.getTestInfo()
-        }
+//        binding.testDataInsert.setOnClickListener {
+//            val data = OMRTable(
+//                subject = 100,
+//                title = "테스트야",
+//                problemNum = 10,
+//                selectNum = 5,
+//                tag = listOf(1,2,3)
+//            )
+//            viewModel.addTestInfo(data)
+//        }
+//
+//        binding.getTestData.setOnClickListener {
+//            viewModel.getTestInfo()
+//        }
 
         viewModel.testState.onUiState(lifecycleScope,
             loading = {
