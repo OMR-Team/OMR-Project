@@ -2,18 +2,14 @@ package com.lok.dev.coredatabase.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.lok.dev.coredatabase.converter.IntListTypeConverter
 
-@Entity(primaryKeys = ["id", "problemNum"])
-@TypeConverters(
-    value = [
-        IntListTypeConverter::class
-    ]
-)
+@Entity
 data class AnswerTable(
-    val id : Long = 0,
-    val problemNum : Int,
-    @ColumnInfo(name = "answer") val answer : List<Int>,
-    @ColumnInfo(name = "problem_score") val problemScore : Double
+    @PrimaryKey(autoGenerate = true) val id : Int = 0,
+    @ColumnInfo(name = "no") val no: Int = 0,
+    @ColumnInfo(name = "answer") val answer : List<Int> = listOf(),
+    @ColumnInfo(name = "score") val score: Double = 0.0
 )
