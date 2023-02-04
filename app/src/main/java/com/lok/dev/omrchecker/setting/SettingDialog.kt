@@ -1,9 +1,8 @@
-package com.lok.dev.omrchecker.omrscreen.setting
+package com.lok.dev.omrchecker.setting
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.lok.dev.commonbase.BaseBottomSheetDialogFragment
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.omrchecker.databinding.FragmentSettingBinding
 import javax.inject.Inject

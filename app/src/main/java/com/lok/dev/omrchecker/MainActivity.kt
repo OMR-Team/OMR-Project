@@ -14,6 +14,7 @@ import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.omrlist.OmrListFragment
 import com.lok.dev.omrchecker.subject.OmrActivity
+import com.lok.dev.omrchecker.test.TestFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,50 +29,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel by viewModels<MainViewModel>()
 
-    @Inject
-    lateinit var omrListFragment: OmrListFragment
+    @Inject lateinit var omrListFragment: OmrListFragment
+    @Inject lateinit var testFragment: TestFragment
 
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initActivity(savedInstanceState: Bundle?) {
-        //supportFragmentManager.beginTransaction().add(R.id.fragment, omrListFragment).commit()
+
 
         val intent = Intent(this, OmrActivity::class.java)
         intent.putExtras(bundleOf("type" to "omr"))
         startActivity(intent)
 
+        addOmrListFragment()
+        //addTestFragment()
+    }
 
-//        binding.testDataInsert.setOnClickListener {
-//            val data = OMRTable(
-//                subject = 100,
-//                title = "테스트야",
-//                problemNum = 10,
-//                selectNum = 5,
-//                tag = listOf(1,2,3)
-//            )
-//            viewModel.addTestInfo(data)
-//        }
-//
-//        binding.getTestData.setOnClickListener {
-//            viewModel.getTestInfo()
-//        }
+    private fun addOmrListFragment() {
+        supportFragmentManager.beginTransaction().add(R.id.fragment, omrListFragment).commit()
+    }
 
-        viewModel.testState.onUiState(lifecycleScope,
-            loading = {
-                Log.d("123123123", "test 로딩중!!!")
-            },
-            success = {
-                Log.d("123123123", "test 성공!!!")
-                Log.d("123123123", "결과 = $it")
-            },
-            error = {
-                Log.d("123123123", "test 에러 = {$it}!!!")
-            },
-            finish = {
-                Log.d("123123123", "test 끝!!!")
-            }
-        )
-
+    private fun addTestFragment() {
+        supportFragmentManager.beginTransaction().add(R.id.fragment, testFragment).commit()
     }
 
 }
