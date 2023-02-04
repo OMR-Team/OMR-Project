@@ -1,16 +1,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.OMRChecker" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+
+    <style name="Theme.OMRChecker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Color Theme -->
+        <item name="colorPrimary">@color/theme_primary_blue</item>
+        <item name="colorPrimaryVariant">@color/theme_primary_blue_darker</item>
         <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="colorSecondary">@color/theme_tag_highlight</item>
+        <item name="colorSecondaryVariant">@color/theme_highlight</item>
+        <item name="colorOnSecondary">@color/theme_gray_20</item>
+        <!-- System Theme -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Custom Theme -->
+        <item name="chipStyle">@style/Theme.OMR.TagChip</item>
+
+        <!-- Text Theme -->
+        <item name="android:textSize">15dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">-0.03</item>
     </style>
 </resources>

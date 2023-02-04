@@ -1,6 +1,7 @@
 package com.lok.dev.commonbase.util
 
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
@@ -9,6 +10,24 @@ import com.lok.dev.commonbase.BaseDialogFragment
 import kotlinx.coroutines.Job
 
 // DialogFragment 런처
+fun <Binding : ViewDataBinding, Result> Fragment.launchDialogFragment(
+    dialogFragment: BaseDialogFragment<Binding, Result>,
+    fragmentManager: FragmentManager = childFragmentManager,
+    cancelableOnTouchOutside: Boolean = true,
+    fullScreen: Boolean = false,
+    bottomSlideAnimation: Boolean = false,
+    result: (Result?) -> Unit = {},
+    cancel: () -> Unit = {}
+): Job = showDialogFragment(
+    dialogFragment = dialogFragment,
+    fragmentManager = fragmentManager,
+    cancelableOnTouchOutside = cancelableOnTouchOutside,
+    fullScreen = fullScreen,
+    bottomSlideAnimation = bottomSlideAnimation,
+    result = result,
+    cancel = cancel
+)
+
 fun <Binding : ViewDataBinding, Result> FragmentActivity.launchDialogFragment(
     dialogFragment: BaseDialogFragment<Binding, Result>,
     fragmentManager: FragmentManager = supportFragmentManager,
