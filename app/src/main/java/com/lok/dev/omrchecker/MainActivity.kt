@@ -1,31 +1,16 @@
 package com.lok.dev.omrchecker
 
-import android.content.Intent
 import android.os.Bundle
-import android.os.Debug
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.core.os.bundleOf
-import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseActivity
-import com.lok.dev.commonbase.util.launchDialogFragment
-import com.lok.dev.commonutil.onUiState
-import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.omrlist.OmrListFragment
-import com.lok.dev.omrchecker.subject.OmrActivity
 import com.lok.dev.omrchecker.test.TestFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-
-    companion object {
-        const val OMR_INPUT_SCREEN = "omrInput"
-        const val ANSWER_INPUT_SCREEN = "answerInput"
-        const val RESULT_SCREEN = "resultScreen"
-    }
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -37,9 +22,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initActivity(savedInstanceState: Bundle?) {
 
 
-        val intent = Intent(this, OmrActivity::class.java)
-        intent.putExtras(bundleOf("type" to "omr"))
-        startActivity(intent)
+        // OmrActivity 띄우기
+//        val intent = Intent(this, OmrActivity::class.java)
+//        intent.putExtras(bundleOf("type" to "omr"))
+//        startActivity(intent)
 
         addOmrListFragment()
         //addTestFragment()
