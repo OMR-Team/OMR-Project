@@ -11,8 +11,7 @@ import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonutil.onUiState
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
-import com.lok.dev.omrchecker.omrscreen.setting.SettingDialog
-import com.lok.dev.omrchecker.subject.SubjectDialog
+import com.lok.dev.omrchecker.omrlist.OmrListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,30 +22,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         const val OMR_INPUT_SCREEN = "omrInput"
         const val ANSWER_INPUT_SCREEN = "answerInput"
         const val RESULT_SCREEN = "resultScreen"
-
     }
 
     private val viewModel by viewModels<MainViewModel>()
 
-    @Inject lateinit var settingDialog: SettingDialog
-    @Inject lateinit var subjectDialog: SubjectDialog
+    @Inject
+    lateinit var omrListFragment: OmrListFragment
 
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initActivity(savedInstanceState: Bundle?) {
-        super.initActivity(savedInstanceState)
-
-
-        // fragment 화면 전환 샘플
-        binding.omrFragment.setOnClickListener {
-            launchDialogFragment(
-                dialogFragment = subjectDialog.apply {
-                    arguments = bundleOf("type" to OMR_INPUT_SCREEN)
-                },
-                fullScreen = true,
-                fragmentManager = supportFragmentManager
-            )
-        }
+        supportFragmentManager.beginTransaction().add(R.id.fragment, omrListFragment).commit()
 
         binding.testDataInsert.setOnClickListener {
             val data = OMRTable(
@@ -57,14 +43,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 tag = listOf(1,2,3)
             )
             viewModel.addTestInfo(data)
-        }
-
-        binding.settingFragment.setOnClickListener {
-            launchDialogFragment(
-                dialogFragment = settingDialog,
-                fullScreen = true,
-                fragmentManager = supportFragmentManager
-            )
         }
 
         binding.getTestData.setOnClickListener {
@@ -88,6 +66,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         )
 
     }
-
 
 }

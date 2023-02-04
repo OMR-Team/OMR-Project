@@ -5,4 +5,11 @@
     <string name="omr_input_title">내 답안 입력하기</string>
     <string name="omr_input_next">다음</string>
 
+    <string name="header_omr_list">임시 폴더명</string>
+    <string name="header_setting_omr">새 테스트 만들기</string>
+
+    <string name="omr_list_correct_ea">정답 %s / %s</string>
+
+    <string name="sub_chip_tag">태그 #</string>
+
 </resources>
