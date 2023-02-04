@@ -1,20 +1,18 @@
 package com.lok.dev.coredatabase.converter
 
-import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 
-@ProvidedTypeConverter
-class IntListTypeConverter(private val gson : Gson) {
+class IntListTypeConverter() {
 
     @TypeConverter
     fun listToJson(value : List<Int>) : String? {
-        return gson.toJson(value)
+        return Gson().toJson(value)
     }
 
     @TypeConverter
     fun jsonToList(value : String) : List<Int> {
-        return gson.fromJson(value, Array<Int>::class.java).toList()
+        return Gson().fromJson(value, Array<Int>::class.java).toList()
     }
 
 

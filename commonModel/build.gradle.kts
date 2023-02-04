@@ -12,6 +12,4 @@ dependencies {
     implementation(libs.bundles.android)
     implementation(libs.bundles.androidx)
     implementation(libs.bundles.junit)
-
-    implementation(project(":commonUtil"))
 }

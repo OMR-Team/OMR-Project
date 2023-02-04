@@ -1,10 +1,15 @@
 package com.lok.dev.omrchecker
 
 import android.os.Bundle
+import android.os.Debug
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseActivity
 import com.lok.dev.commonbase.util.launchDialogFragment
+import com.lok.dev.commonutil.onUiState
+import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.omrscreen.setting.SettingDialog
 import com.lok.dev.omrchecker.subject.SubjectDialog
@@ -43,6 +48,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             )
         }
 
+        binding.testDataInsert.setOnClickListener {
+            val data = OMRTable(
+                subject = 100,
+                title = "테스트야",
+                problemNum = 10,
+                selectNum = 5,
+                tag = listOf(1,2,3)
+            )
+            viewModel.addTestInfo(data)
+        }
+
         binding.settingFragment.setOnClickListener {
             launchDialogFragment(
                 dialogFragment = settingDialog,
@@ -50,6 +66,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 fragmentManager = supportFragmentManager
             )
         }
+
+        binding.getTestData.setOnClickListener {
+            viewModel.getTestInfo()
+        }
+
+        viewModel.testState.onUiState(lifecycleScope,
+            loading = {
+                Log.d("123123123", "test 로딩중!!!")
+            },
+            success = {
+                Log.d("123123123", "test 성공!!!")
+                Log.d("123123123", "결과 = $it")
+            },
+            error = {
+                Log.d("123123123", "test 에러 = {$it}!!!")
+            },
+            finish = {
+                Log.d("123123123", "test 끝!!!")
+            }
+        )
 
     }
 

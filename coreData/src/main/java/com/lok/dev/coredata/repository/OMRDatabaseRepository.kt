@@ -5,7 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface OMRDatabaseRepository {
 
-    fun getOMRTable(): Flow<OMRTable>
+    fun getOMRTable(): Flow<List<OMRTable>>
+    fun addOMRTable(omrTable: OMRTable)
     fun getSubjectTable(): Flow<SubjectTable>
     fun getTagTable(): Flow<TagTable>
     fun getProblemTable(): Flow<ProblemTable>

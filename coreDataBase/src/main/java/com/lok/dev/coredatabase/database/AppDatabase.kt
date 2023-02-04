@@ -12,11 +12,7 @@ import com.lok.dev.coredatabase.entity.*
     version = 1,
     exportSchema = false
 )
-@TypeConverters(
-    value = [
-        IntListTypeConverter::class
-    ]
-)
+@TypeConverters(IntListTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getOMRDao(): OMRDao
 }

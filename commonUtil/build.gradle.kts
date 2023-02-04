@@ -13,4 +13,6 @@ dependencies {
     implementation(libs.bundles.androidx)
     implementation(libs.bundles.junit)
 
+    implementation(project(":commonModel"))
+
 }
