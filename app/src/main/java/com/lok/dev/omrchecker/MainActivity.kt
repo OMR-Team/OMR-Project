@@ -9,6 +9,7 @@ import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.omrlist.OmrListFragment
 import com.lok.dev.omrchecker.subject.OmrActivity
 import com.lok.dev.omrchecker.test.TestFragment
+import com.lok.dev.omrchecker.home.fragment.OmrListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,8 +24,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initActivity(savedInstanceState: Bundle?) {
-
-
         // OmrActivity 띄우기
         val intent = Intent(this, OmrActivity::class.java)
         intent.putExtras(bundleOf("type" to "omr"))

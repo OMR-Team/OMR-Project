@@ -42,13 +42,15 @@
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/theme_gray_fa"
+            android:background="@color/theme_black_7"
             app:layout_constraintTop_toBottomOf="@id/layoutTag" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line"
             tools:listitem="@layout/item_omr_list" />
@@ -59,7 +61,7 @@
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
-            android:backgroundTint="@color/theme_primary_blue"
+            android:backgroundTint="@color/theme_blue_primary"
             android:elevation="5dp"
             android:foregroundGravity="center"
             android:src="@drawable/ic_baseline_add_24"
