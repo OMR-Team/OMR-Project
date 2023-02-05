@@ -14,7 +14,7 @@
         <item name="android:textAlignment">center</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14dp</item>
-        <item name="android:textColor">@color/theme_black_1</item>
+        <item name="android:textColor">@color/selector_sub_chip_text</item>
         <item name="chipStrokeColor">@color/selector_sub_chip_stroke</item>
         <item name="chipBackgroundColor">@color/white</item>
         <item name="checkedIconVisible">false</item>
