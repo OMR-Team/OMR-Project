@@ -14,7 +14,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:textSize="16dp"
-            android:textColor="@color/theme_primary_blue_darker"
+            android:textColor="@color/theme_blue_1_m"
             android:fontFamily="@font/pretendard_regular"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,7 +41,7 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/omr_input_line"
+            android:background="@color/theme_blue_1"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:fontFamily="@font/pretendard_regular"
-                android:textColor="@color/theme_primary_blue"
+                android:textColor="@color/theme_blue_primary"
                 android:text="@string/omr_input_next"
                 android:paddingVertical="15dp"
                 android:paddingHorizontal="15dp"

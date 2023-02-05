@@ -6,10 +6,9 @@ import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import com.lok.dev.commonbase.BaseActivity
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
-import com.lok.dev.omrchecker.omrlist.OmrListFragment
+import com.lok.dev.omrchecker.home.fragment.OmrListFragment
 import com.lok.dev.omrchecker.subject.OmrActivity
 import com.lok.dev.omrchecker.test.TestFragment
-import com.lok.dev.omrchecker.home.fragment.OmrListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
