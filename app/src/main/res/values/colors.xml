@@ -29,5 +29,9 @@
     <color name="theme_tag_selected_background">#3A4E89</color>
     <color name="theme_tag_selected_text">#F7F7FA</color>
 
+    <!--내 답안 입력 창 -->
+    <color name="omr_input_text_sub">#BDBDC9</color>
+    <color name="omr_input_line">#AFBDF1</color>
+    <color name="omr_input_container">#F6F8FF</color>
 
 </resources>

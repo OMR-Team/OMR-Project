@@ -1,10 +1,13 @@
 package com.lok.dev.omrchecker
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import com.lok.dev.commonbase.BaseActivity
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.omrlist.OmrListFragment
+import com.lok.dev.omrchecker.subject.OmrActivity
 import com.lok.dev.omrchecker.test.TestFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -23,11 +26,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
 
         // OmrActivity 띄우기
-//        val intent = Intent(this, OmrActivity::class.java)
-//        intent.putExtras(bundleOf("type" to "omr"))
-//        startActivity(intent)
+        val intent = Intent(this, OmrActivity::class.java)
+        intent.putExtras(bundleOf("type" to "omr"))
+        startActivity(intent)
 
-        addOmrListFragment()
+        //addOmrListFragment()
         //addTestFragment()
     }
 
