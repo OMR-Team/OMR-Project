@@ -6,7 +6,7 @@ import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.omrchecker.databinding.FragmentOmrListBinding
 import com.lok.dev.omrchecker.home.adapter.OmrListAdapter
-import com.lok.dev.omrchecker.omrscreen.setting.SettingDialog
+import com.lok.dev.omrchecker.setting.SettingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
