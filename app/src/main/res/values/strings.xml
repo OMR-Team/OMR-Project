@@ -8,7 +8,8 @@
     <string name="header_omr_list">임시 폴더명</string>
     <string name="header_setting_omr">새 테스트 만들기</string>
 
-    <string name="omr_list_correct_ea">정답 %s / %s</string>
+    <string name="omr_list_date_temp">진행중 %s</string>
+    <string name="omr_list_correct_ea">&lt;font color="#000000">정답 %s&lt;/font> &lt;font color="#9696A5">/&lt;/font> &lt;font color="#9696A5">%s&lt;/font></string>
 
     <string name="sub_chip_tag">태그 #</string>
 

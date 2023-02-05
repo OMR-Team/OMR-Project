@@ -5,29 +5,29 @@
     <color name="transparent">#00000000</color>
 
     <color name="theme_gray_20">#202020</color>
-    <color name="theme_gray_66">#666666</color>
-    <color name="theme_gray_40">#404040</color>
-    <color name="theme_gray_99">#999999</color>
-    <color name="theme_gray_bb">#BBBBBB</color>
-    <color name="theme_gray_cc">#CCCCCC</color>
-    <color name="theme_gray_dd">#DDDDDD</color>
-    <color name="theme_gray_ee">#EEEEEE</color>
-    <color name="theme_gray_fb">#F7F7FB</color>
-    <color name="theme_gray_fa">#F7F7FA</color>
-    <color name="theme_gray_d8">#D8D8E0</color>
-    <color name="theme_gray_ec">#ECECEE</color>
-    <color name="theme_gray_sub_chip_text">#666673</color>
 
-    <color name="theme_tag_highlight">#3A4E89</color>
-    <color name="theme_primary_blue_darker">#4562C9</color>
-    <color name="theme_primary_blue">#5877E4</color>
-    <color name="theme_answer">#F17047</color>
-    <color name="theme_highlight">#F8B464</color>
+    <color name="theme_black">#181830</color>
+    <color name="theme_black_0.5">#363642</color>
+    <color name="theme_black_1">#666673</color>
+    <color name="theme_black_2">#9696A5</color>
+    <color name="theme_black_3">#BDBDC9</color>
+    <color name="theme_black_4">#C3C3CC</color>
+    <color name="theme_black_5">#D8D8E0</color>
+    <color name="theme_black_6">#ECECEE</color>
+    <color name="theme_black_7">#F7F7FA</color>
 
-    <color name="theme_tag_unselected_background">#F0F3FC</color>
-    <color name="theme_tag_unselected_text">#55689F</color>
-    <color name="theme_tag_selected_background">#3A4E89</color>
-    <color name="theme_tag_selected_text">#F7F7FA</color>
+    <color name="theme_blue_3_m">#3A4E89</color>
+    <color name="theme_blue_2_m">#55689F</color>
+    <color name="theme_blue_1_m">#4562C9</color>
+    <color name="theme_blue_primary">#5877E4</color>
+    <color name="theme_blue_1">#AFBDF1</color>
+    <color name="theme_blue_2">#DAE2FF</color>
+    <color name="theme_blue_3">#F0F3FC</color>
+    <color name="theme_blue_4">#F6F8FF</color>
+    <color name="theme_blue_gray">#A0ABD2</color>
+
+    <color name="theme_red">#F17047</color>
+    <color name="theme_orange">#F8B464</color>
 
 
 </resources>
