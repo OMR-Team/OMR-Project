@@ -4,7 +4,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 
-abstract class BaseDiffUtilAdapter<B : ViewDataBinding, T>() : BaseAdapter<B, T>() {
+abstract class BaseDiffUtilAdapter<B : ViewDataBinding, T> : BaseAdapter<B, T>() {
 
     protected abstract fun areItemsTheSame(oldItem: T, newItem: T): Boolean
 

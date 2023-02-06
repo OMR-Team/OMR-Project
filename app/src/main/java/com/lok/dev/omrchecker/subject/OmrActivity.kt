@@ -28,7 +28,21 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         super.initActivity(savedInstanceState)
 
         collectViewModel()
+
+
+        // 나중에 getExtra() 에서 임시저장인지 아닌지를 먼저 보고 fragment 를 열어줘야함
+        // 임시저장일 때와 아닐떄로 분기처리
+        // 임시저장일때는 임시저장했던 리스트를 가져와서 array 를 만들어줘야하고
+        // 임시저장이 아닐때는 그냥 만들어주면 된다.
+        val problemNum = 50
+        val solutionNum = 5
+        val test = List(problemNum){ List(solutionNum){0} }
+        viewModel.changeOmrInput(test)
+
+
         getExtra()
+
+
 
     }
 
