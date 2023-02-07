@@ -16,9 +16,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBinding>() {
 
-    private var adapter : OmrInputAdapter? = null
+    private var adapter: OmrInputAdapter? = null
 
-    private val omrViewModel : OmrViewModel by activityViewModels()
+    private val omrViewModel: OmrViewModel by activityViewModels()
 
     override fun createFragmentBinding(
         inflater: LayoutInflater,
@@ -36,37 +36,16 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
 
     private fun collectViewModel() {
 
-        omrViewModel.omrInput.onResult(viewLifecycleOwner.lifecycleScope) {omrList ->
-            adapter?.submit(omrList)
-        }
 
     }
 
     private fun initAdapter() {
 
-        adapter = OmrInputAdapter(requireContext(), omrViewModel.omrInputList) {
-            val isChecked = it.first
-            val problemNum = it.second[0]
-            val selectNum = it.second[1]
-            if(isChecked) {
-                Log.d("123123123", "정답 체크함!! 문제번호 : ${problemNum}, 답안번호 : ${selectNum}")
-                val tempList = omrViewModel.omrInputList.toMutableList()
-                val modList = tempList[problemNum].toMutableList()
-                modList[selectNum] = selectNum
-                tempList[problemNum] = modList
-                omrViewModel.changeOmrInput(tempList)
-            }else {
-                Log.d("123123123", "정답 체크해제함!! 문제번호 : ${problemNum}, 답안번호 : ${selectNum}")
-                val tempList = omrViewModel.omrInputList.toMutableList()
-                val modList = tempList[problemNum].toMutableList()
-                modList[selectNum] = 0
-                tempList[problemNum] = modList
-                omrViewModel.changeOmrInput(tempList)
-            }
-
+        adapter = OmrInputAdapter(requireContext()) { pair ->
+            omrViewModel.updateProgress(pair)
         }
         binding.omrInputList.adapter = adapter
-        adapter?.submit(omrViewModel.omrInputList)
+        adapter?.set(omrViewModel.omrInput.value)
     }
 
     private fun setOnClickListeners() = with(binding) {

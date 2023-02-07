@@ -28,7 +28,7 @@ abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity() {
     fun addFragment(
         @IdRes containerId: Int,
         fragment: Fragment?,
-        animation: Animation = Animation.None,
+        animation: AnimationState = AnimationState.None,
         addBackStack: Boolean = false
     ) {
         requireNotNull(fragment)
@@ -43,7 +43,7 @@ abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity() {
     fun replaceFragment(
         @IdRes containerId: Int,
         fragment: Fragment?,
-        animation: Animation = Animation.None,
+        animation: AnimationState = AnimationState.None,
         addBackStack: Boolean = false
     ) {
         requireNotNull(fragment)
@@ -55,28 +55,28 @@ abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity() {
         transaction.commitAllowingStateLoss()
     }
 
-    private fun animFragment(transaction: FragmentTransaction, animation: Animation) {
+    private fun animFragment(transaction: FragmentTransaction, animation: AnimationState) {
         when (animation) {
-            Animation.None -> Unit
-            Animation.Left -> {
+            AnimationState.None -> Unit
+            AnimationState.Left -> {
                 transaction.setCustomAnimations(R.anim.left_in, R.anim.left_out)
             }
-            Animation.Right -> {
+            AnimationState.Right -> {
                 transaction.setCustomAnimations(R.anim.right_in, R.anim.right_out)
             }
-            Animation.Up -> {
+            AnimationState.Up -> {
                 transaction.setCustomAnimations(R.anim.push_up_in, R.anim.push_up_out)
             }
-            Animation.Down -> {
+            AnimationState.Down -> {
                 transaction.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out)
             }
-            Animation.Fade -> {
+            AnimationState.Fade -> {
                 transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             }
         }
     }
 
-    fun removeFragment(fragment: Fragment?, animation: Animation = Animation.None) {
+    fun removeFragment(fragment: Fragment?, animation: AnimationState = AnimationState.None) {
         if (fragment == null) return
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -85,12 +85,12 @@ abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity() {
         transaction.commitAllowingStateLoss()
     }
 
-    sealed interface Animation {
-        object None : Animation
-        object Left : Animation
-        object Right : Animation
-        object Up : Animation
-        object Down : Animation
-        object Fade : Animation
+    sealed interface AnimationState {
+        object None : AnimationState
+        object Left : AnimationState
+        object Right : AnimationState
+        object Up : AnimationState
+        object Down : AnimationState
+        object Fade : AnimationState
     }
 }

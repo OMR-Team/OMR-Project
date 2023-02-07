@@ -50,3 +50,8 @@ fun <T> Flow<T>.onResult(scope: LifecycleCoroutineScope, action: (T) -> Unit) {
         collect(action)
     }
 }
+
+inline fun <T> Flow<T>.collect(
+    externalScope: CoroutineScope,
+    crossinline collect: (T) -> Unit
+) = onEach { collect.invoke(it) }.launchIn(externalScope)
