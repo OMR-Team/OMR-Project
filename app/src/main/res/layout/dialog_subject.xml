@@ -3,23 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:theme="@style/Theme.OMRChecker">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:theme="@style/Theme.OMRChecker"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+            android:background="@drawable/bg_radius16_top"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutBody"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:backgroundTint="@color/white"
                 android:paddingHorizontal="24dp"
                 android:paddingTop="32dp"
-                android:background="@drawable/bg_radius16_top"
-                android:backgroundTint="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/layoutButton"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/tvTitle"
@@ -85,10 +94,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginVertical="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/line"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/line" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -97,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/layoutBody"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -122,5 +131,7 @@
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

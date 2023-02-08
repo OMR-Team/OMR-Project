@@ -27,7 +27,8 @@ class SettingDialog @Inject constructor() : BaseDialogFragment<FragmentSettingBi
     private fun addListeners() = with(binding) {
         layoutSubjectPlus.setOnClickListener {
             launchDialogFragment(
-                dialogFragment = SubjectDialog()
+                dialogFragment = SubjectDialog(),
+                bottomSlideAnimation = true
             )
         }
     }
