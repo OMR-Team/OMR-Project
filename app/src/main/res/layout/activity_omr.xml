@@ -10,23 +10,43 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/omrHeaderContainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="0.2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/omrFragment">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_back"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
-                android:id="@+id/subjectTitle"
+                android:id="@+id/testName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:textColor="@color/black"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="7dp"
                 android:fontFamily="@font/pretendard_regular"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="국어"/>
+                tools:text="이 곳은 시험의 이름이 들어갑니다."/>
+
+            <TextView
+                android:id="@+id/subjectName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textColor="@color/theme_black_2"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintTop_toBottomOf="@id/testName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="이 곳은 과목의 이름"/>
 
             <TextView
                 android:id="@+id/nextBtn"
@@ -41,21 +61,65 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <!-- 문제 풀이 상태바 영역 -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/omrProgressContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/omrHeaderContainer">
+
+            <ImageView
+                android:id="@+id/problemInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/probleminput"
+                android:layout_marginTop="16dp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/progressProblemBackground"/>
+
+            <TextView
+                android:id="@+id/problemDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="10dp"
+                android:textColor="@color/theme_blue_1_m"
+                android:text="@string/omr_progress_problem"
+                android:layout_marginTop="3dp"
+                app:layout_constraintTop_toBottomOf="@id/problemInput"
+                app:layout_constraintStart_toStartOf="@id/problemInput"
+                app:layout_constraintEnd_toEndOf="@id/problemInput"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/problemAni"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:visibility="gone"
+                app:lottie_fileName="checked_ani.json"
+                app:lottie_loop="false"
+                app:layout_constraintTop_toTopOf="@id/problemInput"
+                app:layout_constraintStart_toStartOf="@id/problemInput"
+                app:layout_constraintEnd_toEndOf="@id/problemInput"
+                app:layout_constraintBottom_toBottomOf="@id/problemInput"
+                tools:visibility="gone"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/progressBackground"
-                android:layout_height="5dp"
+                android:id="@+id/progressProblemBackground"
+                android:layout_height="2dp"
                 android:layout_width="100dp"
-                android:layout_marginHorizontal="40dp"
+                android:layout_marginStart="4dp"
                 android:background="@color/theme_black_4"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="80dp"
-                app:layout_constraintTop_toBottomOf="@id/nextBtn"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toEndOf="@id/problemInput"
+                app:layout_constraintTop_toTopOf="@id/problemInput"
+                app:layout_constraintBottom_toBottomOf="@id/problemInput"
+                app:layout_constraintEnd_toStartOf="@id/answerInput">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/progressBar"
+                    android:id="@+id/progressProblemBar"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:background="@color/theme_blue_1_m"
@@ -65,6 +129,101 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <ImageView
+                android:id="@+id/answerInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/answerinput"
+                android:layout_marginStart="4dp"
+                app:layout_constraintTop_toTopOf="@id/problemInput"
+                app:layout_constraintBottom_toBottomOf="@id/problemInput"
+                app:layout_constraintStart_toEndOf="@id/progressProblemBackground"
+                app:layout_constraintEnd_toStartOf="@id/progressAnswerBackground"/>
+
+            <TextView
+                android:id="@+id/answerDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="10dp"
+                android:textColor="@color/theme_blue_1_m"
+                android:text="@string/omr_progress_answer"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/answerInput"
+                app:layout_constraintStart_toStartOf="@id/answerInput"
+                app:layout_constraintEnd_toEndOf="@id/answerInput"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/answerAni"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:visibility="gone"
+                app:lottie_fileName="checked_ani.json"
+                app:lottie_loop="false"
+                app:layout_constraintTop_toTopOf="@id/answerInput"
+                app:layout_constraintStart_toStartOf="@id/answerInput"
+                app:layout_constraintEnd_toEndOf="@id/answerInput"
+                app:layout_constraintBottom_toBottomOf="@id/answerInput"
+                tools:visibility="gone"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/progressAnswerBackground"
+                android:layout_height="2dp"
+                android:layout_width="100dp"
+                android:layout_marginStart="4dp"
+                android:background="@color/theme_black_4"
+                app:layout_constraintStart_toEndOf="@id/answerInput"
+                app:layout_constraintEnd_toStartOf="@id/resultCheck"
+                app:layout_constraintTop_toTopOf="@id/answerInput"
+                app:layout_constraintBottom_toBottomOf="@id/answerInput">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/progressAnswerBar"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/theme_blue_1_m"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/resultCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/resultcheck"
+                android:layout_marginStart="4dp"
+                app:layout_constraintTop_toTopOf="@id/problemInput"
+                app:layout_constraintBottom_toBottomOf="@id/problemInput"
+                app:layout_constraintStart_toEndOf="@id/progressAnswerBackground"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/resultDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="10dp"
+                android:textColor="@color/theme_blue_1_m"
+                android:text="@string/omr_progress_result"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/resultCheck"
+                app:layout_constraintStart_toStartOf="@id/resultCheck"
+                app:layout_constraintEnd_toEndOf="@id/resultCheck"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/resultAni"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:visibility="gone"
+                app:lottie_fileName="checked_ani.json"
+                app:lottie_loop="false"
+                app:layout_constraintTop_toTopOf="@id/resultCheck"
+                app:layout_constraintStart_toStartOf="@id/resultCheck"
+                app:layout_constraintEnd_toEndOf="@id/resultCheck"
+                app:layout_constraintBottom_toBottomOf="@id/resultCheck"
+                tools:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -72,8 +231,8 @@
             android:id="@+id/omrFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintVertical_weight="0.8"
-            app:layout_constraintTop_toBottomOf="@id/omrHeaderContainer"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/omrProgressContainer"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

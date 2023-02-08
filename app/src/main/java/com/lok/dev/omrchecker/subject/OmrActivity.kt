@@ -60,7 +60,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
 
         progressState.onResult(lifecycleScope) {
             val progress = it
-            binding.progressBar.updateLayoutParams {
+            binding.progressProblemBar.updateLayoutParams {
                 width = progress.px(applicationContext)
             }
         }
@@ -92,6 +92,8 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
     }
 
     private fun changeScreen(state: OmrState) {
+        //TODO 로티 재생시켜줄떄 밑에 있는 뷰 gone 말고 invisible 써서 레이아웃 모양 유지하기
+
         when (state) {
             OmrState.OmrScreen -> {
                 omrInputFragment = OmrInputFragment()

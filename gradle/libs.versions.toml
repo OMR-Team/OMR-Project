@@ -19,6 +19,8 @@ androidxHilt = "1.0.0"
 room = "2.4.3"
 gson = "2.8.6"
 
+lottie = "4.2.2"
+
 
 
 [libraries]
@@ -50,12 +52,15 @@ gson = {module = "com.google.code.gson:gson", version.ref = "gson"}
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradle" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+
 [bundles]
 
 android = ["android-material"]
 androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-constraint", "androidx-activity", "androidx-fragment"]
 room = ["room", "room-runtime"]
 coroutine = ["coroutine-core", "coroutine-android"]
+util = ["lottie"]
 
 junit = ["junit", "test-junit", "test-espresso"]
 

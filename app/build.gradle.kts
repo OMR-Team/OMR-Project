@@ -34,9 +34,7 @@ dependencies {
     implementation(libs.bundles.junit)
 
     implementation(libs.hilt.android)
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.4.+")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+    implementation(libs.bundles.util)
     kapt(libs.hilt.compiler)
 
     implementation(project(":coreData"))
