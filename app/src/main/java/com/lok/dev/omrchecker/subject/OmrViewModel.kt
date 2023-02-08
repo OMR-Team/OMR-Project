@@ -14,7 +14,9 @@ import javax.inject.Inject
 @HiltViewModel
 class OmrViewModel @Inject constructor() : BaseViewModel() {
 
-    private val _progressState = MutableStateFlow(mutableSetOf<Int>())
+    private val problemSelected = mutableSetOf<Int>()
+
+    private val _progressState = MutableStateFlow(0)
     val progressState = _progressState.asStateFlow()
 
     private val _screenState = MutableSharedFlow<OmrActivity.OmrState>()
@@ -36,8 +38,9 @@ class OmrViewModel @Inject constructor() : BaseViewModel() {
     fun updateProgress(pair: Pair<Boolean, Int>) {
         val isChecked = pair.first
         val problemNum = pair.second
-        if(isChecked) _progressState.value.add(problemNum)
-        else _progressState.value.remove(problemNum)
+        if(isChecked) problemSelected.add(problemNum)
+        else problemSelected.remove(problemNum)
+        _progressState.value = problemSelected.size
     }
 
 }

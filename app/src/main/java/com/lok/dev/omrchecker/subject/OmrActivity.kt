@@ -2,15 +2,13 @@ package com.lok.dev.omrchecker.subject
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.Transformation
 import androidx.activity.viewModels
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseActivity
 import com.lok.dev.commonutil.collect
 import com.lok.dev.commonutil.onResult
+import com.lok.dev.commonutil.px
 import com.lok.dev.commonutil.throttleFirst
 import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
@@ -23,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class OmrActivity : BaseActivity<ActivityOmrBinding>() {
 
-    private val viewModel : OmrViewModel by viewModels()
+    private val viewModel: OmrViewModel by viewModels()
 
     private lateinit var omrInputFragment: OmrInputFragment
     private lateinit var answerInputFragment: AnswerInputFragment
@@ -42,7 +40,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         // 임시저장일때는 임시저장했던 리스트를 가져와서 array 를 만들어줘야하고
         // 임시저장이 아닐때는 그냥 만들어주면 된다.
         val test = arrayListOf<ProblemTable>()
-        for(i in 0 until 50) {
+        for (i in 0 until 50) {
             test.add(ProblemTable(i, 0, i + 1, listOf(0, 0, 0, 0, 0)))
         }
         viewModel.changeOmrInput(test)
@@ -61,29 +59,10 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         }
 
         progressState.onResult(lifecycleScope) {
-            val progress = it.size
-            binding.progressBar.startAnimation(makeAnimation(binding.progressBar, 0.3F, 500))
-        }
-
-    }
-
-    private fun makeAnimation(
-        view: View,
-        targetPercent: Float,
-        time: Long
-    ): Animation {
-        return object : Animation() {
-            override fun applyTransformation(
-                interpolatedTime: Float,
-                t: Transformation?
-            ) {
-                val params = view.layoutParams as ConstraintLayout.LayoutParams
-                val oldPercent = params.matchConstraintPercentWidth
-                params.matchConstraintPercentWidth = oldPercent + ((targetPercent - oldPercent) * interpolatedTime)
-                view.layoutParams = params
+            val progress = it
+            binding.progressBar.updateLayoutParams {
+                width = progress.px(applicationContext)
             }
-        }.apply {
-            duration = time
         }
     }
 
