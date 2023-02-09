@@ -4,7 +4,13 @@
     <!-- OMR Input -->
     <string name="omr_input_next">다음</string>
     <string name="omr_input_title">푼 문제</string>
-    
+    <string name="omr_test_title_default">시험명</string>
+    <string name="omr_subject_title_default">과목명</string>
+    <string name="omr_input_cnt">%1$s / %2$s</string>
+
+    <string name="omr_answer_title">정답 기입</string>
+    <string name="omr_answer_cnt">%1$s / %2$s</string>
+
     <string name="omr_progress_problem">문제 풀기</string>
     <string name="omr_progress_answer">정답 기입</string>
     <string name="omr_progress_result">결과 확인</string>

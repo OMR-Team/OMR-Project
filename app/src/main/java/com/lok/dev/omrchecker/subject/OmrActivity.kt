@@ -2,6 +2,7 @@ package com.lok.dev.omrchecker.subject
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
@@ -40,7 +41,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         // 임시저장일때는 임시저장했던 리스트를 가져와서 array 를 만들어줘야하고
         // 임시저장이 아닐때는 그냥 만들어주면 된다.
         val test = arrayListOf<ProblemTable>()
-        for (i in 0 until 50) {
+        for (i in 0 until viewModel.problemNum) {
             test.add(ProblemTable(i, 0, i + 1, listOf(0, 0, 0, 0, 0)))
         }
         viewModel.changeOmrInput(test)
@@ -58,10 +59,9 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             changeScreen(screen)
         }
 
-        progressState.onResult(lifecycleScope) {
-            val progress = it
+        progressState.onResult(lifecycleScope) {progress ->
             binding.progressProblemBar.updateLayoutParams {
-                width = progress.px(applicationContext)
+                width = (progress.toDouble() / viewModel.problemNum * 100).px(applicationContext)
             }
         }
     }
@@ -82,11 +82,10 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
 
     private fun setClickListeners() = with(binding) {
 
-
         nextBtn.throttleFirst(1500).collect(lifecycleScope) {
             // 누르면 확인 창 띄우고 omrInputAdapter 의 adapter list 를 db 에 저장
             // sharedFlow 를 viewModel 에 만들어두고 omrFragment 에서 그걸 구독하는 식??
-            Log.d("123123123", "다음!")
+            viewModel.changeScreenState(OmrState.AnswerScreen)
         }
 
     }
@@ -102,6 +101,9 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             OmrState.AnswerScreen -> {
                 answerInputFragment = AnswerInputFragment()
                 replaceFragment(R.id.omrFragment, answerInputFragment, AnimationState.Right)
+                binding.problemInput.visibility = View.INVISIBLE
+                binding.problemAni.visibility = View.VISIBLE
+                binding.problemAni.playAnimation()
             }
             OmrState.ResultScreen -> {
                 resultFragment = ResultFragment()

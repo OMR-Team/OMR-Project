@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
+import com.lok.dev.commonutil.getChangeTextStyle
 import com.lok.dev.commonutil.onResult
+import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentOmrInputBinding
 import com.lok.dev.omrchecker.subject.OmrViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,17 +32,19 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
         collectViewModel()
         initAdapter()
         setOnClickListeners()
-
+        setBody()
 
     }
 
     private fun collectViewModel() {
-
+        omrViewModel.progressState.onResult(viewLifecycleOwner.lifecycleScope) { progress ->
+            val text = String.format(getString(R.string.omr_input_cnt), progress, omrViewModel.problemNum)
+            binding.omrInputCnt.text = requireActivity().getChangeTextStyle(text, progress.toString(), R.color.theme_blue_primary)
+        }
 
     }
 
     private fun initAdapter() {
-
         adapter = OmrInputAdapter(requireContext()) { pair ->
             omrViewModel.updateProgress(pair)
         }
@@ -50,6 +54,11 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
 
     private fun setOnClickListeners() = with(binding) {
 
+    }
+
+    private fun setBody() = with(binding) {
+        val text = String.format(getString(R.string.omr_input_cnt), 0, omrViewModel.problemNum)
+        binding.omrInputCnt.text = requireActivity().getChangeTextStyle(text, "0", R.color.theme_blue_primary)
     }
 
 }
