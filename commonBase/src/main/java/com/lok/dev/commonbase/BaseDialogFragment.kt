@@ -2,14 +2,14 @@ package com.lok.dev.commonbase
 
 import android.app.Dialog
 import android.content.DialogInterface
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleOwner
 import com.lok.dev.commonBase.R
 
 abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFragment() {
@@ -20,6 +20,9 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
     private var dismissResult: Result? = null
     var result: ((result: Result?) -> Unit)? = null
     var cancel: () -> Unit = {}
+
+    var windowWidth = ViewGroup.LayoutParams.MATCH_PARENT
+    var windowHeight = ViewGroup.LayoutParams.MATCH_PARENT
 
     var canceledOnTouchOutside = true
     var fullScreen = false
@@ -72,8 +75,13 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
     override fun onStart() {
         super.onStart()
         dialog?.apply {
-            isCancelable = canceledOnTouchOutside
             setCanceledOnTouchOutside(canceledOnTouchOutside)
+            isCancelable = canceledOnTouchOutside
+            window?.apply {
+                val gravity = if (bottomSlideAnimation) Gravity.BOTTOM else Gravity.CENTER
+                window?.setGravity(gravity)
+                setLayout(windowWidth, windowHeight)
+            }
         }
     }
 
@@ -97,6 +105,10 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
     protected fun setResultOnDismiss(data: Result) {
         dismissResult = data
         dismiss()
+    }
+
+    protected fun ConstraintLayout.backgroundTouchDismiss() {
+        this.setOnClickListener { onDialogBackPressed() }
     }
 
 }

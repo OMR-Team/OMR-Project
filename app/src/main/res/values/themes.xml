@@ -14,6 +14,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <!-- Custom Theme -->
         <item name="chipStyle">@style/Theme.OMR.TagChip</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
 
         <!-- Text Theme -->
         <item name="android:textSize">15dp</item>
@@ -22,5 +23,13 @@
         <item name="android:fontFamily">@font/pretendard_medium</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:letterSpacing">-0.03</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_radius16_top</item>
     </style>
 </resources>

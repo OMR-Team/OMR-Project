@@ -12,21 +12,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/omr_input_title"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textSize="13dp"
+            android:textColor="@color/theme_black_1"
+            android:fontFamily="@font/pretendard_regular"
+            android:layout_marginStart="16dp"
+            android:layout_marginVertical="8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <Button
-            android:id="@+id/nextBtn"
+        <TextView
+            android:id="@+id/omrInputCnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/omr_input_next"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:textSize="14dp"
+            android:textColor="@color/omr_input_text_sub"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/pretendard_regular"
+            app:layout_constraintTop_toTopOf="@id/omrInputTitle"
+            app:layout_constraintBottom_toBottomOf="@id/omrInputTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="10/94"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/omrInputList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginVertical="5dp"

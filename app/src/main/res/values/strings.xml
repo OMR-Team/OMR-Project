@@ -2,8 +2,8 @@
     <string name="app_name">OMRChecker</string>
 
     <!-- OMR Input -->
-    <string name="omr_input_title">내 답안 입력하기</string>
     <string name="omr_input_next">다음</string>
+    <string name="omr_input_title">푼 문제</string>
 
     <string name="header_omr_list">임시 폴더명</string>
     <string name="header_setting_omr">새 테스트 만들기</string>
