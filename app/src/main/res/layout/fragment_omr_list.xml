@@ -31,9 +31,24 @@
             app:layout_constraintTop_toBottomOf="@id/layoutHeader">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chipSort"
                 style="@style/Theme.OMR.SubChip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/sub_chip_sort"
+                app:closeIcon="@drawable/ico_drop_down"
+                app:closeIconEndPadding="0dp"
+                app:closeIconStartPadding="0dp"
+                app:closeIconTint="@color/theme_black_1"
+                app:closeIconVisible="true"
+                app:textEndPadding="3dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTag"
+                style="@style/Theme.OMR.SubChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:text="@string/sub_chip_tag" />
 
         </LinearLayout>

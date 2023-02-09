@@ -2,6 +2,8 @@ package com.lok.dev.coredata.di
 
 import com.lok.dev.coredata.repository.OMRDatabaseRepository
 import com.lok.dev.coredata.repository.OMRDatabaseRepositoryImpl
+import com.lok.dev.coredata.repository.TagDatabaseRepository
+import com.lok.dev.coredata.repository.TagDatabaseRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,5 +17,10 @@ interface RepositoryModule {
     fun bindsOMRDatabaseRepository(
         omrDatabaseRepository : OMRDatabaseRepositoryImpl
     ) : OMRDatabaseRepository
+
+    @Binds
+    fun bindsTagDatabaseRepository(
+        tagDatabaseRepository : TagDatabaseRepositoryImpl
+    ) : TagDatabaseRepository
 
 }
