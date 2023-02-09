@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.lok.dev.commonbase.BaseActivity
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
-import com.lok.dev.omrchecker.test.TestFragment
 import com.lok.dev.omrchecker.home.fragment.OmrListFragment
+import com.lok.dev.omrchecker.test.TestFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -14,8 +14,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel by viewModels<MainViewModel>()
 
-    @Inject lateinit var omrListFragment: OmrListFragment
-    @Inject lateinit var testFragment: TestFragment
+    @Inject
+    lateinit var omrListFragment: OmrListFragment
+    @Inject
+    lateinit var testFragment: TestFragment
 
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
@@ -26,7 +28,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //        startActivity(intent)
 
         addOmrListFragment()
-        //addTestFragment()
+//        addTestFragment()
     }
 
     private fun addOmrListFragment() {

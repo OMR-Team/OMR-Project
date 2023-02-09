@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
+import com.lok.dev.commonutil.getToday
 import com.lok.dev.commonutil.onUiState
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.databinding.FragmentTestBinding
@@ -31,13 +32,16 @@ class TestFragment @Inject constructor() : BaseFragment<FragmentTestBinding>() {
     private fun addListeners() = with(binding) {
         btnInsert.setOnClickListener {
             val data = OMRTable(
-                    subject = 100,
-                    title = "테스트야",
-                    problemNum = 10,
-                    selectNum = 5,
-                    tag = listOf(1,2,3)
-                )
-                viewModel.addTestInfo(data)
+                subject = 100,
+                title = "테스트야",
+                cnt = 0,
+                problemNum = 10,
+                selectNum = 5,
+                tag = listOf(1, 2, 3),
+                isTemp = true,
+                updateDate = getToday()
+            )
+            viewModel.addTestInfo(data)
         }
 
         btnSelect.setOnClickListener {

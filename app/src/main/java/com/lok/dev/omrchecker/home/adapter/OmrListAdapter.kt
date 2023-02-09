@@ -38,11 +38,12 @@ class OmrListAdapter(
                     else resources.getColor(R.color.theme_black_5, null)
                 )
             }
+            tvCnt.text = context.getString(R.string.omr_list_cnt, data.cnt)
             tvCorrectEa.text = HtmlCompat.fromHtml(
                 context.getString(
                     R.string.omr_list_correct_ea,
-                    "${data.correctCnt}",
-                    "${data.problemNum}"
+                    data.correctCnt,
+                    data.problemNum
                 ), HtmlCompat.FROM_HTML_MODE_LEGACY
             )
         }
