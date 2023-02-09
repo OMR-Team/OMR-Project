@@ -6,17 +6,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonmodel.state.SubjectState
-import com.lok.dev.omrchecker.databinding.DialogSubjectBinding
+import com.lok.dev.omrchecker.databinding.DialogSubjectAddBinding
 
-class SubjectDialog : BaseDialogFragment<DialogSubjectBinding, Bundle>() {
+class AddSubjectDialog : BaseDialogFragment<DialogSubjectAddBinding, Bundle>() {
 
     private val viewModel by activityViewModels<SettingViewModel>()
 
     override fun createFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): DialogSubjectBinding =
-        DialogSubjectBinding.inflate(layoutInflater, container, false)
+    ) = DialogSubjectAddBinding.inflate(layoutInflater, container, false)
 
     override fun initDialogFragment(savedInstanceState: Bundle?) {
         addListeners()
@@ -25,8 +24,8 @@ class SubjectDialog : BaseDialogFragment<DialogSubjectBinding, Bundle>() {
     private fun addListeners() = with(binding) {
         container.backgroundTouchDismiss()
 
-        layoutPlus.setOnClickListener {
-            viewModel.setSubjectState(SubjectState.Add)
+        tvConfirm.setOnClickListener {
+            viewModel.setSubjectState(SubjectState.Select)
             dismiss()
         }
     }
