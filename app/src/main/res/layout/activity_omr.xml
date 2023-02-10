@@ -96,8 +96,8 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/problemAni"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:visibility="gone"
                 app:lottie_fileName="checked_ani.json"
                 app:lottie_loop="false"
