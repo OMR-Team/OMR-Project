@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.lok.dev.commonBase.R
+import com.lok.dev.commonutil.convertDpToPx
 
 abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFragment() {
 
@@ -21,8 +22,8 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
     var result: ((result: Result?) -> Unit)? = null
     var cancel: () -> Unit = {}
 
-    var windowWidth = ViewGroup.LayoutParams.MATCH_PARENT
-    var windowHeight = ViewGroup.LayoutParams.MATCH_PARENT
+    open var windowWidth = ViewGroup.LayoutParams.MATCH_PARENT
+    open var windowHeight = ViewGroup.LayoutParams.MATCH_PARENT
 
     var canceledOnTouchOutside = true
     var fullScreen = false
@@ -110,5 +111,7 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
     protected fun ConstraintLayout.backgroundTouchDismiss() {
         this.setOnClickListener { onDialogBackPressed() }
     }
+
+    val Number.dp: Float get() = requireContext().convertDpToPx(this.toFloat())
 
 }

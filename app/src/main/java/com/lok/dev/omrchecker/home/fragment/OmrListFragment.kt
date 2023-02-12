@@ -44,7 +44,8 @@ class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBindin
 
         chipTag.setOnClickListener {
             launchDialogFragment(
-                dialogFragment = TagDialog()
+                dialogFragment = TagDialog(),
+                bottomSlideAnimation = true
             )
         }
 

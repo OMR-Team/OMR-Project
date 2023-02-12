@@ -4,22 +4,24 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.lok.dev.commonbase.BaseViewModel
 import com.lok.dev.commonmodel.state.mutableResultState
+import com.lok.dev.commonutil.di.IoDispatcher
 import com.lok.dev.commonutil.onState
 import com.lok.dev.coredata.usecase.TestAddUseCase
 import com.lok.dev.coredata.usecase.TestUseCase
 import com.lok.dev.coredatabase.entity.OMRTable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val testUseCase: TestUseCase,
     private val addTestUseCase: TestAddUseCase
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val _testState = mutableResultState<List<OMRTable>>()
     val testState = _testState.asStateFlow()
@@ -31,10 +33,10 @@ class TestViewModel @Inject constructor(
     }
 
     fun addTestInfo(omrTable: OMRTable) {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(ioDispatcher).launch {
             try {
                 addTestUseCase.invoke(omrTable = omrTable)
-            }catch (error: Exception) {
+            } catch (error: Exception) {
                 Log.d("123123123", error.toString())
             }
         }
