@@ -10,86 +10,23 @@
         tools:theme="@style/Theme.OMRChecker">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutSubject"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/bg_radius16_top"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingHorizontal="24dp"
-            android:paddingTop="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="과목"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="편집"
-                android:textColor="@color/theme_blue_1_m"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutPlus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle">
-
-                <ImageView
-                    android:id="@+id/imgPlus"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/icon_subject_plus"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="새 과목 만들기"
-                    android:textColor="@color/theme_black_0.5"
-                    app:layout_constraintBottom_toBottomOf="@id/imgPlus"
-                    app:layout_constraintStart_toEndOf="@id/imgPlus"
-                    app:layout_constraintTop_toTopOf="@id/imgPlus" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:id="@+id/line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="14dp"
-                android:background="@color/theme_black_6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutPlus" />
-
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/containerSubject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginVertical="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/line" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

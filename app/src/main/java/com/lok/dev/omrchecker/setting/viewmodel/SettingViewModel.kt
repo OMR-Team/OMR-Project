@@ -1,4 +1,4 @@
-package com.lok.dev.omrchecker.setting
+package com.lok.dev.omrchecker.setting.viewmodel
 
 import com.lok.dev.commonbase.BaseViewModel
 import com.lok.dev.commonmodel.state.SubjectState
