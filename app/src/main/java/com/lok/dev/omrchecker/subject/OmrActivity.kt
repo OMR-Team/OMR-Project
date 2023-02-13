@@ -59,10 +59,17 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             changeScreen(screen)
         }
 
-        progressState.onResult(lifecycleScope) {progress ->
+        progressState.onResult(lifecycleScope) { progress ->
             binding.progressProblemBar.updateLayoutParams {
                 width = (progress.toDouble() / viewModel.problemNum * 100).px(applicationContext)
             }
+        }
+
+        answerProgressState.onResult(lifecycleScope) { progress ->
+            binding.progressAnswerBar.updateLayoutParams {
+                width = (progress.toDouble() / viewModel.answerNum * 100).px(applicationContext)
+            }
+
         }
     }
 
@@ -104,6 +111,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
                 binding.problemInput.visibility = View.INVISIBLE
                 binding.problemAni.visibility = View.VISIBLE
                 binding.problemAni.playAnimation()
+                binding.answerInput.setImageResource(R.drawable.answerinput_complete)
             }
             OmrState.ResultScreen -> {
                 resultFragment = ResultFragment()

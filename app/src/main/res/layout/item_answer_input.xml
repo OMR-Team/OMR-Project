@@ -41,7 +41,7 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/omr_input_grey"
+            android:background="@color/theme_black_3"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
