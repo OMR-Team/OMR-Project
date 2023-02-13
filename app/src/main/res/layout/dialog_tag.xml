@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        tools:background="@color/black">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="580dp"
+            android:background="@drawable/bg_radius16_top"
+            android:backgroundTint="@color/white"
+            android:paddingTop="32dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingHorizontal="24dp"
+                app:layout_constraintBottom_toTopOf="@id/btnFinish"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tag_dialog_header"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvSubHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/tag_dialog_choose"
+                    android:textColor="@color/theme_black_3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/text_edit"
+                    android:textColor="@color/theme_blue_1_m"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvEmpty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tag_dialog_empty"
+                    android:textColor="@color/theme_black_2"
+                    app:layout_constraintBottom_toTopOf="@id/btnAddTag"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSubHeader" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/layoutFlexbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:paddingVertical="24dp"
+                    app:layout_constraintBottom_toTopOf="@id/btnAddTag"
+                    app:layout_constraintTop_toBottomOf="@id/tvSubHeader" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnAddTag"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/bg_border_blue_primary_radius8"
+                    android:text="@string/text_add_tag"
+                    android:textColor="@color/theme_blue_primary"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnReset"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@color/theme_black_6"
+                android:text="@string/text_reset"
+                android:textColor="@color/theme_black_0.5"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnFinish"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintHorizontal_weight="3"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/btnFinish"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@color/theme_blue_primary"
+                android:text="@string/text_finish"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="6"
+                app:layout_constraintStart_toEndOf="@id/btnReset" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

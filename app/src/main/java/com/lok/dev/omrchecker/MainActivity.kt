@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import com.lok.dev.commonbase.BaseActivity
+import com.lok.dev.commonutil.addFragment
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.home.fragment.OmrListFragment
 import com.lok.dev.omrchecker.subject.OmrActivity
@@ -23,21 +24,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initActivity(savedInstanceState: Bundle?) {
-        // OmrActivity 띄우기
-        val intent = Intent(this, OmrActivity::class.java)
-        intent.putExtras(bundleOf("type" to "omr"))
-        startActivity(intent)
-
-        //addOmrListFragment()
+        addOmrListFragment()
+        //startOmrActivity()
         //addTestFragment()
     }
 
     private fun addOmrListFragment() {
-        supportFragmentManager.beginTransaction().add(R.id.fragment, omrListFragment).commit()
+        addFragment(R.id.fragment, omrListFragment)
     }
 
     private fun addTestFragment() {
-        supportFragmentManager.beginTransaction().add(R.id.fragment, testFragment).commit()
+        addFragment(R.id.fragment, testFragment)
     }
 
+    private fun startOmrActivity() {
+        val intent = Intent(this, OmrActivity::class.java)
+        intent.putExtras(bundleOf("type" to "omr"))
+        startActivity(intent)
+    }
 }

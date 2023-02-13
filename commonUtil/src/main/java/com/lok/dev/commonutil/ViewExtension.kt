@@ -19,3 +19,8 @@ fun View.throttleFirst(periodMillis: Long): Flow<View> = callbackFlow {
     awaitClose { this@throttleFirst.setOnClickListener(null) }
 }
 
+fun View.visible(visible: Boolean = true): Boolean {
+    visibility = if (visible) View.VISIBLE else View.GONE
+    return visible
+}
+

@@ -19,8 +19,24 @@
     <string name="header_setting_omr">새 테스트 만들기</string>
 
     <string name="omr_list_date_temp">진행중 %s</string>
-    <string name="omr_list_correct_ea">&lt;font color="#000000">정답 %s&lt;/font> &lt;font color="#9696A5">/&lt;/font> &lt;font color="#9696A5">%s&lt;/font></string>
+    <string name="omr_list_cnt">%d 회차</string>
+    <string name="omr_list_correct_ea">&lt;font color="#000000">정답 %d&lt;/font> &lt;font color="#9696A5">/&lt;/font> &lt;font color="#9696A5">%d&lt;/font></string>
 
     <string name="sub_chip_tag">태그 #</string>
+    <string name="sub_chip_sort">최신순</string>
+    <string name="tag_dialog_header">태그 선택</string>
+    <string name="tag_dialog_choose">최대 3개까지 선택 가능해요.</string>
+    <string name="tag_dialog_empty">태그별로 분류하여 쉽게 모아보세요!</string>
+    <string name="tag_add_header">태그 추가</string>
+    <string name="tag_edit_header">태그 수정</string>
+    <string name="tag_place_holder">태그를 입력해주세요.</string>
+
+    <string name="text_edit">편집</string>
+    <string name="text_add_tag">+ 태그 추가</string>
+    <string name="text_reset">초기화</string>
+    <string name="text_finish">완료</string>
+
+    <string name="text_ok">확인</string>
+    <string name="text_cancel">취소</string>
 
 </resources>
