@@ -5,14 +5,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
+import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonutil.getChangeTextStyle
 import com.lok.dev.commonutil.onResult
+import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.coredatabase.entity.AnswerTable
-import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentAnswerInputBinding
 import com.lok.dev.omrchecker.subject.OmrViewModel
-import com.lok.dev.omrchecker.subject.omr.OmrInputAdapter
+import com.lok.dev.omrchecker.subject.score.ScoreInputDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -60,6 +61,12 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
     }
 
     private fun setOnClickListeners() = with(binding) {
+
+        throttleFirstClick(omrScoreBtn) {
+            launchDialogFragment(
+                dialogFragment = ScoreInputDialog()
+            )
+        }
 
     }
 

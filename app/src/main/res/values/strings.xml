@@ -15,6 +15,12 @@
     <string name="omr_progress_answer">정답 기입</string>
     <string name="omr_progress_result">결과 확인</string>
 
+    <string name="omr_score_input">점수 입력</string>
+    <string name="omr_score_input_all">점수 한번에 입력하기</string>
+    <string name="omr_score_input_clear">모두 지우기</string>
+    <string name="omr_score_unit">점</string>
+
+
     <string name="header_omr_list">임시 폴더명</string>
     <string name="header_setting_omr">새 테스트 만들기</string>
 
@@ -35,8 +41,8 @@
     <string name="text_add_tag">+ 태그 추가</string>
     <string name="text_reset">초기화</string>
     <string name="text_finish">완료</string>
-
     <string name="text_ok">확인</string>
     <string name="text_cancel">취소</string>
+    <string name="text_confirm">적용</string>
 
 </resources>
