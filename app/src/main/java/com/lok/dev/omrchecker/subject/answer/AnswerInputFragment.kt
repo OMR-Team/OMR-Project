@@ -33,7 +33,7 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
         // TODO 확인용 임시 데이터
         val test = arrayListOf<AnswerTable>()
         for (i in 0 until omrViewModel.answerNum) {
-            test.add(AnswerTable(i, i+1, listOf(0, 0, 0, 0, 0), 2.0))
+            test.add(AnswerTable(i, i+1, listOf(0, 0, 0, 0, 0), 0.0))
         }
         omrViewModel.changeAnswerInput(test)
 

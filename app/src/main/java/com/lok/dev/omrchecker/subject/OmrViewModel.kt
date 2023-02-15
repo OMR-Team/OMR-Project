@@ -15,8 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OmrViewModel @Inject constructor() : BaseViewModel() {
 
-    private val problemSelected = mutableSetOf<Int>()
-    private val answerSelected = mutableSetOf<Int>()
+    private val problemSelected = mutableMapOf<Int, Int>()
+    private val answerSelected = mutableMapOf<Int, Int>()
 
     //TODO 임시로 놔둠 나중에 액티비티 열때 받은 문제수로 바꾸기
     var problemNum = 50
@@ -55,16 +55,22 @@ class OmrViewModel @Inject constructor() : BaseViewModel() {
     fun updateProgress(pair: Pair<Boolean, Int>) {
         val isChecked = pair.first
         val problemNum = pair.second
-        if(isChecked) problemSelected.add(problemNum)
-        else problemSelected.remove(problemNum)
+        when {
+            isChecked -> problemSelected[problemNum] = problemSelected.getOrDefault(problemNum, 0).plus(1)
+            problemSelected.getOrDefault(problemNum, 0) == 1 -> problemSelected.remove(problemNum)
+            else -> problemSelected[problemNum] = problemSelected.getOrDefault(problemNum, 0).minus(1)
+        }
         _progressState.value = problemSelected.size
     }
 
     fun updateAnswerProgress(pair: Pair<Boolean, Int>) {
         val isChecked = pair.first
         val problemNum = pair.second
-        if(isChecked) answerSelected.add(problemNum)
-        else answerSelected.remove(problemNum)
+        when {
+            isChecked -> answerSelected[problemNum] = answerSelected.getOrDefault(problemNum, 0).plus(1)
+            answerSelected.getOrDefault(problemNum, 0) == 1 -> answerSelected.remove(problemNum)
+            else -> answerSelected[problemNum] = answerSelected.getOrDefault(problemNum, 0).minus(1)
+        }
         _answerProgressState.value = answerSelected.size
     }
 
