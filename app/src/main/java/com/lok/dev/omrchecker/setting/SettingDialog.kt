@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
-import com.lok.dev.commonmodel.state.SubjectState
 import com.lok.dev.commonutil.convertDpToPx
-import com.lok.dev.commonutil.onResult
+import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentSettingBinding
 import com.lok.dev.omrchecker.setting.viewmodel.SettingViewModel
@@ -48,6 +46,10 @@ class SettingDialog @Inject constructor() : BaseDialogFragment<FragmentSettingBi
     private fun addListeners() = with(binding) {
         layoutSubjectPlus.setOnClickListener {
             showSubjectDialog()
+        }
+
+        throttleFirstClick(includeHeader.btnBack) {
+            dismiss()
         }
     }
 

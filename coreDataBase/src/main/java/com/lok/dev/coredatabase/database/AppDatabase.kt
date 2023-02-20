@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.lok.dev.coredatabase.converter.IntListTypeConverter
 import com.lok.dev.coredatabase.dao.OMRDao
+import com.lok.dev.coredatabase.dao.SubjectDao
 import com.lok.dev.coredatabase.dao.TagDao
 import com.lok.dev.coredatabase.entity.*
 
@@ -17,4 +18,5 @@ import com.lok.dev.coredatabase.entity.*
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getOMRDao(): OMRDao
     abstract fun getTagDao(): TagDao
+    abstract fun getSubjectDao(): SubjectDao
 }

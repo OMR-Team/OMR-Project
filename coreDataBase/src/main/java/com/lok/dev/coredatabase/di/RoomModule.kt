@@ -3,6 +3,7 @@ package com.lok.dev.coredatabase.di
 import android.content.Context
 import androidx.room.Room
 import com.lok.dev.coredatabase.dao.OMRDao
+import com.lok.dev.coredatabase.dao.SubjectDao
 import com.lok.dev.coredatabase.dao.TagDao
 import com.lok.dev.coredatabase.database.AppDatabase
 import dagger.Module
@@ -35,4 +36,8 @@ object RoomModule {
     @Singleton
     @Provides
     fun provideTagDao(appDatabase: AppDatabase) : TagDao = appDatabase.getTagDao()
+
+    @Singleton
+    @Provides
+    fun provideSubjectDao(appDatabase: AppDatabase) : SubjectDao = appDatabase.getSubjectDao()
 }

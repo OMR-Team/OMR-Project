@@ -27,9 +27,6 @@ class SubjectDialog : BaseDialogFragment<DialogSubjectBinding, Bundle>() {
     @Inject
     lateinit var subjectListFragment: SubjectListFragment
 
-    @Inject
-    lateinit var subjectAddFragment: SubjectAddFragment
-
     override fun createFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -50,21 +47,13 @@ class SubjectDialog : BaseDialogFragment<DialogSubjectBinding, Bundle>() {
         subjectState.onResult(lifecycleScope) {
             when(it) {
                 SubjectState.Select -> {
-                    changeContainerHeight(0.8f)
                     replaceFragment(R.id.containerSubject, subjectListFragment, childFragmentManager, true)
                 }
                 SubjectState.Add -> {
-                    changeContainerHeight(0.6f)
-                    replaceFragment(R.id.containerSubject, subjectAddFragment, childFragmentManager, true)
+                    replaceFragment(R.id.containerSubject, SubjectAddFragment(), childFragmentManager, true)
                 }
                 else -> {}
             }
         }
-    }
-
-    private fun changeContainerHeight(height: Float) {
-        (binding.layoutSubject.layoutParams as ConstraintLayout.LayoutParams)
-            .matchConstraintPercentHeight = height
-        binding.layoutSubject.requestLayout()
     }
 }
