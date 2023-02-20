@@ -1,17 +1,26 @@
 package com.lok.dev.omrchecker.subject.omr
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
+import com.lok.dev.commonutil.getChangeTextStyle
+import com.lok.dev.commonutil.onResult
+import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentOmrInputBinding
+import com.lok.dev.omrchecker.subject.OmrViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBinding>() {
 
-    private var adapter : OmrInputAdapter? = null
+    private var adapter: OmrInputAdapter? = null
+
+    private val omrViewModel: OmrViewModel by activityViewModels()
 
     override fun createFragmentBinding(
         inflater: LayoutInflater,
@@ -20,30 +29,36 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
 
     override fun initFragment() {
 
+        collectViewModel()
         initAdapter()
         setOnClickListeners()
+        setBody()
 
+    }
+
+    private fun collectViewModel() {
+        omrViewModel.progressState.onResult(viewLifecycleOwner.lifecycleScope) { progress ->
+            val text = String.format(getString(R.string.omr_input_cnt), progress, omrViewModel.problemNum)
+            binding.omrInputCnt.text = requireActivity().getChangeTextStyle(text, progress.toString(), R.color.theme_blue_primary)
+        }
 
     }
 
     private fun initAdapter() {
-
-        // activity 의 viewModel 에서 받아오는 걸로 변경
-        // 임시저장일 때와 아닐떄로 분기처리
-        // 임시저장일때는 임시저장했던 리스트를 가져와서 array 를 만들어줘야하고
-        // 임시저장이 아닐때는 그냥 만들어주면 된다.
-        val problemNum = 50
-        val selectNum = 7
-        val test = List(problemNum){ List(selectNum){0} }
-
-        adapter = OmrInputAdapter(requireContext(), test)
+        adapter = OmrInputAdapter(requireContext()) { pair ->
+            omrViewModel.updateProgress(pair)
+        }
         binding.omrInputList.adapter = adapter
-
-        adapter?.submit(test)
+        adapter?.set(omrViewModel.omrInput.value)
     }
 
     private fun setOnClickListeners() = with(binding) {
 
+    }
+
+    private fun setBody() = with(binding) {
+        val text = String.format(getString(R.string.omr_input_cnt), 0, omrViewModel.problemNum)
+        binding.omrInputCnt.text = requireActivity().getChangeTextStyle(text, "0", R.color.theme_blue_primary)
     }
 
 }

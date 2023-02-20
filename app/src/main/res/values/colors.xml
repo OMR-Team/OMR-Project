@@ -27,10 +27,7 @@
     <color name="theme_blue_gray">#A0ABD2</color>
 
     <color name="theme_red">#F17047</color>
+    <color name="theme_red_1">#FFF7F4</color>
     <color name="theme_orange">#F8B464</color>
-
-    <!--내 답안 입력 창 -->
-    <color name="omr_input_text_sub">#BDBDC9</color>
-    <color name="omr_input_container">#F6F8FF</color>
 
 </resources>
