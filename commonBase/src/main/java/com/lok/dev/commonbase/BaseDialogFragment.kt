@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
@@ -22,12 +23,13 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
     var result: ((result: Result?) -> Unit)? = null
     var cancel: () -> Unit = {}
 
-    open var windowWidth = ViewGroup.LayoutParams.MATCH_PARENT
-    open var windowHeight = ViewGroup.LayoutParams.MATCH_PARENT
+    var windowWidth = ViewGroup.LayoutParams.MATCH_PARENT
+    var windowHeight = ViewGroup.LayoutParams.MATCH_PARENT
 
     var canceledOnTouchOutside = true
     var fullScreen = false
     var bottomSlideAnimation = false
+    var dimBehind = false
 
     protected abstract fun createFragmentBinding(
         inflater: LayoutInflater,
@@ -82,6 +84,11 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
                 val gravity = if (bottomSlideAnimation) Gravity.BOTTOM else Gravity.CENTER
                 window?.setGravity(gravity)
                 setLayout(windowWidth, windowHeight)
+
+                if(dimBehind) {
+                    addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    setDimAmount(0.5f)
+                }else clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             }
         }
     }

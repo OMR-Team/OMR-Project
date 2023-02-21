@@ -11,8 +11,10 @@ import com.lok.dev.omrchecker.databinding.DialogTagEditBinding
 
 class TagEditDialog : BaseDialogFragment<DialogTagEditBinding, Bundle>() {
 
-    override var windowWidth = WRAP_CONTENT
-    override var windowHeight = WRAP_CONTENT
+    init {
+        windowWidth = WRAP_CONTENT
+        windowHeight = WRAP_CONTENT
+    }
 
     override fun createFragmentBinding(
         inflater: LayoutInflater,

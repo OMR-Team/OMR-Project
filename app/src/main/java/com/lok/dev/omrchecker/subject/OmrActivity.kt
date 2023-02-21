@@ -7,6 +7,8 @@ import androidx.activity.viewModels
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseActivity
+import com.lok.dev.commonbase.util.launchConfirmDialog
+import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonutil.collect
 import com.lok.dev.commonutil.onResult
 import com.lok.dev.commonutil.px
@@ -14,6 +16,7 @@ import com.lok.dev.commonutil.throttleFirst
 import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ActivityOmrBinding
+import com.lok.dev.omrchecker.dialog.TitleConfirmDialog
 import com.lok.dev.omrchecker.subject.answer.AnswerInputFragment
 import com.lok.dev.omrchecker.subject.omr.OmrInputFragment
 import com.lok.dev.omrchecker.subject.result.ResultFragment
@@ -92,7 +95,19 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         nextBtn.throttleFirst(1500).collect(lifecycleScope) {
             // 누르면 확인 창 띄우고 omrInputAdapter 의 adapter list 를 db 에 저장
             // sharedFlow 를 viewModel 에 만들어두고 omrFragment 에서 그걸 구독하는 식??
-            viewModel.changeScreenState(OmrState.AnswerScreen)
+
+
+            launchConfirmDialog(
+                type = TitleConfirmDialog::class.java,
+                option = {
+                    title = "이것은 제목 테스트 입니다."
+                    subTitle = "테스트 다음으로 넘어가시겠습니까??"
+                },
+                result = {
+                    viewModel.changeScreenState(OmrState.AnswerScreen)
+                }
+            )
+
         }
 
     }
