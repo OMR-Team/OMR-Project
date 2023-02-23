@@ -17,6 +17,7 @@
 
     <string name="omr_score_input">점수 입력</string>
     <string name="omr_score_input_all">점수 한번에 입력하기</string>
+    <string name="omr_score_input_all_sub">소수점 한 자리까지 입력 가능해요</string>
     <string name="omr_score_input_clear">모두 지우기</string>
     <string name="omr_score_unit">점</string>
 

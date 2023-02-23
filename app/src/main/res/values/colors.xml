@@ -26,6 +26,10 @@
     <color name="theme_blue_4">#F6F8FF</color>
     <color name="theme_blue_gray">#A0ABD2</color>
 
+    <color name="theme_navy">#3A4E89</color>
+    <color name="theme_navy_1">#55689F</color>
+    <color name="theme_navy_2">#A0ABD2</color>
+
     <color name="theme_red">#F17047</color>
     <color name="theme_red_1">#FFF7F4</color>
     <color name="theme_orange">#F8B464</color>
