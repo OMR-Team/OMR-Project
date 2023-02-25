@@ -33,7 +33,7 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, Unit>() {
 
     private fun initAdapter() = with(binding) {
         adapter = ScoreInputAdapter(requireContext())
-        scoreList.layoutManager = GridLayoutManager(requireContext(), 3)
+        scoreList.layoutManager = GridLayoutManager(requireContext(), 5)
         scoreList.adapter = adapter
     }
 

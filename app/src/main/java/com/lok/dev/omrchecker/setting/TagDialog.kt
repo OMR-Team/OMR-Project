@@ -23,9 +23,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class TagDialog : BaseDialogFragment<DialogTagBinding, Bundle>() {
 
+    init {
+        windowHeight = WRAP_CONTENT
+    }
+
     private val tagViewModel by viewModels<TagViewModel>()
     private val tagAdapter by lazy { TagListAdapter(requireContext()) }
-    override var windowHeight = WRAP_CONTENT
 
     override fun createFragmentBinding(
         inflater: LayoutInflater,
