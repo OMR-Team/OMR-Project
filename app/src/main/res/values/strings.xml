@@ -11,16 +11,21 @@
     <string name="omr_answer_title">정답 기입</string>
     <string name="omr_answer_cnt">%1$s / %2$s</string>
 
+    <!-- OMR 문제 입력 창 -->
     <string name="omr_progress_problem">문제 풀기</string>
     <string name="omr_progress_answer">정답 기입</string>
     <string name="omr_progress_result">결과 확인</string>
 
+    <!-- OMR 답안 입력 창 -->
     <string name="omr_score_input">점수 입력</string>
     <string name="omr_score_input_all">점수 한번에 입력하기</string>
     <string name="omr_score_input_all_sub">소수점 한 자리까지 입력 가능해요</string>
     <string name="omr_score_input_clear">모두 지우기</string>
     <string name="omr_score_unit">점</string>
+    <string name="omr_score_input_all_warn">점수를 입력해주세요</string>
 
+    <!-- OMR 결과 확인 창-->
+    <string name="omr_result_reset">다시 풀기</string>
 
     <string name="header_omr_list">임시 폴더명</string>
     <string name="header_setting_omr">새 테스트 만들기</string>

@@ -20,7 +20,7 @@
             android:layout_height="0dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="19dp"
-            app:layout_constraintBottom_toTopOf="@id/tvStart"
+            app:layout_constraintBottom_toTopOf="@id/txtTestStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +53,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/txtSubjectTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -111,10 +112,13 @@
                         android:textSize="12dp" />
 
                     <EditText
+                        android:id="@+id/etProblemNum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:hint="1~1000"
+                        android:inputType="number"
+                        android:maxLength="4"
                         android:paddingVertical="15dp"
                         android:textColorHint="#d8d8e0"
                         android:textSize="18dp" />
@@ -177,7 +181,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tvStart"
+            android:id="@+id/txtTestStart"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/theme_blue_primary"

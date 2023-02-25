@@ -1,8 +1,10 @@
 package com.lok.dev.omrchecker.home.fragment
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
@@ -13,6 +15,7 @@ import com.lok.dev.omrchecker.home.adapter.OmrListAdapter
 import com.lok.dev.omrchecker.home.viewmodel.OmrListViewModel
 import com.lok.dev.omrchecker.setting.SettingDialog
 import com.lok.dev.omrchecker.setting.TagDialog
+import com.lok.dev.omrchecker.subject.OmrActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

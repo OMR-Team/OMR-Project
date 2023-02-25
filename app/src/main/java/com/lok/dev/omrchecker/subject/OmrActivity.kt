@@ -15,6 +15,10 @@ import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ActivityOmrBinding
 import com.lok.dev.omrchecker.dialog.TitleConfirmDialog
+import com.lok.dev.omrchecker.setting.SettingDialog.Companion.OMR_ANSWER_NUM
+import com.lok.dev.omrchecker.setting.SettingDialog.Companion.OMR_PROBLEM_NUM
+import com.lok.dev.omrchecker.setting.SettingDialog.Companion.OMR_SUBJECT_NAME
+import com.lok.dev.omrchecker.setting.SettingDialog.Companion.OMR_TEST_NAME
 import com.lok.dev.omrchecker.subject.answer.AnswerInputFragment
 import com.lok.dev.omrchecker.subject.omr.OmrInputFragment
 import com.lok.dev.omrchecker.subject.result.ResultFragment
@@ -35,6 +39,9 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         super.initActivity(savedInstanceState)
 
         collectViewModel()
+        getExtra()
+        setClickListeners()
+        setBody()
 
 
         // 나중에 getExtra() 에서 임시저장인지 아닌지를 먼저 보고 fragment 를 열어줘야함
@@ -46,11 +53,6 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             test.add(ProblemTable(i, 0, i + 1, listOf(0, 0, 0, 0, 0)))
         }
         viewModel.changeOmrInput(test)
-
-
-        getExtra()
-        setClickListeners()
-
 
     }
 
@@ -75,7 +77,12 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
     }
 
     private fun getExtra() {
-        when (intent.extras?.get("type")) {
+        viewModel.subjectName = intent.getStringExtra(OMR_SUBJECT_NAME).orEmpty()
+        viewModel.testName = intent.getStringExtra(OMR_TEST_NAME).orEmpty()
+        viewModel.problemNum = intent.getIntExtra(OMR_PROBLEM_NUM, 0)
+        viewModel.answerNum = intent.getIntExtra(OMR_ANSWER_NUM, 0)
+
+        when (intent.getStringExtra("type")) {
             "omr" -> {
                 viewModel.changeScreenState(OmrState.OmrScreen)
             }
@@ -94,6 +101,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             // 누르면 확인 창 띄우고 omrInputAdapter 의 adapter list 를 db 에 저장
             // sharedFlow 를 viewModel 에 만들어두고 omrFragment 에서 그걸 구독하는 식??
 
+            // TODO 화면 전환 로직 추가 수정 필요
 
             launchConfirmDialog(
                 type = TitleConfirmDialog::class.java,
@@ -102,7 +110,8 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
                     subTitle = "테스트 다음으로 넘어가시겠습니까??"
                 },
                 result = {
-                    viewModel.changeScreenState(OmrState.AnswerScreen)
+                    if(viewModel.screenState.value is OmrState.OmrScreen) viewModel.changeScreenState(OmrState.AnswerScreen)
+                    else viewModel.changeScreenState(OmrState.ResultScreen)
                 }
             )
 
@@ -129,8 +138,17 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             OmrState.ResultScreen -> {
                 resultFragment = ResultFragment()
                 replaceFragment(R.id.omrFragment, resultFragment, AnimationState.Right)
+                binding.answerInput.visibility = View.INVISIBLE
+                binding.answerAni.visibility = View.VISIBLE
+                binding.answerAni.playAnimation()
+                binding.resultCheck.setImageResource(R.drawable.resultcheck_complete)
             }
         }
+    }
+
+    private fun setBody() = with(binding) {
+        testName.text = viewModel.testName
+        subjectName.text = viewModel.subjectName
     }
 
     sealed interface OmrState {

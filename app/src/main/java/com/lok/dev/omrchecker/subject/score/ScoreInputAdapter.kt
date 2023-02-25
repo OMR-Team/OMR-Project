@@ -9,12 +9,14 @@ import android.widget.EditText
 import androidx.recyclerview.widget.DiffUtil
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
+import com.lok.dev.commonutil.setTextWatcher
 import com.lok.dev.commonutil.visible
 import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.omrchecker.databinding.ItemScoreInputBinding
 
 class ScoreInputAdapter(
-    private val context: Context
+    private val context: Context,
+    private val scoreChange: (Pair<Int, Double>) -> Unit
 ) : BaseAdapter<ItemScoreInputBinding, AnswerTable>() {
 
     override fun getBinding(parent: ViewGroup, viewType: Int) = ViewHolder(
@@ -32,53 +34,24 @@ class ScoreInputAdapter(
 
             numScore.text = data.no.toString()
 
-            background.setOnClickListener {
-                editScore.visible(false)
-                showScore.visible(true)
-                hideKeyboard(editScore)
-            }
+            if(data.score != 0.0) editScore.setText(data.score.toString())
+            else editScore.setText("")
 
-            editScore.setOnFocusChangeListener { v, hasFocus ->
-                if(!hasFocus) {
-                    val score = editScore.text.toString()
-                    if(score.isNotEmpty()) {
-                        val modScore = if (score.last() == '.') score.replace(".", "") else score
-                        if (modScore.isNotEmpty()) {
-                            changeData(position, data, modScore)
-                        }
-                    }
-                    showScore.visible(true)
-                    editScore.visible(false)
-                    hideKeyboard(editScore)
+            editScore.setTextWatcher { score ->
+                val modScore = when {
+                    score.isEmpty() -> 0.0
+                    score.last() == '.' -> score.replace(".", "").toDouble()
+                    else -> score.toDouble()
                 }
+                changeData(position, data, modScore.toString())
+                scoreChange.invoke(Pair(data.no, modScore))
             }
-
-            showScore.setOnClickListener {
-                editScore.visible(true)
-                showScore.visible(false)
-                editScore.requestFocus()
-                showKeyboard(editScore)
-            }
-
-            if(data.score != 0.0) showScore.text = data.score.toString()
-            else showScore.text = ""
 
             // TODO double 형으로 되어서 마지막 소수점 나오는 현상 해결 필요
         }
 
         private fun changeData(position: Int, data: AnswerTable, score: String) {
             adapterList[position] = data.copy(score = score.toDouble())
-            notifyItemChanged(position)
-        }
-
-        private fun showKeyboard(view: EditText) {
-            val inputMethodManager: InputMethodManager = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-        }
-
-        private fun hideKeyboard(view: EditText) {
-            val imm = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
 
     }

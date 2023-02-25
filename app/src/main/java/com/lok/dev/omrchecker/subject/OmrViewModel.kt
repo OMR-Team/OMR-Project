@@ -19,8 +19,10 @@ class OmrViewModel @Inject constructor() : BaseViewModel() {
     private val answerSelected = mutableMapOf<Int, Int>()
 
     //TODO 임시로 놔둠 나중에 액티비티 열때 받은 문제수로 바꾸기
-    var problemNum = 50
-    var answerNum = 50
+    var subjectName = ""
+    var testName = ""
+    var problemNum = 0
+    var answerNum = 0
 
 
     private val _progressState = MutableStateFlow(0)
@@ -29,8 +31,8 @@ class OmrViewModel @Inject constructor() : BaseViewModel() {
     private val _answerProgressState = MutableStateFlow(0)
     val answerProgressState = _answerProgressState.asStateFlow()
 
-    private val _screenState = MutableSharedFlow<OmrActivity.OmrState>()
-    val screenState = _screenState.asSharedFlow()
+    private val _screenState = MutableStateFlow<OmrActivity.OmrState>(OmrActivity.OmrState.OmrScreen)
+    val screenState = _screenState.asStateFlow()
 
     private val _omrInput = MutableStateFlow<List<ProblemTable>>(listOf())
     val omrInput = _omrInput.asStateFlow()
@@ -39,9 +41,7 @@ class OmrViewModel @Inject constructor() : BaseViewModel() {
     val answerInput = _answerInput.asStateFlow()
 
     fun changeScreenState(state: OmrActivity.OmrState) {
-        viewModelScope.launch {
-            _screenState.emit(state)
-        }
+        _screenState.value = state
     }
 
     fun changeOmrInput(list: List<ProblemTable>) {
