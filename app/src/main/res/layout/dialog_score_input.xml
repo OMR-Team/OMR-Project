@@ -16,178 +16,195 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_back"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/scoreTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_regular"
                 android:text="@string/omr_score_input"
                 android:textColor="@color/black"
-                android:fontFamily="@font/pretendard_regular"
                 android:textSize="15dp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bodyContainer"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="16dp"
-            android:background="@drawable/bg_white_radius_16"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btnComplete"
             app:layout_constraintTop_toBottomOf="@id/headerContainer">
 
-            <TextView
-                android:id="@+id/scoreInputAllTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/omr_score_input_all"
-                android:textColor="@color/theme_black_0.5"
-                android:textSize="16dp"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginTop="18dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:id="@+id/scoreInputSubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/omr_score_input_all_sub"
-                android:textColor="@color/theme_black_2"
-                android:textSize="12dp"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginTop="6dp"
-                app:layout_constraintTop_toBottomOf="@id/scoreInputAllTitle"
-                app:layout_constraintStart_toStartOf="@id/scoreInputAllTitle"/>
-
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/editScoreInputBackground"
-                android:layout_width="85dp"
-                android:layout_height="0dp"
-                android:background="@drawable/bg_black_7_radius_4"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintTop_toTopOf="@id/scoreInputAllTitle"
-                app:layout_constraintBottom_toBottomOf="@id/scoreInputSubTitle"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <EditText
-                    android:id="@+id/editScoreInputAll"
-                    android:layout_width="85dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/bodyContainer"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_black_7_radius_4"
-                    android:textSize="32dp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:gravity="center"
-                    android:layout_marginVertical="10dp"
-                    android:hint="0"
-                    android:textColorHint="@color/theme_black_4"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_white_radius_16"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/scoreInputAllTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="18dp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:text="@string/omr_score_input_all"
+                        android:textColor="@color/theme_black_0.5"
+                        android:textSize="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/scoreInputSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:text="@string/omr_score_input_all_sub"
+                        android:textColor="@color/theme_black_2"
+                        android:textSize="12dp"
+                        app:layout_constraintStart_toStartOf="@id/scoreInputAllTitle"
+                        app:layout_constraintTop_toBottomOf="@id/scoreInputAllTitle" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/editScoreInputBackground"
+                        android:layout_width="85dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/bg_black_7_radius_4"
+                        app:layout_constraintBottom_toBottomOf="@id/scoreInputSubTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/scoreInputAllTitle">
+
+                        <EditText
+                            android:id="@+id/editScoreInputAll"
+                            android:layout_width="85dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:background="@drawable/bg_black_7_radius_4"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:maxLength="3"
+                            android:inputType="numberDecimal"
+                            android:gravity="center"
+                            android:hint="0"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/theme_black_4"
+                            android:textSize="32dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="2.5" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/totalScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:text="0"
+                        android:textColor="@color/theme_blue_1_m"
+                        android:textSize="16dp"
+                        app:layout_constraintBottom_toBottomOf="@id/totalScoreUnit"
+                        app:layout_constraintEnd_toStartOf="@id/totalScoreUnit"
+                        app:layout_constraintTop_toTopOf="@id/totalScoreUnit" />
+
+                    <TextView
+                        android:id="@+id/totalScoreUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:text="@string/omr_score_unit"
+                        android:textColor="@color/theme_black_1"
+                        app:layout_constraintEnd_toEndOf="@id/editScoreInputBackground"
+                        app:layout_constraintTop_toBottomOf="@id/editScoreInputBackground" />
+
+                    <TextView
+                        android:id="@+id/scoreEraseAll"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="13dp"
+                        android:background="@drawable/bg_border_black_1_radius_24"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:gravity="center"
+                        android:paddingVertical="8dp"
+                        android:text="@string/omr_score_input_clear"
+                        android:textColor="@color/theme_black_1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/scoreConfirmAll"
+                        app:layout_constraintHorizontal_weight="0.4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/scoreConfirmAll" />
+
+                    <TextView
+                        android:id="@+id/scoreConfirmAll"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/bg_border_blue_primary_radius_24"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:gravity="center"
+                        android:paddingVertical="8dp"
+                        android:text="@string/text_confirm"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="0.6"
+                        app:layout_constraintStart_toEndOf="@id/scoreEraseAll"
+                        app:layout_constraintTop_toBottomOf="@id/totalScore" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/scoreList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="2.5"/>
+                    app:layout_constraintTop_toBottomOf="@id/bodyContainer"
+                    tools:listitem="@layout/item_score_input" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/totalScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:textColor="@color/theme_blue_1_m"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginEnd="2dp"
-                android:text="0"
-                app:layout_constraintTop_toTopOf="@id/totalScoreUnit"
-                app:layout_constraintBottom_toBottomOf="@id/totalScoreUnit"
-                app:layout_constraintEnd_toStartOf="@id/totalScoreUnit" />
-
-            <TextView
-                android:id="@+id/totalScoreUnit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/omr_score_unit"
-                android:textColor="@color/theme_black_1"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginTop="6dp"
-                app:layout_constraintTop_toBottomOf="@id/editScoreInputBackground"
-                app:layout_constraintEnd_toEndOf="@id/editScoreInputBackground"/>
-
-            <TextView
-                android:id="@+id/scoreEraseAll"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/omr_score_input_clear"
-                android:textColor="@color/theme_black_1"
-                android:fontFamily="@font/pretendard_regular"
-                android:background="@drawable/bg_border_black_1_radius_24"
-                android:paddingVertical="8dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center"
-                android:layout_marginBottom="13dp"
-                app:layout_constraintHorizontal_weight="0.4"
-                app:layout_constraintTop_toTopOf="@id/scoreConfirmAll"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/scoreConfirmAll"/>
-
-            <TextView
-                android:id="@+id/scoreConfirmAll"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/text_confirm"
-                android:textColor="@color/white"
-                android:fontFamily="@font/pretendard_regular"
-                android:background="@drawable/bg_border_blue_primary_radius_24"
-                android:paddingVertical="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                android:gravity="center"
-                app:layout_constraintHorizontal_weight="0.6"
-                app:layout_constraintTop_toBottomOf="@id/totalScore"
-                app:layout_constraintStart_toEndOf="@id/scoreEraseAll"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/scoreList"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginHorizontal="16dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/bodyContainer"
-            app:layout_constraintBottom_toTopOf="@id/btnComplete"
-            tools:listitem="@layout/item_score_input"/>
+        </androidx.core.widget.NestedScrollView>
 
         <TextView
             android:id="@+id/btnComplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/theme_black_0.5"
+            android:fontFamily="@font/pretendard_semibold"
+            android:gravity="center"
+            android:paddingVertical="18dp"
             android:text="@string/text_finish"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:fontFamily="@font/pretendard_semibold"
-            android:background="@color/theme_black_0.5"
-            android:gravity="center"
-            android:paddingVertical="18dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

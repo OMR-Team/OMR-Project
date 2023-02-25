@@ -96,6 +96,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             // 누르면 확인 창 띄우고 omrInputAdapter 의 adapter list 를 db 에 저장
             // sharedFlow 를 viewModel 에 만들어두고 omrFragment 에서 그걸 구독하는 식??
 
+            // TODO 화면 전환 로직 추가 수정 필요
 
             launchConfirmDialog(
                 type = TitleConfirmDialog::class.java,
@@ -104,7 +105,8 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
                     subTitle = "테스트 다음으로 넘어가시겠습니까??"
                 },
                 result = {
-                    viewModel.changeScreenState(OmrState.AnswerScreen)
+                    if(viewModel.screenState.value is OmrState.OmrScreen) viewModel.changeScreenState(OmrState.AnswerScreen)
+                    else viewModel.changeScreenState(OmrState.ResultScreen)
                 }
             )
 
@@ -131,6 +133,10 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             OmrState.ResultScreen -> {
                 resultFragment = ResultFragment()
                 replaceFragment(R.id.omrFragment, resultFragment, AnimationState.Right)
+                binding.answerInput.visibility = View.INVISIBLE
+                binding.answerAni.visibility = View.VISIBLE
+                binding.answerAni.playAnimation()
+                binding.resultCheck.setImageResource(R.drawable.resultcheck_complete)
             }
         }
     }
