@@ -5,7 +5,6 @@ import android.view.ViewGroup.LayoutParams
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.lok.dev.commonBase.R
-import com.lok.dev.commonutil.px
 
 abstract class BaseConfirmDialog<Binding : ViewDataBinding, Result> :
     BaseDialogFragment<Binding, Result>() {

@@ -2,6 +2,7 @@ package com.lok.dev.omrchecker.subject.result
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.omrchecker.databinding.FragmentResultBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,9 +16,19 @@ class ResultFragment @Inject constructor() : BaseFragment<FragmentResultBinding>
         container: ViewGroup?
     ) = FragmentResultBinding.inflate(inflater, container, false)
 
+    private var adapter : ResultAdapter? = null
+
     override fun initFragment() {
 
+        initAdapter()
 
+    }
+
+    private fun initAdapter() = with(binding) {
+
+        adapter = ResultAdapter(requireContext())
+        resultList.layoutManager = GridLayoutManager(requireContext(), 5)
+        resultList.adapter = adapter
 
     }
 

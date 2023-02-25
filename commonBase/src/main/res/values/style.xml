@@ -22,6 +22,15 @@
         <item name="closeIconVisible">false</item>
     </style>
 
+    <style name="Theme.OMR.EditTagChip" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/selector_tag_chip_text</item>
+        <item name="android:textSize">14dp</item>
+        <item name="chipBackgroundColor">@color/selector_edit_tag_chip_bg</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="closeIconVisible">false</item>
+    </style>
+
     <!-- Dialog -->
     <style name="BottomSlideDialog">
         <item name="android:windowNoTitle">true</item>

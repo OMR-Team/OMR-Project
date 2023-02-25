@@ -6,19 +6,32 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.DisplayMetrics
 import androidx.annotation.ColorRes
 import androidx.annotation.FontRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentTransaction
+import com.lok.dev.commonUtil.R
+import com.lok.dev.commonmodel.state.AnimationState
 
-
-fun Number.px(context: Context): Int {
-    return this.toFloat().toPx(context)
-}
-
-fun Float.toPx(context: Context): Int {
-    val densityDpi = context.resources.displayMetrics.densityDpi
-    return (this * (densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
+fun animFragment(transaction: FragmentTransaction, animation: AnimationState) {
+    when (animation) {
+        AnimationState.None -> Unit
+        AnimationState.Left -> {
+            transaction.setCustomAnimations(R.anim.left_in, R.anim.left_out)
+        }
+        AnimationState.Right -> {
+            transaction.setCustomAnimations(R.anim.right_in, R.anim.right_out)
+        }
+        AnimationState.Up -> {
+            transaction.setCustomAnimations(R.anim.push_up_in, R.anim.push_up_out)
+        }
+        AnimationState.Down -> {
+            transaction.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out)
+        }
+        AnimationState.Fade -> {
+            transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+        }
+    }
 }
 
 fun Context.getChangeTextStyle(

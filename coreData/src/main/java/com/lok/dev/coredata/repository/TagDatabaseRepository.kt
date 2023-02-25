@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface TagDatabaseRepository {
     fun getTagList(): Flow<List<TagTable>>
     fun addTag(tagTable: TagTable)
+    fun deleteTag(idList: List<Int>): Int
+    fun updateTag(tagTable: TagTable)
 }

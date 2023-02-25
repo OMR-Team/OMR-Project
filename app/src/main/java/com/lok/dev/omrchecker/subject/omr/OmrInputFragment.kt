@@ -58,7 +58,7 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
 
     private fun setBody() = with(binding) {
         val text = String.format(getString(R.string.omr_input_cnt), 0, omrViewModel.problemNum)
-        binding.omrInputCnt.text = requireActivity().getChangeTextStyle(text, "0", R.color.theme_blue_primary)
+        omrInputCnt.text = requireActivity().getChangeTextStyle(text, "0", R.color.theme_blue_primary)
     }
 
 }

@@ -11,16 +11,21 @@
     <string name="omr_answer_title">정답 기입</string>
     <string name="omr_answer_cnt">%1$s / %2$s</string>
 
+    <!-- OMR 문제 입력 창 -->
     <string name="omr_progress_problem">문제 풀기</string>
     <string name="omr_progress_answer">정답 기입</string>
     <string name="omr_progress_result">결과 확인</string>
 
+    <!-- OMR 답안 입력 창 -->
     <string name="omr_score_input">점수 입력</string>
     <string name="omr_score_input_all">점수 한번에 입력하기</string>
     <string name="omr_score_input_all_sub">소수점 한 자리까지 입력 가능해요</string>
     <string name="omr_score_input_clear">모두 지우기</string>
     <string name="omr_score_unit">점</string>
+    <string name="omr_score_input_all_warn">점수를 입력해주세요</string>
 
+    <!-- OMR 결과 확인 창-->
+    <string name="omr_result_reset">다시 풀기</string>
 
     <string name="header_omr_list">임시 폴더명</string>
     <string name="header_setting_omr">새 테스트 만들기</string>
@@ -31,19 +36,23 @@
 
     <string name="sub_chip_tag">태그 #</string>
     <string name="sub_chip_sort">최신순</string>
-    <string name="tag_dialog_header">태그 선택</string>
-    <string name="tag_dialog_choose">최대 3개까지 선택 가능해요.</string>
-    <string name="tag_dialog_empty">태그별로 분류하여 쉽게 모아보세요!</string>
-    <string name="tag_add_header">태그 추가</string>
-    <string name="tag_edit_header">태그 수정</string>
+    <string name="tag_choose_header">태그 선택</string>
+    <string name="tag_choose_body">최대 3개까지 선택 가능해요.</string>
+    <string name="tag_edit_header">태그 편집</string>
+    <string name="tag_edit_body">드래그 해서 순서를 변경하고\n꾹 눌러 수정하거나 선택하여 삭제할 수 있어요.</string>
+    <string name="tag_empty">태그별로 분류하여 쉽게 모아보세요!</string>
+    <string name="tag_edit_text_add">태그 추가</string>
+    <string name="tag_edit_text_edit">태그 수정</string>
     <string name="tag_place_holder">태그를 입력해주세요.</string>
 
     <string name="text_edit">편집</string>
     <string name="text_add_tag">+ 태그 추가</string>
     <string name="text_reset">초기화</string>
     <string name="text_finish">완료</string>
+    <string name="text_choose">선택</string>
     <string name="text_ok">확인</string>
     <string name="text_cancel">취소</string>
     <string name="text_confirm">적용</string>
+    <string name="text_delete">삭제</string>
 
 </resources>
