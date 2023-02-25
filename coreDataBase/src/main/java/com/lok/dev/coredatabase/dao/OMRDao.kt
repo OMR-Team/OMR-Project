@@ -16,7 +16,7 @@ interface OMRDao {
 
     @Throws(SQLException::class)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addOMRTable(omrTable: OMRTable)
+    fun addOMRTable(omrTable: OMRTable): Long
 
     @Query("SELECT * FROM SubjectTable")
     fun selectAllSubjectTable(): Flow<SubjectTable>

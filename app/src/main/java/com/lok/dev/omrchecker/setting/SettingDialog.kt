@@ -59,7 +59,9 @@ class SettingDialog @Inject constructor() : BaseDialogFragment<FragmentSettingBi
         throttleFirstClick(txtTestStart) {
             viewModel.addOmrTest(etTitle.text.toString(), etProblemNum.text.toString().toInt(),
                 spinner.selectedItem.toString().replace("개", "").toInt()
-            )
+            ) {
+                it
+            }
         }
     }
 

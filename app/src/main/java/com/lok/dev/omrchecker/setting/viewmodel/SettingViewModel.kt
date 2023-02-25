@@ -57,13 +57,15 @@ class SettingViewModel @Inject constructor(
         addSubjectUseCase.invoke(table)
     }
 
-    fun addOmrTest(title: String, problemNum: Int, selectNum: Int) = CoroutineScope(ioDispatcher).launch {
+    fun addOmrTest(title: String, problemNum: Int, selectNum: Int, callBack: (OMRTable) -> Unit) = CoroutineScope(ioDispatcher).launch {
         val omrTable = OMRTable(
             subject = subject.value,
             title = title,
             problemNum = problemNum,
             selectNum = selectNum
         )
-        addTestUseCase.invoke(omrTable)
+        val id = addTestUseCase.invoke(omrTable)
+        omrTable.id = id.toInt()
+        callBack.invoke(omrTable)
     }
 }

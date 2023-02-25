@@ -21,6 +21,10 @@ class SubjectDialog : BaseDialogFragment<DialogSubjectBinding, Bundle>() {
 
     private val viewModel by activityViewModels<SettingViewModel>()
 
+    init {
+        dimBehind = true
+    }
+
     @Inject
     lateinit var subjectListFragment: SubjectListFragment
 

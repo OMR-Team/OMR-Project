@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class OMRTable(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo(name = "subject") val subject: SubjectTable,
     @ColumnInfo(name = "title") val title: String = "",
     @ColumnInfo(name = "cnt") val cnt: Int = 1,
