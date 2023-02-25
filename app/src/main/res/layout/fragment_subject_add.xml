@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="24dp"
         android:paddingTop="32dp"
+        android:background="@drawable/bg_radius16_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

@@ -1,4 +1,4 @@
-package com.lok.dev.omrchecker.setting
+package com.lok.dev.omrchecker.setting.subject
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonmodel.state.SubjectState
 import com.lok.dev.commonutil.onUiState
 import com.lok.dev.commonutil.setDividerItemDecorationHeight
+import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.databinding.FragmentSubjectListBinding
 import com.lok.dev.omrchecker.setting.adapter.SubjectListAdapter
 import com.lok.dev.omrchecker.setting.viewmodel.SettingViewModel
@@ -19,7 +20,7 @@ class SubjectListFragment @Inject constructor() : BaseFragment<FragmentSubjectLi
     private val viewModel by activityViewModels<SettingViewModel>()
 
     private val subjectListAdapter by lazy {
-        SubjectListAdapter(requireContext())
+        SubjectListAdapter(requireContext(), itemClick)
     }
 
     override val enableBackPressed = false
@@ -56,6 +57,11 @@ class SubjectListFragment @Inject constructor() : BaseFragment<FragmentSubjectLi
                 subjectListAdapter.set(it)
             }
         )
+    }
+
+    private val itemClick: (SubjectTable) -> Unit = {
+        viewModel.setSubject(it)
+        viewModel.setSubjectState(SubjectState.Exit)
     }
 
 }

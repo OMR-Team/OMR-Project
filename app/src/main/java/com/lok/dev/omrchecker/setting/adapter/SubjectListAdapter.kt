@@ -9,7 +9,8 @@ import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.databinding.ItemSubjectBinding
 
 class SubjectListAdapter(
-    private val context: Context
+    val context: Context,
+    val clickCallback: (SubjectTable) -> Unit
 ) : BaseAdapter<ItemSubjectBinding, SubjectTable>() {
 
     override fun getBinding(parent: ViewGroup, viewType: Int): BaseViewHolder<ItemSubjectBinding> =
@@ -27,6 +28,9 @@ class SubjectListAdapter(
         override fun bind(position: Int): Unit = with(binding) {
             val data = adapterList[position]
             tvSubjectTitle.text = data.name
+            rootLayout.setOnClickListener {
+                clickCallback.invoke(data)
+            }
         }
     }
 }

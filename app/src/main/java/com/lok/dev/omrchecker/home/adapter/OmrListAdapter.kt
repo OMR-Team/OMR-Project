@@ -31,8 +31,8 @@ class OmrListAdapter(
             tvTitle.text = data.title
             tvDate.apply {
                 text =
-                    if (data.isTemp) data.updateDate
-                    else context.getString(R.string.omr_list_date_temp, data.updateDate)
+                    if (data.isTemp) data.updateDate.toString()
+                    else context.getString(R.string.omr_list_date_temp, data.updateDate.toString())
                 setTextColor(
                     if (data.isTemp) resources.getColor(R.color.theme_orange, null)
                     else resources.getColor(R.color.theme_black_5, null)

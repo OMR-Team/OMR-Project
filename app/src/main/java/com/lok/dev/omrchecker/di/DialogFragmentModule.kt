@@ -1,6 +1,6 @@
 package com.lok.dev.omrchecker.di
 
-import com.lok.dev.omrchecker.setting.SubjectDialog
+import com.lok.dev.omrchecker.setting.subject.SubjectDialog
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
