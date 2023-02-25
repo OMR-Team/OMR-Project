@@ -1,16 +1,17 @@
-package com.lok.dev.omrchecker.setting
+package com.lok.dev.omrchecker.setting.subject
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonmodel.state.SubjectState
+import com.lok.dev.commonutil.setDividerItemDecorationHeight
 import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.omrchecker.databinding.FragmentSubjectAddBinding
 import com.lok.dev.omrchecker.setting.viewmodel.SettingViewModel
 import javax.inject.Inject
 
-class SubjectAddFragment @Inject constructor() : BaseFragment<FragmentSubjectAddBinding>() {
+class SubjectEditFragment @Inject constructor() : BaseFragment<FragmentSubjectAddBinding>() {
 
     private val viewModel by activityViewModels<SettingViewModel>()
 
@@ -22,7 +23,12 @@ class SubjectAddFragment @Inject constructor() : BaseFragment<FragmentSubjectAdd
     ) = FragmentSubjectAddBinding.inflate(inflater, container, false)
 
     override fun initFragment() {
+        setAdapter()
         addListeners()
+        viewModel.getSubjectList()
+    }
+
+    private fun setAdapter() {
     }
 
     private fun addListeners() = with(binding) {

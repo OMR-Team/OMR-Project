@@ -1,7 +1,8 @@
-package com.lok.dev.omrchecker.setting
+package com.lok.dev.omrchecker.setting.subject
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonmodel.state.SubjectState
@@ -10,7 +11,7 @@ import com.lok.dev.omrchecker.databinding.FragmentSubjectAddBinding
 import com.lok.dev.omrchecker.setting.viewmodel.SettingViewModel
 import javax.inject.Inject
 
-class SubjectEditFragment @Inject constructor() : BaseFragment<FragmentSubjectAddBinding>() {
+class SubjectAddFragment @Inject constructor() : BaseFragment<FragmentSubjectAddBinding>() {
 
     private val viewModel by activityViewModels<SettingViewModel>()
 
@@ -31,10 +32,10 @@ class SubjectEditFragment @Inject constructor() : BaseFragment<FragmentSubjectAd
                 viewModel.addSubject(etSubjectTitle.text.toString())
                 viewModel.setSubjectState(SubjectState.Select)
             }
+            else {
+                Toast.makeText(requireContext(), "과목명을 입력하세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    override fun onFragmentBackPressed() {
-        viewModel.setSubjectState(SubjectState.Select)
-    }
 }
