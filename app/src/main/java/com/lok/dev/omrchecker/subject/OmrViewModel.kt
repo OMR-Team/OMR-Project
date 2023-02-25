@@ -19,8 +19,10 @@ class OmrViewModel @Inject constructor() : BaseViewModel() {
     private val answerSelected = mutableMapOf<Int, Int>()
 
     //TODO 임시로 놔둠 나중에 액티비티 열때 받은 문제수로 바꾸기
-    var problemNum = 50
-    var answerNum = 50
+    var subjectName = ""
+    var testName = ""
+    var problemNum = 0
+    var answerNum = 0
 
 
     private val _progressState = MutableStateFlow(0)

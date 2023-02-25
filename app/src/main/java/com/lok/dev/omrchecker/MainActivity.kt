@@ -24,8 +24,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initActivity(savedInstanceState: Bundle?) {
-        //addOmrListFragment()
-        startOmrActivity()
+        addOmrListFragment()
+        //startOmrActivity()
         //addTestFragment()
     }
 
@@ -37,9 +37,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         addFragment(R.id.fragment, testFragment)
     }
 
-    private fun startOmrActivity() {
-        val intent = Intent(this, OmrActivity::class.java)
-        intent.putExtras(bundleOf("type" to "omr"))
-        startActivity(intent)
-    }
 }

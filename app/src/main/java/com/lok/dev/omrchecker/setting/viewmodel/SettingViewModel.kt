@@ -35,7 +35,7 @@ class SettingViewModel @Inject constructor(
     private val _subjectListData = mutableResultState<List<SubjectTable>>()
     val subjectListData = _subjectListData.asStateFlow()
 
-    private val _subject = MutableStateFlow<SubjectTable>(SubjectTable(0, "과목을 선택하세요"))
+    private val _subject = MutableStateFlow(SubjectTable(0, "과목을 선택하세요"))
     val subject = _subject.asStateFlow()
 
     fun setSubjectState(state: SubjectState) = viewModelScope.launch {

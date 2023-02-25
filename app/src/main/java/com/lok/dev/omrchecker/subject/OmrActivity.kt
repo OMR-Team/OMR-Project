@@ -17,6 +17,10 @@ import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ActivityOmrBinding
 import com.lok.dev.omrchecker.dialog.TitleConfirmDialog
+import com.lok.dev.omrchecker.setting.SettingDialog.Companion.OMR_ANSWER_NUM
+import com.lok.dev.omrchecker.setting.SettingDialog.Companion.OMR_PROBLEM_NUM
+import com.lok.dev.omrchecker.setting.SettingDialog.Companion.OMR_SUBJECT_NAME
+import com.lok.dev.omrchecker.setting.SettingDialog.Companion.OMR_TEST_NAME
 import com.lok.dev.omrchecker.subject.answer.AnswerInputFragment
 import com.lok.dev.omrchecker.subject.omr.OmrInputFragment
 import com.lok.dev.omrchecker.subject.result.ResultFragment
@@ -37,6 +41,9 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         super.initActivity(savedInstanceState)
 
         collectViewModel()
+        getExtra()
+        setClickListeners()
+        setBody()
 
 
         // 나중에 getExtra() 에서 임시저장인지 아닌지를 먼저 보고 fragment 를 열어줘야함
@@ -48,11 +55,6 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             test.add(ProblemTable(i, 0, i + 1, listOf(0, 0, 0, 0, 0)))
         }
         viewModel.changeOmrInput(test)
-
-
-        getExtra()
-        setClickListeners()
-
 
     }
 
@@ -77,7 +79,12 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
     }
 
     private fun getExtra() {
-        when (intent.extras?.get("type")) {
+        viewModel.subjectName = intent.getStringExtra(OMR_SUBJECT_NAME).orEmpty()
+        viewModel.testName = intent.getStringExtra(OMR_TEST_NAME).orEmpty()
+        viewModel.problemNum = intent.getIntExtra(OMR_PROBLEM_NUM, 0)
+        viewModel.answerNum = intent.getIntExtra(OMR_ANSWER_NUM, 0)
+
+        when (intent.getStringExtra("type")) {
             "omr" -> {
                 viewModel.changeScreenState(OmrState.OmrScreen)
             }
@@ -139,6 +146,11 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
                 binding.resultCheck.setImageResource(R.drawable.resultcheck_complete)
             }
         }
+    }
+
+    private fun setBody() = with(binding) {
+        testName.text = viewModel.testName
+        subjectName.text = viewModel.subjectName
     }
 
     sealed interface OmrState {
