@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.lok.dev.commonutil.convertDpToPx
 
 abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
 
@@ -49,5 +50,7 @@ abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
     }
 
     protected open fun onFragmentBackPressed(): Unit = Unit
+
+    val Number.dp: Int get() = requireContext().convertDpToPx(this.toFloat()).toInt()
 
 }

@@ -34,4 +34,7 @@
     <color name="theme_red_1">#FFF7F4</color>
     <color name="theme_orange">#F8B464</color>
 
+    <color name="theme_red_4">#E85151</color>
+    <color name="theme_red_5">#ECB5B5</color>
+
 </resources>

@@ -5,8 +5,9 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import com.lok.dev.commonBase.R
+import com.lok.dev.commonmodel.state.AnimationState
+import com.lok.dev.commonutil.animFragment
+import com.lok.dev.commonutil.convertDpToPx
 
 abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity() {
 
@@ -55,27 +56,6 @@ abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity() {
         transaction.commitAllowingStateLoss()
     }
 
-    private fun animFragment(transaction: FragmentTransaction, animation: AnimationState) {
-        when (animation) {
-            AnimationState.None -> Unit
-            AnimationState.Left -> {
-                transaction.setCustomAnimations(R.anim.left_in, R.anim.left_out)
-            }
-            AnimationState.Right -> {
-                transaction.setCustomAnimations(R.anim.right_in, R.anim.right_out)
-            }
-            AnimationState.Up -> {
-                transaction.setCustomAnimations(R.anim.push_up_in, R.anim.push_up_out)
-            }
-            AnimationState.Down -> {
-                transaction.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out)
-            }
-            AnimationState.Fade -> {
-                transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            }
-        }
-    }
-
     fun removeFragment(fragment: Fragment?, animation: AnimationState = AnimationState.None) {
         if (fragment == null) return
 
@@ -85,12 +65,5 @@ abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity() {
         transaction.commitAllowingStateLoss()
     }
 
-    sealed interface AnimationState {
-        object None : AnimationState
-        object Left : AnimationState
-        object Right : AnimationState
-        object Up : AnimationState
-        object Down : AnimationState
-        object Fade : AnimationState
-    }
+    val Number.dp: Int get() = convertDpToPx(this.toFloat()).toInt()
 }

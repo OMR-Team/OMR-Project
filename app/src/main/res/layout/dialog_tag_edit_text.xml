@@ -33,7 +33,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/tag_add_header" />
+                tools:text="@string/tag_edit_text_add" />
 
             <EditText
                 android:id="@+id/etTag"

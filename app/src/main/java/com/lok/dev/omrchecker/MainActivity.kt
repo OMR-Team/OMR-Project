@@ -24,7 +24,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initActivity(savedInstanceState: Bundle?) {
-        //addOmrListFragment()
+//        addOmrListFragment()
         startOmrActivity()
         //addTestFragment()
     }

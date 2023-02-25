@@ -1,17 +1,15 @@
 package com.lok.dev.omrchecker.subject
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseActivity
 import com.lok.dev.commonbase.util.launchConfirmDialog
-import com.lok.dev.commonbase.util.launchDialogFragment
+import com.lok.dev.commonmodel.state.AnimationState
 import com.lok.dev.commonutil.collect
 import com.lok.dev.commonutil.onResult
-import com.lok.dev.commonutil.px
 import com.lok.dev.commonutil.throttleFirst
 import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
@@ -64,13 +62,13 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
 
         progressState.onResult(lifecycleScope) { progress ->
             binding.progressProblemBar.updateLayoutParams {
-                width = (progress.toDouble() / viewModel.problemNum * 100).px(applicationContext)
+                width = (progress.toDouble() / viewModel.problemNum * 100).dp
             }
         }
 
         answerProgressState.onResult(lifecycleScope) { progress ->
             binding.progressAnswerBar.updateLayoutParams {
-                width = (progress.toDouble() / viewModel.answerNum * 100).px(applicationContext)
+                width = (progress.toDouble() / viewModel.answerNum * 100).dp
             }
 
         }

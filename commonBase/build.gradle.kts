@@ -19,4 +19,5 @@ dependencies {
     implementation(libs.bundles.junit)
 
     implementation(project(":commonUtil"))
+    implementation(project(":commonModel"))
 }

@@ -119,6 +119,6 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
         this.setOnClickListener { onDialogBackPressed() }
     }
 
-    val Number.dp: Float get() = requireContext().convertDpToPx(this.toFloat())
+    val Number.dp: Int get() = requireContext().convertDpToPx(this.toFloat()).toInt()
 
 }
