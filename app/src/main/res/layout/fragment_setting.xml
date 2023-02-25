@@ -46,9 +46,9 @@
 
                 <ImageView
                     android:id="@+id/btnSubjectPlus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_subject_plus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_oval_black7"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,11 +56,20 @@
                     android:id="@+id/txtSubjectTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="새 과목 만들기"
+                    android:layout_marginStart="10dp"
+                    android:hint="새 과목 만들기"
+                    android:textColorHint="@color/theme_black_3"
                     app:layout_constraintBottom_toBottomOf="@id/btnSubjectPlus"
                     app:layout_constraintStart_toEndOf="@id/btnSubjectPlus"
                     app:layout_constraintTop_toTopOf="@id/btnSubjectPlus" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ico_arrow_right"
+                    app:layout_constraintStart_toEndOf="@id/txtSubjectTitle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
