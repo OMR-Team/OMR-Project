@@ -49,8 +49,9 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         // 임시저장일때는 임시저장했던 리스트를 가져와서 array 를 만들어줘야하고
         // 임시저장이 아닐때는 그냥 만들어주면 된다.
         val test = arrayListOf<ProblemTable>()
+        val answerList = List(viewModel.answerNum){ 0 }
         for (i in 0 until viewModel.problemNum) {
-            test.add(ProblemTable(i, 0, i + 1, listOf(0, 0, 0, 0, 0)))
+            test.add(ProblemTable(i, 0, i + 1, answerList))
         }
         viewModel.changeOmrInput(test)
 

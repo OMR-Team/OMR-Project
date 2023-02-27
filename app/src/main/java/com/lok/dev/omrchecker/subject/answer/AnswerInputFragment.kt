@@ -32,8 +32,9 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
 
         // TODO 확인용 임시 데이터
         val test = arrayListOf<AnswerTable>()
-        for (i in 0 until omrViewModel.answerNum) {
-            test.add(AnswerTable(i, i+1, listOf(0, 0, 0, 0, 0), 0.0))
+        val answerList = List(omrViewModel.answerNum){ 0 }
+        for (i in 0 until omrViewModel.problemNum) {
+            test.add(AnswerTable(i, i+1, answerList, 0.0))
         }
         omrViewModel.changeAnswerInput(test)
 
@@ -71,7 +72,7 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
     }
 
     private fun setBody() = with(binding) {
-        val text = String.format(getString(R.string.omr_input_cnt), 0, omrViewModel.answerNum)
+        val text = String.format(getString(R.string.omr_input_cnt), 0, omrViewModel.problemNum)
         binding.omrAnswerCnt.text = requireActivity().getChangeTextStyle(text, "0", R.color.theme_red)
     }
 }
