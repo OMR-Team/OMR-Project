@@ -15,11 +15,12 @@ import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonutil.onResult
 import com.lok.dev.commonutil.showToast
 import com.lok.dev.commonutil.throttleFirstClick
+import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.DialogScoreInputBinding
 import com.lok.dev.omrchecker.subject.OmrViewModel
 
-class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, Unit>() {
+class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<AnswerTable>>() {
 
     override fun createFragmentBinding(
         inflater: LayoutInflater,
@@ -38,7 +39,6 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, Unit>() {
         adapter?.set(omrViewModel.answerInput.value)
         viewModel.scoreInputList = omrViewModel.answerInput.value.toMutableList()
 
-        // TODO 확인 버튼 누르면 adapter 의 리스트 가져와서 db 에 저장
         setClickListeners()
     }
 
@@ -63,7 +63,7 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, Unit>() {
         }
 
         throttleFirstClick(btnComplete) {
-            Log.d("123123123", "완료 버튼 눌림")
+            setResultOnDismiss(adapter?.adapterList ?: mutableListOf())
         }
 
         throttleFirstClick(scoreEraseAll) {

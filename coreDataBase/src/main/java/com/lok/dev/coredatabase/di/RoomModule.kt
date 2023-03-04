@@ -2,9 +2,7 @@ package com.lok.dev.coredatabase.di
 
 import android.content.Context
 import androidx.room.Room
-import com.lok.dev.coredatabase.dao.OMRDao
-import com.lok.dev.coredatabase.dao.SubjectDao
-import com.lok.dev.coredatabase.dao.TagDao
+import com.lok.dev.coredatabase.dao.*
 import com.lok.dev.coredatabase.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -40,4 +38,12 @@ object RoomModule {
     @Singleton
     @Provides
     fun provideSubjectDao(appDatabase: AppDatabase) : SubjectDao = appDatabase.getSubjectDao()
+
+    @Singleton
+    @Provides
+    fun provideProblemDao(appDatabase: AppDatabase) : ProblemDao = appDatabase.getProblemDao()
+
+    @Singleton
+    @Provides
+    fun provideAnswerDao(appDatabase: AppDatabase) : AnswerDao = appDatabase.getAnswerDao()
 }

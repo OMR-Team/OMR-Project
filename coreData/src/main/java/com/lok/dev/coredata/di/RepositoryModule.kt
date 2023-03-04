@@ -12,16 +12,26 @@ interface RepositoryModule {
 
     @Binds
     fun bindsOMRDatabaseRepository(
-        omrDatabaseRepository : OMRDatabaseRepositoryImpl
-    ) : OMRDatabaseRepository
+        omrDatabaseRepository: OMRDatabaseRepositoryImpl
+    ): OMRDatabaseRepository
 
     @Binds
     fun bindsTagDatabaseRepository(
-        tagDatabaseRepository : TagDatabaseRepositoryImpl
-    ) : TagDatabaseRepository
+        tagDatabaseRepository: TagDatabaseRepositoryImpl
+    ): TagDatabaseRepository
 
     @Binds
     fun bindsSubjectDatabaseRepository(
         subjectDatabaseRepository: SubjectDatabaseRepositoryImpl
-    ) : SubjectDatabaseRepository
+    ): SubjectDatabaseRepository
+
+    @Binds
+    fun bindsProblemDatabaseRepository(
+        problemDatabaseRepository: ProblemDatabaseRepositoryImpl
+    ): ProblemDatabaseRepository
+
+    @Binds
+    fun bindsAnswerDatabaseRepository(
+        answerDatabaseRepository: AnswerDatabaseRepositoryImpl
+    ): AnswerDatabaseRepository
 }
