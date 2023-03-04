@@ -8,16 +8,15 @@ import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonmodel.state.SubjectState
 import com.lok.dev.commonutil.onUiState
-import com.lok.dev.commonutil.setDividerItemDecorationHeight
 import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.databinding.FragmentSubjectListBinding
 import com.lok.dev.omrchecker.setting.adapter.SubjectListAdapter
-import com.lok.dev.omrchecker.setting.viewmodel.SettingViewModel
+import com.lok.dev.omrchecker.setting.viewmodel.SubjectViewModel
 import javax.inject.Inject
 
 class SubjectListFragment @Inject constructor() : BaseFragment<FragmentSubjectListBinding>() {
 
-    private val viewModel by activityViewModels<SettingViewModel>()
+    private val viewModel by activityViewModels<SubjectViewModel>()
 
     private val subjectListAdapter by lazy {
         SubjectListAdapter(requireContext(), itemClick)
@@ -39,7 +38,6 @@ class SubjectListFragment @Inject constructor() : BaseFragment<FragmentSubjectLi
 
     private fun setAdapter() {
         binding.rvSubjectList.adapter = subjectListAdapter
-        binding.rvSubjectList.setDividerItemDecorationHeight()
     }
 
     private fun addListeners() = with(binding) {
@@ -60,7 +58,7 @@ class SubjectListFragment @Inject constructor() : BaseFragment<FragmentSubjectLi
     }
 
     private val itemClick: (SubjectTable) -> Unit = {
-        viewModel.setSubject(it)
+        viewModel.subjectData = it
         viewModel.setSubjectState(SubjectState.Exit)
     }
 

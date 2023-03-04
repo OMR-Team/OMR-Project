@@ -6,23 +6,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
-import com.lok.dev.commonutil.convertDpToPx
-import com.lok.dev.commonutil.onResult
-import com.lok.dev.commonutil.throttleFirstClick
+import com.lok.dev.commonmodel.CommonConstants
+import com.lok.dev.commonutil.*
+import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentSettingBinding
 import com.lok.dev.omrchecker.setting.subject.SubjectDialog
 import com.lok.dev.omrchecker.setting.viewmodel.SettingViewModel
 import com.lok.dev.omrchecker.subject.OmrActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingDialog @Inject constructor() : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
+class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
 
     companion object {
         const val OMR_SUBJECT_NAME = "subjectName"
@@ -31,10 +31,7 @@ class SettingDialog @Inject constructor() : BaseDialogFragment<FragmentSettingBi
         const val OMR_ANSWER_NUM = "answerNum"
     }
 
-    private val viewModel by activityViewModels<SettingViewModel>()
-
-    @Inject
-    lateinit var subjectDialog: SubjectDialog
+    private val viewModel by viewModels<SettingViewModel>()
 
     override fun createFragmentBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSettingBinding.inflate(layoutInflater, container, false)
@@ -67,7 +64,7 @@ class SettingDialog @Inject constructor() : BaseDialogFragment<FragmentSettingBi
         }
 
         throttleFirstClick(txtTestStart) {
-            val subjectName = viewModel.subject.value.name
+            val subjectName = viewModel.subjectData.value.name
             val testName = etTitle.text.toString()
             val problemNum = etProblemNum.text.toString().toInt()
             val selectNum = spinner.selectedItem.toString().replace("개", "").toInt()
@@ -77,18 +74,43 @@ class SettingDialog @Inject constructor() : BaseDialogFragment<FragmentSettingBi
             startOmrActivity(subjectName, testName, problemNum, selectNum)
             dismiss()
         }
+
+        throttleFirstClick(chipTag) {
+            launchDialogFragment(
+                dialogFragment = TagDialog(),
+                bottomSlideAnimation = true
+            )
+        }
+
+        etTitle.addTextChangedListener {
+            setEnableAddOmr()
+        }
+
+        etProblemNum.addTextChangedListener {
+            setEnableAddOmr()
+        }
     }
 
     private fun collectViewModel() = with(viewModel) {
-        subject.onResult(viewLifecycleOwner.lifecycleScope) {
+        subjectData.onResult(viewLifecycleOwner.lifecycleScope) {
+            AppConfig.folderData.firstOrNull { data -> data.id == it.folderId }?.let { data ->
+                binding.btnSubjectPlus.setImageResource(requireContext().getDrawableString("folder_${data.fileName}"))
+            }
+
             binding.txtSubjectTitle.text = it.name
+            setEnableAddOmr()
         }
     }
 
     private fun showSubjectDialog() {
         launchDialogFragment(
-            dialogFragment = subjectDialog,
-            bottomSlideAnimation = true
+            dialogFragment = SubjectDialog(),
+            bottomSlideAnimation = true,
+            result = {
+                it?.safeParcelable<SubjectTable>(CommonConstants.BUNDLE_SUBJECT_DATA)?.let { subject ->
+                    viewModel.setSubject(subject)
+                }
+            }
         )
     }
 
@@ -104,5 +126,16 @@ class SettingDialog @Inject constructor() : BaseDialogFragment<FragmentSettingBi
             )
         )
         startActivity(intent)
+    }
+
+    private fun setEnableAddOmr() {
+        val problemNum = binding.etProblemNum.text.toString()
+        binding.txtTestStart.isEnabled = (
+                viewModel.subjectData.value.id != 0
+                        && binding.etTitle.text.isNotEmpty()
+                        && problemNum.isNotEmpty()
+                        && problemNum.toInt() > CommonConstants.PROBLEM_NUM_MIN
+                        && problemNum.toInt() <= CommonConstants.PROBLEM_NUM_MAX
+                )
     }
 }
