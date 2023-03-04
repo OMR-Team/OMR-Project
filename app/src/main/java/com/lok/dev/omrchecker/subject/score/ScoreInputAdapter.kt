@@ -2,6 +2,8 @@ package com.lok.dev.omrchecker.subject.score
 
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -37,22 +39,31 @@ class ScoreInputAdapter(
             if(data.score != 0.0) editScore.setText(data.score.toString())
             else editScore.setText("")
 
-            editScore.setTextWatcher { score ->
+            editScore.removeTextChangedListener(textWatcher)
+            editScore.addTextChangedListener(textWatcher)
+
+            // TODO double 형으로 되어서 마지막 소수점 나오는 현상 해결 필요
+        }
+
+        private val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+            override fun afterTextChanged(s: Editable?) {
+                val score = s.toString()
                 val modScore = when {
                     score.isEmpty() -> 0.0
                     score.last() == '.' -> score.replace(".", "").toDouble()
                     else -> score.toDouble()
                 }
-                changeData(position, data, modScore.toString())
-                scoreChange.invoke(Pair(data.no, modScore))
+                changeData(adapterPosition, adapterList[adapterPosition], modScore.toString())
+                scoreChange.invoke(Pair(adapterList[adapterPosition].no, modScore))
             }
-
-            // TODO double 형으로 되어서 마지막 소수점 나오는 현상 해결 필요
         }
+
 
         private fun changeData(position: Int, data: AnswerTable, score: String) {
             adapterList[position] = data.copy(score = score.toDouble())
         }
-
     }
+
 }

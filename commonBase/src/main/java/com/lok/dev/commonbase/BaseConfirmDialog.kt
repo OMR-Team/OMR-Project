@@ -6,8 +6,7 @@ import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.lok.dev.commonBase.R
 
-abstract class BaseConfirmDialog<Binding : ViewDataBinding, Result> :
-    BaseDialogFragment<Binding, Result>() {
+abstract class BaseConfirmDialog<Binding : ViewDataBinding, Result> : BaseDialogFragment<Binding, Result>() {
 
     init {
         dimBehind = true

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +13,10 @@ import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonmodel.CommonConstants
 import com.lok.dev.commonutil.*
 import com.lok.dev.coredatabase.entity.SubjectTable
+import com.lok.dev.commonutil.convertDpToPx
+import com.lok.dev.commonutil.onResult
+import com.lok.dev.commonutil.throttleFirstClick
+import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentSettingBinding
 import com.lok.dev.omrchecker.setting.subject.SubjectDialog
@@ -23,13 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
-
-    companion object {
-        const val OMR_SUBJECT_NAME = "subjectName"
-        const val OMR_TEST_NAME = "testName"
-        const val OMR_PROBLEM_NUM = "problemNum"
-        const val OMR_ANSWER_NUM = "answerNum"
-    }
 
     private val viewModel by viewModels<SettingViewModel>()
 
@@ -64,15 +60,13 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
         }
 
         throttleFirstClick(txtTestStart) {
-            val subjectName = viewModel.subjectData.value.name
             val testName = etTitle.text.toString()
             val problemNum = etProblemNum.text.toString().toInt()
             val selectNum = spinner.selectedItem.toString().replace("개", "").toInt()
-            viewModel.addOmrTest(testName, problemNum, selectNum) {
-                it
+            viewModel.addOmrTest(testName, problemNum, selectNum) { omrTable ->
+                startOmrActivity(omrTable)
+                dismiss()
             }
-            startOmrActivity(subjectName, testName, problemNum, selectNum)
-            dismiss()
         }
 
         throttleFirstClick(chipTag) {
@@ -114,18 +108,12 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
         )
     }
 
-    private fun startOmrActivity(subjectName: String, testName: String, problemNum: Int, selectNum: Int) {
+    private fun startOmrActivity(omrTable: OMRTable) {
         val intent = Intent(requireContext(), OmrActivity::class.java)
-        intent.putExtras(
-            bundleOf (
-                "type" to "omr",
-                OMR_SUBJECT_NAME to subjectName,
-                OMR_TEST_NAME to testName,
-                OMR_PROBLEM_NUM to problemNum,
-                OMR_ANSWER_NUM to selectNum
-            )
-        )
-        startActivity(intent)
+        intent.putExtras(Bundle().apply {
+            putParcelable("omrTable", omrTable)
+        })
+        this.startActivity(intent)
     }
 
     private fun setEnableAddOmr() {
@@ -138,4 +126,5 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
                         && problemNum.toInt() <= CommonConstants.PROBLEM_NUM_MAX
                 )
     }
+
 }

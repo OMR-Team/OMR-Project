@@ -1,9 +1,6 @@
 package com.lok.dev.coredatabase.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.lok.dev.coredatabase.entity.*
 import kotlinx.coroutines.flow.Flow
 import java.sql.SQLException
@@ -17,6 +14,9 @@ interface OMRDao {
     @Throws(SQLException::class)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addOMRTable(omrTable: OMRTable): Long
+
+    @Update
+    fun updateOMRTable(omrTable: OMRTable)
 
     @Query("SELECT * FROM SubjectTable")
     fun selectAllSubjectTable(): Flow<SubjectTable>

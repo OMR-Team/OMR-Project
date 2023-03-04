@@ -11,5 +11,5 @@ data class AnswerTable(
     val id : Int = 0,
     val no: Int = 0,
     @ColumnInfo(name = "answer") val answer : List<Int> = listOf(),
-    @ColumnInfo(name = "score") val score: Double = 0.0
+    @ColumnInfo(name = "score") val score: Double? = null
 )
