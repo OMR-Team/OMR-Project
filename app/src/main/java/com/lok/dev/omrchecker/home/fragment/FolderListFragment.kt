@@ -1,17 +1,119 @@
 package com.lok.dev.omrchecker.home.fragment
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lok.dev.commonbase.BaseFragment
+import com.lok.dev.commonbase.util.launchDialogFragment
+import com.lok.dev.commonmodel.state.FolderState
+import com.lok.dev.commonutil.onResult
+import com.lok.dev.commonutil.onUiState
+import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentFolderListBinding
+import com.lok.dev.omrchecker.home.adapter.FolderListAdapter
+import com.lok.dev.omrchecker.home.viewmodel.FolderListViewModel
+import com.lok.dev.omrchecker.setting.SettingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderListBinding>() {
+
+    private val viewModel: FolderListViewModel by viewModels()
+    private val listAdapter by lazy { FolderListAdapter(requireContext()) }
+
     override fun createFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentFolderListBinding = FragmentFolderListBinding.inflate(inflater, container, false)
 
+    override fun initFragment() {
+        initView()
+        addListeners()
+        collectViewModel()
+        viewModel.getFolderList()
+    }
+
+    private fun initView() = with(binding) {
+    }
+
+    private fun addListeners() = with(binding) {
+        btnFolder.setOnClickListener {
+            when (it.tag) {
+                FolderState.GRID_2.ordinal -> {
+                    viewModel.updateFolderState(FolderState.GRID_3.ordinal)
+                }
+                FolderState.GRID_3.ordinal -> {
+                    viewModel.updateFolderState(FolderState.LINEAR.ordinal)
+                }
+                FolderState.LINEAR.ordinal -> {
+                    viewModel.updateFolderState(FolderState.GRID_2.ordinal)
+                }
+            }
+        }
+
+        btnSetting.setOnClickListener {
+            addSettingFragment()
+        }
+
+        chipSort.setOnCloseIconClickListener {
+            showMenu(it)
+        }
+    }
+
+    private fun collectViewModel() = with(viewModel) {
+        folderState.onResult(viewLifecycleOwner.lifecycleScope) { ordinal ->
+            binding.btnFolder.tag = ordinal
+            val layoutManager = when (ordinal) {
+                FolderState.GRID_2.ordinal -> {
+                    GridLayoutManager(requireContext(), 2)
+                }
+                FolderState.GRID_3.ordinal -> {
+                    GridLayoutManager(requireContext(), 3)
+                }
+                FolderState.LINEAR.ordinal -> {
+                    LinearLayoutManager(requireContext())
+                }
+                else -> null
+            }
+            layoutManager?.let {
+                binding.rvFolder.layoutManager = it
+                binding.rvFolder.adapter = listAdapter
+                listAdapter.updateFolderState(ordinal)
+                listAdapter.notifyDataSetChanged()
+            }
+        }
+
+        subjectListData.onUiState(
+            viewLifecycleOwner.lifecycleScope,
+            error = {
+                Log.i(this::class.java.simpleName, it.printStackTrace().toString())
+            },
+            success = {
+                listAdapter.set(it)
+            }
+        )
+    }
+
+    private fun showMenu(view:View) {
+        PopupMenu(requireContext(), view).apply {
+            menuInflater.inflate(R.menu.menu_sort, menu)
+            setOnMenuItemClickListener { menuItem ->
+                true
+            }
+        }.show()
+    }
+
+    private fun addSettingFragment() {
+        launchDialogFragment(
+            dialogFragment = SettingDialog(),
+            fullScreen = true
+        )
+    }
+
 }
+

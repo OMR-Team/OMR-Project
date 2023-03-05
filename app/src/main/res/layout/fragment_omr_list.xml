@@ -35,7 +35,7 @@
                 style="@style/Theme.OMR.SubChip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sub_chip_sort"
+                android:text="@string/sort_newest"
                 app:closeIcon="@drawable/ico_drop_down"
                 app:closeIconEndPadding="0dp"
                 app:closeIconStartPadding="0dp"
@@ -72,19 +72,13 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSetting"
+            style="@style/Theme.OMR.FloatingButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
-            android:backgroundTint="@color/theme_blue_primary"
-            android:elevation="5dp"
-            android:foregroundGravity="center"
-            android:src="@drawable/ic_baseline_add_24"
-            app:borderWidth="0dp"
-            app:fabCustomSize="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/white" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

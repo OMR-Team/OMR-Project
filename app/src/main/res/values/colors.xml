@@ -25,6 +25,7 @@
     <color name="theme_blue_3">#F0F3FC</color>
     <color name="theme_blue_4">#F6F8FF</color>
     <color name="theme_blue_gray">#A0ABD2</color>
+    <color name="theme_blue_gradient">#EAEFFF</color>
 
     <color name="theme_navy">#3A4E89</color>
     <color name="theme_navy_1">#55689F</color>

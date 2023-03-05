@@ -14,5 +14,6 @@ dependencies {
     implementation(libs.bundles.junit)
 
     implementation(project(":commonModel"))
+    implementation("androidx.security:security-crypto-ktx:1.1.0-alpha03")
 
 }

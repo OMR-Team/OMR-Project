@@ -31,6 +31,21 @@
         <item name="closeIconVisible">false</item>
     </style>
 
+    <style name="Theme.OMR.FloatingButton" parent="Widget.Design.FloatingActionButton">
+        <item name="android:background">@drawable/bg_floating_button</item>
+        <item name="backgroundTint">@color/theme_blue_primary</item>
+        <item name="rippleColor">@color/theme_blue_1_m</item>
+        <item name="borderWidth">0dp</item>
+        <item name="android:foregroundGravity">center</item>
+        <item name="android:src">@drawable/ic_baseline_add_24</item>
+        <item name="fabCustomSize">50dp</item>
+        <item name="tint">@color/white</item>
+    </style>
+
+    <style name="Theme.OMR.PopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/bg_menu_sort</item>
+    </style>
+
     <!-- Dialog -->
     <style name="BottomSlideDialog">
         <item name="android:windowNoTitle">true</item>

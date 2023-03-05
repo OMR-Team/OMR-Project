@@ -99,11 +99,11 @@
             app:layout_constraintHorizontal_weight="3"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnChoose"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:background="@color/theme_blue_primary"
+            android:background="@color/selector_btn_right_tag_choose"
             android:enabled="false"
             android:text="@string/text_choose"
             android:textColor="@color/white"

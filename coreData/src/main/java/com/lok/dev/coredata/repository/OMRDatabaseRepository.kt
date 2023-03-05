@@ -7,10 +7,5 @@ interface OMRDatabaseRepository {
 
     fun getOMRTable(): Flow<List<OMRTable>>
     fun addOMRTable(omrTable: OMRTable): Long
-    fun getSubjectTable(): Flow<SubjectTable>
-    fun getTagTable(): Flow<TagTable>
-    fun getProblemTable(): Flow<ProblemTable>
-    fun getAnswerTable(): Flow<AnswerTable>
-    fun getHistoryTable(): Flow<HistoryTable>
 
 }

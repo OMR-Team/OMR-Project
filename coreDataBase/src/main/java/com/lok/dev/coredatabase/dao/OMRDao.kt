@@ -18,19 +18,4 @@ interface OMRDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addOMRTable(omrTable: OMRTable): Long
 
-    @Query("SELECT * FROM SubjectTable")
-    fun selectAllSubjectTable(): Flow<SubjectTable>
-
-    @Query("SELECT * FROM TagTable")
-    fun selectAllTagTable(): Flow<TagTable>
-
-    @Query("SELECT * FROM ProblemTable")
-    fun selectAllProblemTable(): Flow<ProblemTable>
-
-    @Query("SELECT * FROM AnswerTable")
-    fun selectAllAnswerTable(): Flow<AnswerTable>
-
-    @Query("SELECT * FROM HistoryTable")
-    fun selectAllHistoryTable(): Flow<HistoryTable>
-
 }

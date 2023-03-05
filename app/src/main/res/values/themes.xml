@@ -15,6 +15,8 @@
         <!-- Custom Theme -->
         <item name="chipStyle">@style/Theme.OMR.TagChip</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="floatingActionButtonStyle">@style/Theme.OMR.FloatingButton</item>
+        <item name="popupMenuStyle">@style/Theme.OMR.PopupMenu</item>
 
         <!-- Text Theme -->
         <item name="android:textSize">15dp</item>
