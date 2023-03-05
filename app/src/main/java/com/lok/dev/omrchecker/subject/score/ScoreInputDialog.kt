@@ -19,6 +19,7 @@ import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.DialogScoreInputBinding
 import com.lok.dev.omrchecker.subject.OmrViewModel
+import com.lok.dev.omrchecker.subject.answer.AnswerInputViewModel
 
 class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<AnswerTable>>() {
 
@@ -30,14 +31,15 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<Answer
     private var adapter : ScoreInputAdapter? = null
 
     private val viewModel: ScoreInputViewModel by viewModels()
+    private val answerViewModel : AnswerInputViewModel by viewModels({requireParentFragment()})
     private val omrViewModel : OmrViewModel by activityViewModels()
 
     override fun initDialogFragment(savedInstanceState: Bundle?) {
 
         collectViewModel()
         initAdapter()
-        adapter?.set(omrViewModel.answerInput.value)
-        viewModel.scoreInputList = omrViewModel.answerInput.value.toMutableList()
+        adapter?.set(answerViewModel.answerList)
+        viewModel.scoreInputList.addAll(answerViewModel.answerList)
 
         setClickListeners()
     }
@@ -49,7 +51,7 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<Answer
     }
 
     private fun initAdapter() = with(binding) {
-        adapter = ScoreInputAdapter(requireContext()) {scoreData ->
+        adapter = ScoreInputAdapter(requireContext(), lifecycleScope) {scoreData ->
             viewModel.updateScore(scoreData)
         }
         scoreList.layoutManager = GridLayoutManager(requireContext(), 5)

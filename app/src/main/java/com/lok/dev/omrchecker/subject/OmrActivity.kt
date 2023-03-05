@@ -10,7 +10,6 @@ import com.lok.dev.commonbase.util.launchConfirmDialog
 import com.lok.dev.commonmodel.state.AnimationState
 import com.lok.dev.commonutil.*
 import com.lok.dev.coredatabase.entity.OMRTable
-import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ActivityOmrBinding
 import com.lok.dev.omrchecker.dialog.TitleConfirmDialog
@@ -21,6 +20,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OmrActivity : BaseActivity<ActivityOmrBinding>() {
+
+    companion object {
+        const val PAGE_DEFAULT = 0
+        const val PAGE_OMR_INPUT = 1
+        const val PAGE_ANSWER_INPUT = 2
+        const val PAGE_RESULT = 3
+    }
 
     private val viewModel: OmrViewModel by viewModels()
 
@@ -35,7 +41,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         getExtra()
         collectViewModel()
         setClickListeners()
-        setBody()
+        setScreen()
     }
 
     private fun collectViewModel() = with(viewModel) {
@@ -76,24 +82,10 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
     }
 
     private fun getExtra() {
-
-        // TODO 임시저장인지 아닌지 가져오기
-
         intent.getParcelableExtra<OMRTable>("omrTable")?.let {
             viewModel.tableData = it
+            viewModel.isTemp = it.isTemp
         } ?: showErrorDialog()
-
-        when (intent.getStringExtra("type")) {
-            "omr" -> {
-                viewModel.changeScreenState(OmrState.OmrScreen)
-            }
-            "answer" -> {
-                viewModel.changeScreenState(OmrState.AnswerScreen)
-            }
-            "result" -> {
-                viewModel.changeScreenState(OmrState.ResultScreen)
-            }
-        }
     }
 
     private fun showErrorDialog() {
@@ -116,11 +108,11 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         }
 
         throttleFirstClick(nextBtn) {
-            when(viewModel.screenState.value) {
-                OmrState.OmrScreen -> {
+            when(getPresentFragmentName(R.id.omrFragment)) {
+                OmrInputFragment::class.java.simpleName -> {
                     showProblemConfirmDialog()
                 }
-                OmrState.AnswerScreen -> {
+                AnswerInputFragment::class.java.simpleName -> {
                     showAnswerConfirmDialog()
                 }
                 else -> {
@@ -130,7 +122,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         }
 
         throttleFirstClick(homeBtn) {
-
+            finish()
         }
 
 
@@ -146,7 +138,9 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             },
             result = {
                 viewModel.saveInputData()
-                viewModel.updateOMRTable(true)
+                val tempPage = if(getPresentFragmentName(R.id.omrFragment) == OmrInputFragment::class.java.simpleName) PAGE_OMR_INPUT
+                else PAGE_ANSWER_INPUT
+                viewModel.updateOMRTable(true, tempPage)
                 finish()
             },
             cancel = {
@@ -185,6 +179,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             },
             result = {
                 viewModel.saveInputData()
+                viewModel.updateOMRTable(false, PAGE_RESULT)
                 viewModel.changeScreenState(OmrState.ResultScreen)
             }
         )
@@ -211,19 +206,31 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
                 binding.answerAni.visibility = View.VISIBLE
                 binding.answerAni.playAnimation()
                 binding.btnBack.visible(false)
+                binding.nextBtn.visible(false)
                 binding.homeBtn.visible(true)
                 binding.resultCheck.setImageResource(R.drawable.resultcheck_complete)
-                // TODO 결과창으로 바로 오는건지 아니면 문제 다 입력하고 채점하는지에 따라 updateOMRTable 함수 태워주기
-                // viewModel.updateOMRTable(false)
             }
         }
     }
 
-    private fun setBody() = with(binding) {
+    private fun setScreen() = with(binding) {
         testName.text = viewModel.tableData.title
         subjectName.text = viewModel.tableData.subject.name
-        if(viewModel.isTemp) viewModel.getProblemTable()
-        else viewModel.makeProblemTable()
+        val data = viewModel.tableData
+        when {
+            data.isTemp && data.page == PAGE_OMR_INPUT -> {
+                viewModel.changeScreenState(OmrState.OmrScreen)
+            }
+            data.isTemp && data.page == PAGE_ANSWER_INPUT -> {
+                viewModel.changeScreenState(OmrState.AnswerScreen)
+            }
+            !data.isTemp && data.page == PAGE_RESULT -> {
+                viewModel.changeScreenState(OmrState.ResultScreen)
+            }
+            else -> {
+                viewModel.changeScreenState(OmrState.OmrScreen)
+            }
+        }
     }
 
     sealed interface OmrState {

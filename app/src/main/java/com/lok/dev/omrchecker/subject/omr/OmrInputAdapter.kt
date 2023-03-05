@@ -8,6 +8,7 @@ import android.widget.GridLayout
 import android.widget.GridLayout.spec
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.coredatabase.entity.ProblemTable
@@ -17,8 +18,9 @@ import com.lok.dev.omrchecker.databinding.ItemOmrInputBinding
 
 class OmrInputAdapter(
     private val context: Context,
+    lifecycleCoroutineScope: LifecycleCoroutineScope,
     private val onClick: (Pair<Boolean, Int>) -> Unit
-) : BaseAdapter<ItemOmrInputBinding, ProblemTable>() {
+) : BaseAdapter<ItemOmrInputBinding, ProblemTable>(lifecycleCoroutineScope) {
 
     override fun getBinding(parent: ViewGroup, viewType: Int) = ViewHolder(
         ItemOmrInputBinding.inflate(

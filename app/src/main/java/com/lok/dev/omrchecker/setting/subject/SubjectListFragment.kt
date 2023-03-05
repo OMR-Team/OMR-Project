@@ -19,7 +19,7 @@ class SubjectListFragment @Inject constructor() : BaseFragment<FragmentSubjectLi
     private val viewModel by activityViewModels<SubjectViewModel>()
 
     private val subjectListAdapter by lazy {
-        SubjectListAdapter(requireContext(), itemClick)
+        SubjectListAdapter(requireContext(), viewLifecycleOwner.lifecycleScope, itemClick)
     }
 
     override val enableBackPressed = false
