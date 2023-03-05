@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 plugins {
     id("omr.android.library")
     id("omr.android.hilt")
+    id("kotlin-parcelize")
 }
 
 android {

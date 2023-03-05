@@ -1,9 +1,12 @@
 package com.lok.dev.coredatabase.entity
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity
 data class OMRTable(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,
@@ -16,4 +19,4 @@ data class OMRTable(
     @ColumnInfo(name = "tag") val tag: List<Int> = listOf(),
     @ColumnInfo(name = "isTemp") val isTemp: Boolean = false,
     @ColumnInfo(name = "updateDate") val updateDate: Long = System.currentTimeMillis(),
-)
+): Parcelable

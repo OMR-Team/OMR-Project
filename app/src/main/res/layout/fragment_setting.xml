@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/Theme.OMRChecker"
@@ -46,21 +47,32 @@
 
                 <ImageView
                     android:id="@+id/btnSubjectPlus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_subject_plus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_oval_black7"
+                    android:padding="5dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/folder_teddybear" />
 
                 <TextView
                     android:id="@+id/txtSubjectTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="새 과목 만들기"
+                    android:layout_marginStart="10dp"
+                    android:hint="새 과목 만들기"
+                    android:textColorHint="@color/theme_black_3"
                     app:layout_constraintBottom_toBottomOf="@id/btnSubjectPlus"
                     app:layout_constraintStart_toEndOf="@id/btnSubjectPlus"
                     app:layout_constraintTop_toTopOf="@id/btnSubjectPlus" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ico_arrow_right"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/txtSubjectTitle"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -80,8 +92,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center_vertical"
                 android:hint="제목을 입력하세요."
-                android:paddingVertical="15dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
                 android:textColorHint="#d8d8e0"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -116,10 +131,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_edittext"
+                        android:gravity="center_vertical"
                         android:hint="1~1000"
                         android:inputType="number"
                         android:maxLength="4"
-                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
                         android:textColorHint="#d8d8e0"
                         android:textSize="18dp" />
 
@@ -171,6 +189,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tvTag">
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTag"
                     style="@style/Theme.OMR.SubChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -184,7 +203,8 @@
             android:id="@+id/txtTestStart"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/theme_blue_primary"
+            android:background="@color/selector_setting_btn_add_omr"
+            android:enabled="false"
             android:gravity="center"
             android:text="테스트 시작"
             android:textColor="@color/white"
@@ -192,7 +212,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutBody" />
+            app:layout_constraintTop_toBottomOf="@id/layoutBody"
+            tools:background="@color/theme_blue_primary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

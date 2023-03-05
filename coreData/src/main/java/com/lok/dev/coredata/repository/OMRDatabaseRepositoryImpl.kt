@@ -10,4 +10,5 @@ class OMRDatabaseRepositoryImpl @Inject constructor(
 ) : OMRDatabaseRepository {
     override fun getOMRTable(): Flow<List<OMRTable>> = omrDao.selectAllOMRTable()
     override fun addOMRTable(omrTable: OMRTable): Long = omrDao.addOMRTable(omrTable)
+    override fun updateOMRTable(omrTable: OMRTable) = omrDao.updateOMRTable(omrTable)
 }

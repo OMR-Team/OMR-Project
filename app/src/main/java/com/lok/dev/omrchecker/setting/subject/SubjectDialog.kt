@@ -3,23 +3,26 @@ package com.lok.dev.omrchecker.setting.subject
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseDialogFragment
+import com.lok.dev.commonmodel.CommonConstants
 import com.lok.dev.commonmodel.state.SubjectState
 import com.lok.dev.commonutil.addFragment
 import com.lok.dev.commonutil.onResult
-import com.lok.dev.commonutil.replaceFragment
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.DialogSubjectBinding
-import com.lok.dev.omrchecker.setting.viewmodel.SettingViewModel
+import com.lok.dev.omrchecker.setting.viewmodel.SubjectViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SubjectDialog : BaseDialogFragment<DialogSubjectBinding, Bundle>() {
 
-    private val viewModel by activityViewModels<SettingViewModel>()
+    private val viewModel by activityViewModels<SubjectViewModel>()
+
+    var state = SubjectState.List
 
     init {
         dimBehind = true
@@ -37,17 +40,19 @@ class SubjectDialog : BaseDialogFragment<DialogSubjectBinding, Bundle>() {
     override fun initDialogFragment(savedInstanceState: Bundle?) {
         addListeners()
         collectViewModel()
-        viewModel.setSubjectState(SubjectState.Select)
+        viewModel.setSubjectState(state)
     }
 
     private fun addListeners() = with(binding) {
-        container.backgroundTouchDismiss()
+        container.setOnClickListener {
+            dismiss()
+        }
     }
 
     private fun collectViewModel() = with(viewModel) {
         subjectState.onResult(lifecycleScope) {
             when(it) {
-                SubjectState.Select -> {
+                SubjectState.List -> {
                     if(childFragmentManager.backStackEntryCount > 1) {
                         childFragmentManager.popBackStack()
                     } else {
@@ -57,10 +62,10 @@ class SubjectDialog : BaseDialogFragment<DialogSubjectBinding, Bundle>() {
                 SubjectState.Add -> {
                     addFragment(R.id.containerSubject, SubjectAddFragment(), childFragmentManager, true)
                 }
-                SubjectState.Edit -> {
-                    addFragment(R.id.containerSubject, SubjectEditFragment(), childFragmentManager, true)
+                SubjectState.Exit -> {
+                    result?.invoke(bundleOf(CommonConstants.BUNDLE_SUBJECT_DATA to viewModel.subjectData))
+                    dismiss()
                 }
-                SubjectState.Exit -> dismiss()
                 else -> {}
             }
         }

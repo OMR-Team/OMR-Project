@@ -12,6 +12,7 @@
         <item name="android:windowBackground">@color/white</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="colorControlHighlight">@color/theme_blue_3</item>
         <!-- Custom Theme -->
         <item name="chipStyle">@style/Theme.OMR.TagChip</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
