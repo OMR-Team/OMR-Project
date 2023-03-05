@@ -3,6 +3,7 @@ package com.lok.dev.omrchecker.home.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.coredatabase.entity.TagTable
@@ -10,9 +11,10 @@ import com.lok.dev.omrchecker.databinding.ItemEditTagBinding
 
 class TagEditListAdapter(
     private val context: Context,
+    lifecycleCoroutineScope: LifecycleCoroutineScope,
     private val onChecked: (Boolean, Int) -> Unit,
     private val onLongClicked: (Int) -> Unit
-) : BaseAdapter<ItemEditTagBinding, TagTable>() {
+) : BaseAdapter<ItemEditTagBinding, TagTable>(lifecycleCoroutineScope) {
 
     override fun getBinding(parent: ViewGroup, viewType: Int): BaseViewHolder<ItemEditTagBinding> =
         EditTagViewHolder(

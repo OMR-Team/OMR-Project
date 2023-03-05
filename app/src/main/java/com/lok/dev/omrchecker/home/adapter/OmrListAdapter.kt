@@ -4,15 +4,19 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
+import com.lok.dev.commonutil.throttleFirst
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemOmrListBinding
 
 class OmrListAdapter(
-    private val context: Context
-) : BaseAdapter<ItemOmrListBinding, OMRTable>() {
+    private val context: Context,
+    lifecycleCoroutineScope: LifecycleCoroutineScope,
+    private val onClick: (OMRTable) -> Unit
+) : BaseAdapter<ItemOmrListBinding, OMRTable>(lifecycleCoroutineScope) {
 
     override fun getBinding(parent: ViewGroup, viewType: Int): BaseViewHolder<ItemOmrListBinding> =
         ItemOmrListViewHolder(
@@ -46,6 +50,10 @@ class OmrListAdapter(
                     data.problemNum
                 ), HtmlCompat.FROM_HTML_MODE_LEGACY
             )
+            
+            container.throttleFirstClick {
+                onClick.invoke(data)
+            }
         }
     }
 }

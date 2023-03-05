@@ -34,7 +34,7 @@ class TagEditFragment(
     private val checkedTagIdList = mutableListOf<Int>()
 
     private val tagAdapter by lazy {
-        TagEditListAdapter(requireContext(), tagCheckedListener, tagLongClickListener)
+        TagEditListAdapter(requireContext(), viewLifecycleOwner.lifecycleScope, tagCheckedListener, tagLongClickListener)
     }
 
     private val tagCheckedListener: (Boolean, Int) -> Unit = { isChecked: Boolean, tagId: Int ->

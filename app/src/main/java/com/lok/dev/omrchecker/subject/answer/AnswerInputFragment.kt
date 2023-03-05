@@ -11,6 +11,7 @@ import com.lok.dev.commonutil.getChangeTextStyle
 import com.lok.dev.commonutil.onResult
 import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.coredatabase.entity.AnswerTable
+import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentAnswerInputBinding
 import com.lok.dev.omrchecker.subject.OmrViewModel
@@ -31,16 +32,10 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
     ) = FragmentAnswerInputBinding.inflate(inflater, container, false)
 
     override fun initFragment() {
-        initData()
         collectViewModel()
         setOnClickListeners()
         initAdapter()
-        setBody()
-    }
-
-    private fun initData() {
-        if(omrViewModel.isTemp) omrViewModel.getAnswerTable()
-        else makeAnswerTable()
+        setScreen()
     }
 
     private fun collectViewModel() {
@@ -53,14 +48,22 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
             viewModel.addAnswerTable(adapter?.adapterList ?: mutableListOf())
         }
 
+        omrViewModel.answerInput.onResult(viewLifecycleOwner.lifecycleScope) { answerList ->
+            adapter?.set(answerList)
+            if(omrViewModel.isTemp) {
+                updateProgress(answerList)
+                omrViewModel.isTemp = false
+                viewModel.answerList.addAll(answerList)
+            }
+        }
+
     }
 
     private fun initAdapter() {
-        adapter = AnswerInputAdapter(requireContext()) { pair ->
+        adapter = AnswerInputAdapter(requireContext(), viewLifecycleOwner.lifecycleScope) { pair ->
             omrViewModel.updateAnswerProgress(pair)
         }
         binding.omrAnswerList.adapter = adapter
-        adapter?.set(omrViewModel.answerInput.value)
     }
 
     private fun setOnClickListeners() = with(binding) {
@@ -76,9 +79,11 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
 
     }
 
-    private fun setBody() = with(binding) {
+    private fun setScreen() = with(binding) {
         val text = String.format(getString(R.string.omr_input_cnt), 0, omrViewModel.tableData.problemNum)
         binding.omrAnswerCnt.text = requireActivity().getChangeTextStyle(text, "0", R.color.theme_red)
+        if(omrViewModel.isTemp) omrViewModel.getAnswerTable()
+        else makeAnswerTable()
     }
 
     private fun makeAnswerTable() {
@@ -88,5 +93,13 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
             answerInputList.add(AnswerTable(omrViewModel.tableData.id, i.plus(1), answerList, null))
         }
         omrViewModel.changeAnswerInput(answerInputList)
+        viewModel.answerList.addAll(answerInputList)
+    }
+
+    /** 임시저장 불러오기 후, 진행바 업데이트 **/
+    private fun updateProgress(list: List<AnswerTable>) {
+        list.forEach {
+            omrViewModel.updateAnswerProgress(Pair(it.answer.any { num -> num != 0 } , it.answer.count { num -> num != 0 }))
+        }
     }
 }

@@ -5,7 +5,6 @@ import com.lok.dev.commonbase.BaseViewModel
 import com.lok.dev.commonmodel.state.mutableResultState
 import com.lok.dev.commonutil.di.IoDispatcher
 import com.lok.dev.commonutil.onState
-import com.lok.dev.coredata.usecase.AddProblemUseCase
 import com.lok.dev.coredata.usecase.GetAnswerTableUseCase
 import com.lok.dev.coredata.usecase.GetProblemTableUseCase
 import com.lok.dev.coredata.usecase.UpdateOmrUseCase
@@ -45,8 +44,8 @@ class OmrViewModel @Inject constructor(
     val answerProgressState = _answerProgressState.asStateFlow()
 
     /** 현재 보이는 화면 상태 **/
-    private val _screenState = MutableStateFlow<OmrActivity.OmrState>(OmrActivity.OmrState.OmrScreen)
-    val screenState = _screenState.asStateFlow()
+    private val _screenState = MutableSharedFlow<OmrActivity.OmrState>()
+    val screenState = _screenState.asSharedFlow()
 
     /** 임시저장 문제 리스트 불러오기 상태 **/
     private val _tempOmrInputState = mutableResultState<List<ProblemTable>>()
@@ -57,27 +56,33 @@ class OmrViewModel @Inject constructor(
     val tempAnswerInputState = _tempAnswerInputState.asStateFlow()
 
     /** 문제 리스트 **/
-    private val _omrInput = MutableStateFlow<List<ProblemTable>>(listOf())
-    val omrInput = _omrInput.asStateFlow()
+    private val _omrInput = MutableSharedFlow<List<ProblemTable>>()
+    val omrInput = _omrInput.asSharedFlow()
 
     /** 답안 리스트 **/
-    private val _answerInput = MutableStateFlow<List<AnswerTable>>(listOf())
-    val answerInput = _answerInput.asStateFlow()
+    private val _answerInput = MutableSharedFlow<List<AnswerTable>>()
+    val answerInput = _answerInput.asSharedFlow()
 
     /** 문제 / 정답 목록 저장 **/
     private val _saveInputData = MutableSharedFlow<Unit>()
     val saveInputData = _saveInputData.asSharedFlow()
 
     fun changeScreenState(state: OmrActivity.OmrState) {
-        _screenState.value = state
+        viewModelScope.launch {
+            _screenState.emit(state)
+        }
     }
 
     fun changeOmrInput(list: List<ProblemTable>) {
-        _omrInput.value = list
+        viewModelScope.launch {
+            _omrInput.emit(list)
+        }
     }
 
     fun changeAnswerInput(list: List<AnswerTable>) {
-        _answerInput.value = list
+        viewModelScope.launch {
+            _answerInput.emit(list)
+        }
     }
 
     fun saveInputData() {
@@ -86,7 +91,7 @@ class OmrViewModel @Inject constructor(
         }
     }
 
-    fun updateProgress(pair: Pair<Boolean, Int>) {
+    fun updateProblemProgress(pair: Pair<Boolean, Int>) {
         val isChecked = pair.first
         val problemNum = pair.second
         when {
@@ -108,8 +113,8 @@ class OmrViewModel @Inject constructor(
         _answerProgressState.value = answerSelected.size
     }
 
-    fun updateOMRTable(isTemp : Boolean) = CoroutineScope(ioDispatcher).launch {
-        updateOmrUseCase.invoke(tableData.copy(isTemp = isTemp, updateDate = System.currentTimeMillis()))
+    fun updateOMRTable(isTemp : Boolean, page: Int) = CoroutineScope(ioDispatcher).launch {
+        updateOmrUseCase.invoke(tableData.copy(isTemp = isTemp, page = page, updateDate = System.currentTimeMillis()))
     }
 
     fun getProblemTable() = CoroutineScope(ioDispatcher).launch {
@@ -123,7 +128,9 @@ class OmrViewModel @Inject constructor(
         for (i in 0 until tableData.problemNum) {
             problemList.add(ProblemTable(tableData.id, tableData.cnt, i.plus(1), answerList))
         }
-        _omrInput.value = problemList
+        viewModelScope.launch {
+            _omrInput.emit(problemList)
+        }
     }
 
     fun getAnswerTable() = CoroutineScope(ioDispatcher).launch {

@@ -1,25 +1,21 @@
 package com.lok.dev.omrchecker.subject.score
 
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import androidx.recyclerview.widget.DiffUtil
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
-import com.lok.dev.commonutil.setTextWatcher
-import com.lok.dev.commonutil.visible
 import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.omrchecker.databinding.ItemScoreInputBinding
 
 class ScoreInputAdapter(
     private val context: Context,
+    lifecycleCoroutineScope: LifecycleCoroutineScope,
     private val scoreChange: (Pair<Int, Double>) -> Unit
-) : BaseAdapter<ItemScoreInputBinding, AnswerTable>() {
+) : BaseAdapter<ItemScoreInputBinding, AnswerTable>(lifecycleCoroutineScope) {
 
     override fun getBinding(parent: ViewGroup, viewType: Int) = ViewHolder(
         ItemScoreInputBinding.inflate(

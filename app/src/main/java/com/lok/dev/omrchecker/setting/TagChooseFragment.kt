@@ -32,7 +32,7 @@ class TagChooseFragment(
     val checkedTagIdList = mutableListOf<Int>()
 
     private val tagAdapter by lazy {
-        TagChooseListAdapter(requireContext(), tagCheckedListener)
+        TagChooseListAdapter(requireContext(), viewLifecycleOwner.lifecycleScope, tagCheckedListener)
     }
 
     private val tagCheckedListener: (Boolean, Int) -> Unit = { isChecked: Boolean, tagId: Int ->

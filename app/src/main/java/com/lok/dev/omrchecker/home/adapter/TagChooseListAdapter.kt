@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.coredatabase.entity.TagTable
@@ -12,8 +13,9 @@ import com.lok.dev.omrchecker.databinding.ItemTagBinding
 
 class TagChooseListAdapter(
     private val context: Context,
+    lifecycleCoroutineScope: LifecycleCoroutineScope,
     private val onChecked: (Boolean, Int) -> Unit
-) : BaseAdapter<ItemTagBinding, TagTable>() {
+) : BaseAdapter<ItemTagBinding, TagTable>(lifecycleCoroutineScope) {
 
     override fun getBinding(parent: ViewGroup, viewType: Int): BaseViewHolder<ItemTagBinding> =
         ChooseTagViewHolder(

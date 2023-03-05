@@ -65,5 +65,10 @@ abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity() {
         transaction.commitAllowingStateLoss()
     }
 
+    protected fun getPresentFragmentName(frameLayoutId: Int): String {
+        val fragment = supportFragmentManager.findFragmentById(frameLayoutId)
+        return fragment?.let { it::class.java.simpleName }.orEmpty()
+    }
+
     val Number.dp: Int get() = convertDpToPx(this.toFloat()).toInt()
 }

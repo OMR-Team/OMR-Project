@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonutil.getChangeTextStyle
 import com.lok.dev.commonutil.onResult
+import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentOmrInputBinding
 import com.lok.dev.omrchecker.subject.OmrViewModel
@@ -31,7 +32,7 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
 
         collectViewModel()
         initAdapter()
-        setBody()
+        setScreen()
 
     }
 
@@ -45,19 +46,35 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
             viewModel.addProblemTable(adapter?.adapterList ?: mutableListOf())
         }
 
+        omrViewModel.omrInput.onResult(viewLifecycleOwner.lifecycleScope) { problemList ->
+            adapter?.set(problemList)
+            if(omrViewModel.isTemp) {
+                updateProgress(problemList)
+                omrViewModel.isTemp = false
+            }
+        }
+
     }
 
     private fun initAdapter() {
-        adapter = OmrInputAdapter(requireContext()) { pair ->
-            omrViewModel.updateProgress(pair)
+        adapter = OmrInputAdapter(requireContext(), viewLifecycleOwner.lifecycleScope) { pair ->
+            omrViewModel.updateProblemProgress(pair)
         }
         binding.omrInputList.adapter = adapter
-        adapter?.set(omrViewModel.omrInput.value)
     }
 
-    private fun setBody() = with(binding) {
+    private fun setScreen() = with(binding) {
         val text = String.format(getString(R.string.omr_input_cnt), 0, omrViewModel.tableData.problemNum)
         omrInputCnt.text = requireActivity().getChangeTextStyle(text, "0", R.color.theme_blue_primary)
+        if(omrViewModel.isTemp) omrViewModel.getProblemTable()
+        else omrViewModel.makeProblemTable()
+    }
+
+    /** 임시저장 불러오기 후, 진행바 업데이트 **/
+    private fun updateProgress(list: List<ProblemTable>) {
+        list.forEach {
+            omrViewModel.updateProblemProgress(Pair(it.answer.any { num -> num != 0 } , it.answer.count { num -> num != 0 }))
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import android.widget.CheckBox
 import android.widget.GridLayout
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.coredatabase.entity.AnswerTable
@@ -15,8 +16,9 @@ import com.lok.dev.omrchecker.databinding.ItemAnswerInputBinding
 
 class AnswerInputAdapter(
     private val context: Context,
+    lifecycleCoroutineScope: LifecycleCoroutineScope,
     private val onClick: (Pair<Boolean, Int>) -> Unit
-) : BaseAdapter<ItemAnswerInputBinding, AnswerTable>() {
+) : BaseAdapter<ItemAnswerInputBinding, AnswerTable>(lifecycleCoroutineScope) {
 
     override fun getBinding(parent: ViewGroup, viewType: Int) = ViewHolder(
         ItemAnswerInputBinding.inflate(
