@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
-import com.lok.dev.commonutil.getToday
 import com.lok.dev.commonutil.onUiState
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.coredatabase.entity.SubjectTable

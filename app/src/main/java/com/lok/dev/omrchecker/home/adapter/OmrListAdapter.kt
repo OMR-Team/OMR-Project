@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
+import com.lok.dev.commonutil.convertToDate
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemOmrListBinding
@@ -30,9 +31,7 @@ class OmrListAdapter(
             val data = adapterList[position]
             tvTitle.text = data.title
             tvDate.apply {
-                text =
-                    if (data.isTemp) data.updateDate.toString()
-                    else context.getString(R.string.omr_list_date_temp, data.updateDate.toString())
+                text = data.updateDate.convertToDate()
                 setTextColor(
                     if (data.isTemp) resources.getColor(R.color.theme_orange, null)
                     else resources.getColor(R.color.theme_black_5, null)

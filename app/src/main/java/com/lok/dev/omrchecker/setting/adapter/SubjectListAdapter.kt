@@ -8,6 +8,7 @@ import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.commonutil.AppConfig
 import com.lok.dev.commonutil.getDrawableString
 import com.lok.dev.coredatabase.entity.SubjectTable
+import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemSubjectBinding
 
 class SubjectListAdapter(
@@ -31,7 +32,8 @@ class SubjectListAdapter(
             val data = adapterList[position]
 
             AppConfig.folderData.firstOrNull { data.folderId == it.id }?.let {
-                binding.imgFolder.setImageResource(context.getDrawableString("folder_${it.fileName}"))
+                val resId = context.getDrawableString("folder_${it.fileName}") ?: R.drawable.folder_black
+                binding.imgFolder.setImageResource(resId)
             }
             tvSubjectTitle.text = data.name
             rootLayout.setOnClickListener {

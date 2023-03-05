@@ -5,10 +5,7 @@ import com.lok.dev.commonbase.BaseViewModel
 import com.lok.dev.commonmodel.state.mutableResultState
 import com.lok.dev.commonutil.di.IoDispatcher
 import com.lok.dev.commonutil.onState
-import com.lok.dev.coredata.usecase.AddProblemUseCase
-import com.lok.dev.coredata.usecase.GetAnswerTableUseCase
-import com.lok.dev.coredata.usecase.GetProblemTableUseCase
-import com.lok.dev.coredata.usecase.UpdateOmrUseCase
+import com.lok.dev.coredata.usecase.*
 import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.coredatabase.entity.ProblemTable
@@ -26,6 +23,7 @@ import javax.inject.Inject
 class OmrViewModel @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val updateOmrUseCase: UpdateOmrUseCase,
+    private val updateSubjectUseCase: UpdateSubjectUseCase,
     private val getProblemTableUseCase: GetProblemTableUseCase,
     private val getAnswerTableUseCase: GetAnswerTableUseCase
 ) : BaseViewModel() {
@@ -109,7 +107,9 @@ class OmrViewModel @Inject constructor(
     }
 
     fun updateOMRTable(isTemp : Boolean) = CoroutineScope(ioDispatcher).launch {
-        updateOmrUseCase.invoke(tableData.copy(isTemp = isTemp, updateDate = System.currentTimeMillis()))
+        val currentTime = System.currentTimeMillis()
+        updateOmrUseCase.invoke(tableData.copy(isTemp = isTemp, updateDate = currentTime))
+        updateSubjectUseCase.invoke(tableData.subject.copy(updateDate = currentTime))
     }
 
     fun getProblemTable() = CoroutineScope(ioDispatcher).launch {

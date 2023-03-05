@@ -2,7 +2,6 @@ package com.lok.dev.omrchecker.home.fragment
 
 import android.util.Log
 import android.view.*
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +12,8 @@ import com.lok.dev.commonmodel.state.FolderState
 import com.lok.dev.commonutil.onResult
 import com.lok.dev.commonutil.onUiState
 import com.lok.dev.omrchecker.R
+import com.lok.dev.omrchecker.custom.SortMenu
+import com.lok.dev.omrchecker.custom.SortStandard
 import com.lok.dev.omrchecker.databinding.FragmentFolderListBinding
 import com.lok.dev.omrchecker.home.adapter.FolderListAdapter
 import com.lok.dev.omrchecker.home.viewmodel.FolderListViewModel
@@ -60,8 +61,10 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
             addSettingFragment()
         }
 
-        chipSort.setOnCloseIconClickListener {
-            showMenu(it)
+        chipSort.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (isChecked) {
+                showMenu(compoundButton)
+            }
         }
     }
 
@@ -84,7 +87,6 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
                 binding.rvFolder.layoutManager = it
                 binding.rvFolder.adapter = listAdapter
                 listAdapter.updateFolderState(ordinal)
-                listAdapter.notifyDataSetChanged()
             }
         }
 
@@ -99,13 +101,21 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
         )
     }
 
-    private fun showMenu(view:View) {
-        PopupMenu(requireContext(), view).apply {
-            menuInflater.inflate(R.menu.menu_sort, menu)
-            setOnMenuItemClickListener { menuItem ->
-                true
-            }
-        }.show()
+    private fun showMenu(view: View) {
+        SortMenu(requireContext(), view, onClickMenu, onMenuDismiss).show()
+    }
+
+    private val onClickMenu: (SortStandard) -> Unit = { standard ->
+        binding.chipSort.text = when (standard) {
+            SortStandard.NEWEST -> getString(R.string.sort_newest)
+            SortStandard.ALPHABET -> getString(R.string.sort_alphabet)
+            SortStandard.ADD -> getString(R.string.sort_add)
+        }
+        viewModel.sortSubjectList(standard)
+    }
+
+    private val onMenuDismiss = {
+        binding.chipSort.isChecked = false
     }
 
     private fun addSettingFragment() {

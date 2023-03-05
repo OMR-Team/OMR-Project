@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_menu_sort"
+            android:elevation="5dp"
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:paddingVertical="4dp">
+
+            <TextView
+                android:id="@+id/btnSortNewest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="11dp"
+                android:text="@string/sort_newest"
+                android:textColor="@color/theme_black_1" />
+
+            <TextView
+                android:id="@+id/btnSortAlphabet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="11dp"
+                android:text="@string/sort_alphabet"
+                android:textColor="@color/theme_black_1" />
+
+            <TextView
+                android:id="@+id/btnSortAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="11dp"
+                android:text="@string/sort_add"
+                android:textColor="@color/theme_black_1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

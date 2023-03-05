@@ -36,7 +36,7 @@ class FolderAdapter(
             binding.viewFolder.backgroundTintList = ColorStateList.valueOf(Color.parseColor(item.color))
         }
         else {
-            val resId = context.getDrawableString("folder_${item.fileName}")
+            val resId = context.getDrawableString("folder_${item.fileName}") ?: R.drawable.folder_black
             binding.viewFolder.setBackgroundResource(resId)
         }
 

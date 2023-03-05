@@ -88,7 +88,8 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
     private fun collectViewModel() = with(viewModel) {
         subjectData.onResult(viewLifecycleOwner.lifecycleScope) {
             AppConfig.folderData.firstOrNull { data -> data.id == it.folderId }?.let { data ->
-                binding.btnSubjectPlus.setImageResource(requireContext().getDrawableString("folder_${data.fileName}"))
+                val resId = requireContext().getDrawableString("folder_${data.fileName}") ?: R.drawable.folder_black
+                binding.btnSubjectPlus.setImageResource(resId)
             }
 
             binding.txtSubjectTitle.text = it.name
