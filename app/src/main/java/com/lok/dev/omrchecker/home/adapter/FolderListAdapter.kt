@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.commonmodel.state.FolderState
@@ -17,8 +18,9 @@ import com.lok.dev.omrchecker.databinding.ItemFolderListGrid3Binding
 import com.lok.dev.omrchecker.databinding.ItemFolderListLinearBinding
 
 class FolderListAdapter(
+    private val lifecycleScope: LifecycleCoroutineScope,
     private val context: Context
-) : BaseAdapter<ViewDataBinding, SubjectTable>() {
+) : BaseAdapter<ViewDataBinding, SubjectTable>(lifecycleScope) {
 
     private var folderStateOrdinal = FolderState.GRID_2.ordinal
 

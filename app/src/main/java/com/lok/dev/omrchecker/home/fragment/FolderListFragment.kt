@@ -25,7 +25,12 @@ import javax.inject.Inject
 class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderListBinding>() {
 
     private val viewModel: FolderListViewModel by viewModels()
-    private val listAdapter by lazy { FolderListAdapter(requireContext()) }
+    private val listAdapter by lazy {
+        FolderListAdapter(
+            viewLifecycleOwner.lifecycleScope,
+            requireContext()
+        )
+    }
 
     override fun createFragmentBinding(
         inflater: LayoutInflater,
