@@ -43,7 +43,7 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
         }
 
         omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
-            viewModel.addProblemTable(adapter?.adapterList ?: mutableListOf())
+            viewModel.addProblemTable(adapter?.adapterList?.toMutableList() ?: mutableListOf())
         }
 
         omrViewModel.omrInput.onResult(viewLifecycleOwner.lifecycleScope) { problemList ->

@@ -19,9 +19,6 @@ class OmrInputViewModel @Inject constructor(
 
     fun addProblemTable(problemList: MutableList<ProblemTable>) = CoroutineScope(ioDispatcher).launch {
 
-        // TODO 수정!!!!!!
-        val tempList = problemList.toMutableList()
-
         problemList.forEach { problemTable ->
             addProblemUseCase.invoke(problemTable)
         }

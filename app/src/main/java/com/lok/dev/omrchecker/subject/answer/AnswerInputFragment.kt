@@ -45,7 +45,7 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
         }
 
         omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
-            viewModel.addAnswerTable(adapter?.adapterList ?: mutableListOf())
+            viewModel.addAnswerTable(adapter?.adapterList?.toMutableList() ?: mutableListOf())
         }
 
         omrViewModel.answerInput.onResult(viewLifecycleOwner.lifecycleScope) { answerList ->

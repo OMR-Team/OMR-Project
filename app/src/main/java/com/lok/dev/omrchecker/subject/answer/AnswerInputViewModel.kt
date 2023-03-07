@@ -21,15 +21,12 @@ class AnswerInputViewModel @Inject constructor(
 
     fun addAnswerTable(answerList: MutableList<AnswerTable>) = CoroutineScope(ioDispatcher).launch {
 
-        // TODO 수정!!!!!!
-        val tempList = answerList.toMutableList()
-
         scoreList.forEachIndexed { index, scoreInfo ->
-            val modAnswerTable = tempList[index].copy(score = scoreInfo.score)
-            tempList[index] = modAnswerTable
+            val modAnswerTable = answerList[index].copy(score = scoreInfo.score)
+            answerList[index] = modAnswerTable
         }
 
-        tempList.forEach{ answerTable ->
+        answerList.forEach{ answerTable ->
             addAnswerUseCase.invoke(answerTable)
         }
     }
