@@ -112,8 +112,7 @@
                 app:layout_constraintTop_toTopOf="@id/problemInput"
                 app:layout_constraintStart_toStartOf="@id/problemInput"
                 app:layout_constraintEnd_toEndOf="@id/problemInput"
-                app:layout_constraintBottom_toBottomOf="@id/problemInput"
-                tools:visibility="gone"/>
+                app:layout_constraintBottom_toBottomOf="@id/problemInput"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/progressProblemBackground"
@@ -154,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_regular"
                 android:textSize="10dp"
-                android:textColor="@color/theme_blue_1_m"
+                android:textColor="@color/theme_black_3"
                 android:text="@string/omr_progress_answer"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@id/answerInput"
@@ -213,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_regular"
                 android:textSize="10dp"
-                android:textColor="@color/theme_blue_1_m"
+                android:textColor="@color/theme_black_3"
                 android:text="@string/omr_progress_result"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@id/resultCheck"

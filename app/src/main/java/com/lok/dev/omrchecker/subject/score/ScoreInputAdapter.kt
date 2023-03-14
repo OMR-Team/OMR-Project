@@ -32,7 +32,7 @@ class ScoreInputAdapter(
 
             numScore.text = data.no.toString()
 
-            if(data.score != 0.0) editScore.setText(data.score.toString())
+            if(data.score != null && data.score != 0.0) editScore.setText(data.score.toString())
             else editScore.setText("")
 
             editScore.removeTextChangedListener(textWatcher)

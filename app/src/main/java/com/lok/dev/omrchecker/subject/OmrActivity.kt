@@ -1,8 +1,12 @@
 package com.lok.dev.omrchecker.subject
 
+import android.animation.Animator
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.Animation.AnimationListener
 import androidx.activity.viewModels
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseActivity
@@ -108,7 +112,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         }
 
         throttleFirstClick(nextBtn) {
-            when(getPresentFragmentName(R.id.omrFragment)) {
+            when (getPresentFragmentName(R.id.omrFragment)) {
                 OmrInputFragment::class.java.simpleName -> {
                     showProblemConfirmDialog()
                 }
@@ -138,8 +142,9 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             },
             result = {
                 viewModel.saveInputData()
-                val tempPage = if(getPresentFragmentName(R.id.omrFragment) == OmrInputFragment::class.java.simpleName) PAGE_OMR_INPUT
-                else PAGE_ANSWER_INPUT
+                val tempPage =
+                    if (getPresentFragmentName(R.id.omrFragment) == OmrInputFragment::class.java.simpleName) PAGE_OMR_INPUT
+                    else PAGE_ANSWER_INPUT
                 viewModel.updateOMRTable(true, tempPage)
                 finish()
             },
@@ -190,26 +195,69 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             OmrState.OmrScreen -> {
                 omrInputFragment = OmrInputFragment()
                 replaceFragment(R.id.omrFragment, omrInputFragment, AnimationState.Right)
+                changeScreenUI(OmrState.OmrScreen)
             }
             OmrState.AnswerScreen -> {
                 answerInputFragment = AnswerInputFragment()
                 replaceFragment(R.id.omrFragment, answerInputFragment, AnimationState.Right)
-                binding.problemInput.visibility = View.INVISIBLE
-                binding.problemAni.visibility = View.VISIBLE
-                binding.problemAni.playAnimation()
-                binding.answerInput.setImageResource(R.drawable.answerinput_complete)
+                changeScreenUI(OmrState.AnswerScreen)
             }
             OmrState.ResultScreen -> {
                 resultFragment = ResultFragment()
                 replaceFragment(R.id.omrFragment, resultFragment, AnimationState.Right)
+                changeScreenUI(OmrState.ResultScreen)
+            }
+        }
+    }
+
+    private fun changeScreenUI(state: OmrState) = with(binding) {
+        when (state) {
+            OmrState.OmrScreen -> {}
+            OmrState.AnswerScreen -> {
+                binding.problemInput.visibility = View.INVISIBLE
+                binding.problemAni.visible()
+                binding.problemAni.addAnimatorListener(problemAnimatorListener)
+                binding.problemAni.playAnimation()
+                binding.answerInput.setImageResource(R.drawable.answerinput_complete)
+                progressProblemBar.background = AppCompatResources.getDrawable(this@OmrActivity, R.color.theme_blue_1)
+                problemDesc.setTextColor(getColor(R.color.theme_black_3))
+            }
+            OmrState.ResultScreen -> {
                 binding.answerInput.visibility = View.INVISIBLE
-                binding.answerAni.visibility = View.VISIBLE
+                binding.answerAni.visible()
+                binding.answerAni.addAnimatorListener(answerAnimatorListener)
                 binding.answerAni.playAnimation()
                 binding.btnBack.visible(false)
                 binding.nextBtn.visible(false)
                 binding.homeBtn.visible(true)
                 binding.resultCheck.setImageResource(R.drawable.resultcheck_complete)
+                progressAnswerBar.background = AppCompatResources.getDrawable(this@OmrActivity, R.color.theme_blue_1)
+                answerDesc.setTextColor(getColor(R.color.theme_black_3))
             }
+        }
+    }
+
+    private val problemAnimatorListener = object : Animator.AnimatorListener {
+        override fun onAnimationStart(animation: Animator) {}
+        override fun onAnimationCancel(animation: Animator) {}
+        override fun onAnimationRepeat(animation: Animator) {}
+
+        override fun onAnimationEnd(animation: Animator) {
+            binding.problemAni.visible(false)
+            binding.problemInput.visible()
+            binding.problemInput.setImageResource(R.drawable.problem_input_past)
+        }
+    }
+
+    private val answerAnimatorListener = object : Animator.AnimatorListener {
+        override fun onAnimationStart(animation: Animator) {}
+        override fun onAnimationCancel(animation: Animator) {}
+        override fun onAnimationRepeat(animation: Animator) {}
+
+        override fun onAnimationEnd(animation: Animator) {
+            binding.answerAni.visible(false)
+            binding.answerInput.visible()
+            binding.answerInput.setImageResource(R.drawable.problem_input_past)
         }
     }
 
