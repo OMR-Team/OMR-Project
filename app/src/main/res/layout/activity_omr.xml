@@ -76,6 +76,7 @@
             android:id="@+id/omrProgressContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@id/omrHeaderContainer">
 
             <ImageView
@@ -127,7 +128,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/progressProblemBar"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:background="@color/theme_blue_1_m"
                     app:layout_constraintTop_toTopOf="parent"
