@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonmodel.state.FolderState
+import com.lok.dev.commonutil.getWindowWidth
 import com.lok.dev.commonutil.onResult
 import com.lok.dev.commonutil.onUiState
 import com.lok.dev.omrchecker.R
@@ -51,9 +52,6 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
         btnFolder.setOnClickListener {
             when (it.tag) {
                 FolderState.GRID_2.ordinal -> {
-                    viewModel.updateFolderState(FolderState.GRID_3.ordinal)
-                }
-                FolderState.GRID_3.ordinal -> {
                     viewModel.updateFolderState(FolderState.LINEAR.ordinal)
                 }
                 FolderState.LINEAR.ordinal -> {
@@ -75,13 +73,14 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
 
     private fun collectViewModel() = with(viewModel) {
         folderState.onResult(viewLifecycleOwner.lifecycleScope) { ordinal ->
-            binding.btnFolder.tag = ordinal
+            binding.btnFolder.apply {
+                tag = ordinal
+                setImageResource(if (ordinal == FolderState.LINEAR.ordinal) R.drawable.ico_folder_grid_2 else R.drawable.ico_folder_list)
+            }
             val layoutManager = when (ordinal) {
                 FolderState.GRID_2.ordinal -> {
-                    GridLayoutManager(requireContext(), 2)
-                }
-                FolderState.GRID_3.ordinal -> {
-                    GridLayoutManager(requireContext(), 3)
+                    val columnCnt = requireActivity().getWindowWidth() / 160.dp
+                    GridLayoutManager(requireContext(), columnCnt)
                 }
                 FolderState.LINEAR.ordinal -> {
                     LinearLayoutManager(requireContext())

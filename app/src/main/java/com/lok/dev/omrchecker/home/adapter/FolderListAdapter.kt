@@ -36,11 +36,6 @@ class FolderListAdapter(
                     ItemFolderListGrid2Binding.inflate(LayoutInflater.from(context), parent, false)
                 )
             }
-            FolderState.GRID_3.ordinal -> {
-                ItemFolderGrid3ViewHolder(
-                    ItemFolderListGrid3Binding.inflate(LayoutInflater.from(context), parent, false)
-                )
-            }
             else -> {
                 ItemFolderLinearViewHolder(
                     ItemFolderListLinearBinding.inflate(LayoutInflater.from(context), parent, false)
