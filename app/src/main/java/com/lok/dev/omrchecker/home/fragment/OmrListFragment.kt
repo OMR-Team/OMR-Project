@@ -11,6 +11,7 @@ import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonutil.onUiState
 import com.lok.dev.coredatabase.entity.OMRTable
+import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.databinding.FragmentOmrListBinding
 import com.lok.dev.omrchecker.home.adapter.OmrListAdapter
 import com.lok.dev.omrchecker.home.viewmodel.OmrListViewModel
@@ -24,6 +25,8 @@ import javax.inject.Inject
 class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBinding>() {
 
     private val viewModel: OmrListViewModel by viewModels()
+    private var subjectData: SubjectTable? = null
+
     private val omrListAdapter by lazy {
         OmrListAdapter(requireContext(), viewLifecycleOwner.lifecycleScope) { omrTable ->
             startOmrActivity(omrTable)
@@ -36,11 +39,16 @@ class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBindin
     ): FragmentOmrListBinding = FragmentOmrListBinding.inflate(inflater, container, false)
 
     override fun initFragment() {
-        setRecyclerView()
+        subjectData = arguments?.getParcelable("subject")
+        initView()
         addListeners()
         collectViewModel()
+        viewModel.getOmrList(subjectData)
+    }
 
-        viewModel.getOmrList()
+    private fun initView() = with(binding) {
+        layoutHeader.textValue = subjectData?.name ?: ""
+        rvList.adapter = omrListAdapter
     }
 
     private fun addListeners() = with(binding) {
@@ -58,10 +66,6 @@ class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBindin
         chipSort.setOnCloseIconClickListener {
             Log.i("아현", "노노")
         }
-    }
-
-    private fun setRecyclerView() {
-        binding.rvList.adapter = omrListAdapter
     }
 
     private fun collectViewModel() = with(viewModel) {

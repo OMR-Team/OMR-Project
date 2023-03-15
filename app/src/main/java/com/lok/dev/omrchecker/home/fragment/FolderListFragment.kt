@@ -1,7 +1,11 @@
 package com.lok.dev.omrchecker.home.fragment
 
+import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.TranslateAnimation
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -9,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonmodel.state.FolderState
+import com.lok.dev.commonutil.addFragment
 import com.lok.dev.commonutil.getWindowWidth
 import com.lok.dev.commonutil.onResult
 import com.lok.dev.commonutil.onUiState
+import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.custom.SortMenu
 import com.lok.dev.omrchecker.custom.SortStandard
@@ -29,8 +35,27 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
     private val listAdapter by lazy {
         FolderListAdapter(
             viewLifecycleOwner.lifecycleScope,
-            requireContext()
+            requireContext(),
+            folderLongClick,
+            folderClick
         )
+    }
+
+    private val folderLongClick: (SubjectTable) -> Unit = {
+        TranslateAnimation(0f, 0f, 0f, -56.dp.toFloat()).apply {
+            fillAfter = true
+            duration = 200
+            binding.btnEdit.startAnimation(this)
+            binding.btnDelete.startAnimation(this)
+        }
+    }
+
+    private val folderClick: (SubjectTable) -> Unit = {
+        requireActivity().addFragment(R.id.fragment, OmrListFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable("subject", it)
+            }
+        })
     }
 
     override fun createFragmentBinding(

@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:theme="@style/Theme.OMRChecker">
 
         <include
@@ -19,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            bind:textValue="@{@string/header_omr_list}"
             tools:layout_height="45dp" />
 
         <LinearLayout

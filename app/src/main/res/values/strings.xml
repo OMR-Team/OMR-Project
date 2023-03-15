@@ -56,6 +56,7 @@
     <string name="text_cancel">취소</string>
     <string name="text_confirm">적용</string>
     <string name="text_delete">삭제</string>
+    <string name="text_modification">수정</string>
 
     <!-- OMR 오류 -->
     <string name="omr_error_title">일시적인 오류입니다. 테스트를 다시 생성해주세요.</string>

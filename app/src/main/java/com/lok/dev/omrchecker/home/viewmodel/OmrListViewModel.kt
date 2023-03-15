@@ -6,6 +6,7 @@ import com.lok.dev.commonmodel.state.mutableResultState
 import com.lok.dev.commonutil.onState
 import com.lok.dev.coredata.usecase.GetOmrListUseCase
 import com.lok.dev.coredatabase.entity.OMRTable
+import com.lok.dev.coredatabase.entity.SubjectTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
@@ -18,9 +19,11 @@ class OmrListViewModel @Inject constructor(
     private val _omrListData = mutableResultState<List<OMRTable>>()
     val omrListData = _omrListData.asStateFlow()
 
-    fun getOmrList() {
-        getOmrListUseCase.invoke().onState(viewModelScope) {
-            _omrListData.value = it
+    fun getOmrList(subject: SubjectTable?) {
+        subject?.let {
+            getOmrListUseCase.invoke(it).onState(viewModelScope) { result ->
+                _omrListData.value = result
+            }
         }
     }
 }

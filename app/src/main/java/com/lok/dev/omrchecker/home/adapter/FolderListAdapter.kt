@@ -19,7 +19,9 @@ import com.lok.dev.omrchecker.databinding.ItemFolderListLinearBinding
 
 class FolderListAdapter(
     private val lifecycleScope: LifecycleCoroutineScope,
-    private val context: Context
+    private val context: Context,
+    private val onLongClick: (SubjectTable) -> Unit,
+    private val onClick: (SubjectTable) -> Unit,
 ) : BaseAdapter<ViewDataBinding, SubjectTable>(lifecycleScope) {
 
     private var folderStateOrdinal = FolderState.GRID_2.ordinal
@@ -58,6 +60,13 @@ class FolderListAdapter(
                 AppConfig.folderData.firstOrNull { it.id == data.folderId }?.fileName ?: "black"
             resId = context.getDrawableString("folder_${fileName}") ?: R.drawable.folder_black
             initViewHolder()
+            binding.root.setOnLongClickListener {
+                onLongClick.invoke(data)
+                true
+            }
+            binding.root.setOnClickListener {
+                onClick.invoke(data)
+            }
         }
 
         abstract fun initViewHolder()
@@ -66,15 +75,6 @@ class FolderListAdapter(
     inner class ItemFolderGrid2ViewHolder(
         binding: ItemFolderListGrid2Binding
     ) : BaseFolderViewHolder<ItemFolderListGrid2Binding>(binding) {
-        override fun initViewHolder() = with(binding) {
-            ivFolder.setImageDrawable(ResourcesCompat.getDrawable(context.resources, resId, null))
-            tvFolder.text = data.name
-        }
-    }
-
-    inner class ItemFolderGrid3ViewHolder(
-        binding: ItemFolderListGrid3Binding
-    ) : BaseFolderViewHolder<ItemFolderListGrid3Binding>(binding) {
         override fun initViewHolder() = with(binding) {
             ivFolder.setImageDrawable(ResourcesCompat.getDrawable(context.resources, resId, null))
             tvFolder.text = data.name
