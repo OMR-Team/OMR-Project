@@ -86,7 +86,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
     }
 
     private fun getExtra() {
-        intent.getParcelableExtra<OMRTable>("omrTable")?.let {
+        intent.safeParcelable<OMRTable>("omrTable")?.let {
             viewModel.tableData = it
             viewModel.isTemp = it.isTemp
         } ?: showErrorDialog()

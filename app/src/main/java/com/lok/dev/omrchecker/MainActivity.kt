@@ -5,14 +5,13 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import com.lok.dev.commonbase.BaseActivity
-import com.lok.dev.commonutil.addFragment
 import com.lok.dev.omrchecker.databinding.ActivityMainBinding
 import com.lok.dev.omrchecker.home.fragment.FolderListFragment
 import com.lok.dev.omrchecker.home.fragment.OmrListFragment
 import com.lok.dev.omrchecker.subject.OmrActivity
+import com.lok.dev.omrchecker.subject.result.ResultFragment
 import com.lok.dev.omrchecker.test.TestFragment
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -22,10 +21,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initActivity(savedInstanceState: Bundle?) {
-        addFolderListFragment()
-        //addOmrListFragment()
+        //addFolderListFragment()
+        addOmrListFragment()
         //startOmrActivity()
         //addTestFragment()
+        //addResultFragment()
     }
 
     private fun addFolderListFragment() {
@@ -38,6 +38,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun addTestFragment() {
         addFragment(R.id.fragment, TestFragment())
+    }
+
+    private fun addResultFragment() {
+        addFragment(R.id.fragment, ResultFragment())
     }
 
     private fun startOmrActivity() {
