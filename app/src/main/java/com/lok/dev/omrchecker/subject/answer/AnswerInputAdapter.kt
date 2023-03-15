@@ -55,11 +55,29 @@ class AnswerInputAdapter(
                 omrAnswerContainer.addView(view)
             }
 
-            if (position % 10 < 5) container.background =
-                AppCompatResources.getDrawable(context, R.color.theme_red_1)
-            else container.background = AppCompatResources.getDrawable(context, R.color.white)
-
             divider.isVisible = position % 5 == 4
+
+            setBackgroundUI(position)
+        }
+
+        private fun setBackgroundUI(position: Int) = with(binding) {
+            when {
+                position == 0 -> {
+                    container.background = AppCompatResources.getDrawable(context, R.drawable.bg_theme_red_1_top_radius_16)
+                }
+                position == adapterList.lastIndex && (position % 10 < 5) -> {
+                    container.background = AppCompatResources.getDrawable(context, R.drawable.bg_theme_red_1_bottom_radius_16)
+                }
+                position == adapterList.lastIndex && (position % 10 >= 5) -> {
+                    container.background = AppCompatResources.getDrawable(context, R.drawable.bg_theme_white_bottom_radius_16)
+                }
+                position % 10 < 5 -> {
+                    container.background = AppCompatResources.getDrawable(context, R.color.theme_red_1)
+                }
+                else -> {
+                    container.background = AppCompatResources.getDrawable(context, R.color.white)
+                }
+            }
         }
 
         private fun changeData(data: AnswerTable, problemNum: Int, selectNum: Int) {

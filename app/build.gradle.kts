@@ -35,6 +35,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.bundles.util)
+    implementation(libs.android.chart)
     kapt(libs.hilt.compiler)
 
     implementation(project(":coreData"))

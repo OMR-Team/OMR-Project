@@ -3,8 +3,6 @@ package com.lok.dev.omrchecker.subject
 import android.animation.Animator
 import android.os.Bundle
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.Animation.AnimationListener
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.updateLayoutParams
@@ -86,7 +84,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
     }
 
     private fun getExtra() {
-        intent.getParcelableExtra<OMRTable>("omrTable")?.let {
+        intent.safeParcelable<OMRTable>("omrTable")?.let {
             viewModel.tableData = it
             viewModel.isTemp = it.isTemp
         } ?: showErrorDialog()
@@ -137,8 +135,8 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         launchConfirmDialog(
             type = TitleConfirmDialog::class.java,
             option = {
-                title = "임시 저장할까요?"
-                subTitle = "취소를 누를 시 입력된 내용이 초기화됩니다."
+                title = this@OmrActivity.getString(R.string.omr_temp_save_title)
+                subTitle = this@OmrActivity.getString(R.string.omr_temp_save_sub_title)
             },
             result = {
                 viewModel.saveInputData()
@@ -156,38 +154,63 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
     }
 
     private fun showProblemConfirmDialog() {
+        if (viewModel.progressState.value != viewModel.tableData.problemNum) {
+            launchConfirmDialog(
+                type = TitleConfirmDialog::class.java,
+                option = {
+                    title = this@OmrActivity.getString(R.string.omr_progress_warn_title)
+                    subTitle = this@OmrActivity.getString(R.string.omr_progress_warn_sub_title)
+                },
+                result = {
+                    showAnswerScreen()
+                }
+            )
+        } else {
+            showAnswerScreen()
+        }
+    }
 
-        //TODO 안푼 문제 있을시에 따라 처리 다르게
-
-        launchConfirmDialog(
-            type = TitleConfirmDialog::class.java,
-            option = {
-                title = "정답 입력창으로 넘어가는 제목."
-                subTitle = "테스트 다음으로 넘어가시겠습니까??"
-            },
-            result = {
-                viewModel.saveInputData()
-                viewModel.changeScreenState(OmrState.AnswerScreen)
-            }
-        )
+    private fun showAnswerScreen() {
+        viewModel.saveInputData()
+        viewModel.changeScreenState(OmrState.AnswerScreen)
     }
 
     private fun showAnswerConfirmDialog() {
-
-        //TODO 점수 입력이 안되어있거나 정답 입력 안한부분 있을시에 처리 다르게
-
-        launchConfirmDialog(
-            type = TitleConfirmDialog::class.java,
-            option = {
-                title = "결과 창으로 넘어가는 제목."
-                subTitle = "테스트 다음으로 넘어가시겠습니까??"
-            },
-            result = {
-                viewModel.saveInputData()
-                viewModel.updateOMRTable(false, PAGE_RESULT)
-                viewModel.changeScreenState(OmrState.ResultScreen)
+        when {
+            viewModel.answerProgressState.value != viewModel.tableData.problemNum -> {
+                launchConfirmDialog(
+                    type = TitleConfirmDialog::class.java,
+                    option = {
+                        title = this@OmrActivity.getString(R.string.omr_answer_warn_title)
+                        subTitle = this@OmrActivity.getString(R.string.omr_answer_warn_sub_title)
+                    },
+                    result = {
+                        showResultScreen()
+                    }
+                )
             }
-        )
+            !viewModel.hasScore -> {
+                launchConfirmDialog(
+                    type = TitleConfirmDialog::class.java,
+                    option = {
+                        title = this@OmrActivity.getString(R.string.omr_score_warn_title)
+                        subTitle = this@OmrActivity.getString(R.string.omr_score_warn_sub_title)
+                    },
+                    result = {
+                        showResultScreen()
+                    }
+                )
+            }
+            else -> {
+                showResultScreen()
+            }
+        }
+    }
+
+    private fun showResultScreen() {
+        viewModel.saveInputData()
+        viewModel.updateOMRTable(false, PAGE_RESULT)
+        viewModel.changeScreenState(OmrState.ResultScreen)
     }
 
     private fun changeScreen(state: OmrState) {
@@ -219,7 +242,8 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
                 binding.problemAni.addAnimatorListener(problemAnimatorListener)
                 binding.problemAni.playAnimation()
                 binding.answerInput.setImageResource(R.drawable.answerinput_complete)
-                progressProblemBar.background = AppCompatResources.getDrawable(this@OmrActivity, R.color.theme_blue_1)
+                progressProblemBar.background =
+                    AppCompatResources.getDrawable(this@OmrActivity, R.color.theme_blue_1)
                 problemDesc.setTextColor(getColor(R.color.theme_black_3))
             }
             OmrState.ResultScreen -> {
@@ -231,7 +255,8 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
                 binding.nextBtn.visible(false)
                 binding.homeBtn.visible(true)
                 binding.resultCheck.setImageResource(R.drawable.resultcheck_complete)
-                progressAnswerBar.background = AppCompatResources.getDrawable(this@OmrActivity, R.color.theme_blue_1)
+                progressAnswerBar.background =
+                    AppCompatResources.getDrawable(this@OmrActivity, R.color.theme_blue_1)
                 answerDesc.setTextColor(getColor(R.color.theme_black_3))
             }
         }
@@ -271,9 +296,11 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             }
             data.isTemp && data.page == PAGE_ANSWER_INPUT -> {
                 viewModel.changeScreenState(OmrState.AnswerScreen)
+                binding.progressProblemBar.updateLayoutParams { width = 100.dp }
             }
             !data.isTemp && data.page == PAGE_RESULT -> {
                 viewModel.changeScreenState(OmrState.ResultScreen)
+                omrProgressContainer.visible(false)
             }
             else -> {
                 viewModel.changeScreenState(OmrState.OmrScreen)

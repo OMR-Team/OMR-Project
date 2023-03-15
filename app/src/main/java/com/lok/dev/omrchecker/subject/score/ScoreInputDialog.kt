@@ -65,6 +65,7 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<Answer
         }
 
         throttleFirstClick(btnComplete) {
+            if(!adapter?.adapterList.isNullOrEmpty()) omrViewModel.hasScore = true
             setResultOnDismiss(adapter?.adapterList ?: mutableListOf())
         }
 

@@ -21,6 +21,7 @@ room = "2.4.3"
 gson = "2.8.6"
 
 lottie = "4.2.2"
+androidChart = "v3.1.0"
 
 
 
@@ -55,6 +56,7 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+android-chart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "androidChart" }
 
 [bundles]
 

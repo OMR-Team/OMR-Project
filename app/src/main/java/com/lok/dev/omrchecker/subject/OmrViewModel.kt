@@ -33,6 +33,7 @@ class OmrViewModel @Inject constructor(
 
     lateinit var tableData : OMRTable
     var isTemp = false
+    var hasScore = false
 
     /** 문제 입력 진행도 **/
     private val _progressState = MutableStateFlow(0)
