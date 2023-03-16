@@ -5,7 +5,10 @@ import com.lok.dev.commonbase.BaseViewModel
 import com.lok.dev.commonmodel.state.mutableResultState
 import com.lok.dev.commonutil.di.IoDispatcher
 import com.lok.dev.commonutil.onState
-import com.lok.dev.coredata.usecase.*
+import com.lok.dev.coredata.usecase.GetAnswerTableUseCase
+import com.lok.dev.coredata.usecase.GetProblemTableUseCase
+import com.lok.dev.coredata.usecase.UpdateOmrUseCase
+import com.lok.dev.coredata.usecase.UpdateSubjectUseCase
 import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.coredatabase.entity.ProblemTable
@@ -125,10 +128,10 @@ class OmrViewModel @Inject constructor(
         }
     }
     fun makeProblemTable() {
-        val problemList = arrayListOf<ProblemTable>()
-        val answerList = List(tableData.selectNum){ 0 }
-        for (i in 0 until tableData.problemNum) {
-            problemList.add(ProblemTable(tableData.id, tableData.cnt, i.plus(1), answerList))
+        val problemList = mutableListOf<ProblemTable>()
+        val answerList = mutableListOf<Int>()
+        for (i in 1 .. tableData.problemNum) {
+            problemList.add(ProblemTable(tableData.id, tableData.cnt, i, answerList))
         }
         viewModelScope.launch {
             _omrInput.emit(problemList)

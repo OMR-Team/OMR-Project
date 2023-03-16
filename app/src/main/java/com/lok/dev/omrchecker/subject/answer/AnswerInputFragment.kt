@@ -60,7 +60,7 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
     }
 
     private fun initAdapter() {
-        adapter = AnswerInputAdapter(requireContext(), viewLifecycleOwner.lifecycleScope) { pair ->
+        adapter = AnswerInputAdapter(requireContext(), viewLifecycleOwner.lifecycleScope, omrViewModel.tableData.selectNum) { pair ->
             omrViewModel.updateAnswerProgress(pair)
         }
         binding.omrAnswerList.adapter = adapter
@@ -87,10 +87,10 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
     }
 
     private fun makeAnswerTable() {
-        val answerInputList = arrayListOf<AnswerTable>()
-        val answerList = List(omrViewModel.tableData.selectNum) { 0 }
-        for (i in 0 until omrViewModel.tableData.problemNum) {
-            answerInputList.add(AnswerTable(omrViewModel.tableData.id, i.plus(1), answerList, null))
+        val answerInputList = mutableListOf<AnswerTable>()
+        val answerList = mutableListOf<Int>()
+        for (i in 1 .. omrViewModel.tableData.problemNum) {
+            answerInputList.add(AnswerTable(omrViewModel.tableData.id, i, answerList, null))
         }
         omrViewModel.changeAnswerInput(answerInputList)
         viewModel.answerList.addAll(answerInputList)

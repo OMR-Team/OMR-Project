@@ -57,7 +57,7 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
     }
 
     private fun initAdapter() {
-        adapter = OmrInputAdapter(requireContext(), viewLifecycleOwner.lifecycleScope) { pair ->
+        adapter = OmrInputAdapter(requireContext(), viewLifecycleOwner.lifecycleScope, omrViewModel.tableData.selectNum) { pair ->
             omrViewModel.updateProblemProgress(pair)
         }
         binding.omrInputList.adapter = adapter

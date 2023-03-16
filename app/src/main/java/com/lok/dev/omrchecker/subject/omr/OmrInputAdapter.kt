@@ -20,6 +20,7 @@ import com.lok.dev.omrchecker.databinding.ItemOmrInputBinding
 class OmrInputAdapter(
     private val context: Context,
     lifecycleCoroutineScope: LifecycleCoroutineScope,
+    private val selectNum: Int,
     private val onClick: (Pair<Boolean, Int>) -> Unit
 ) : BaseAdapter<ItemOmrInputBinding, ProblemTable>(lifecycleCoroutineScope) {
 
@@ -38,21 +39,19 @@ class OmrInputAdapter(
             omrNum.text = data.no.toString()
 
             omrInputContainer.removeAllViews()
-            for (i in data.answer.indices) {
-                val selectNum = i.plus(1)
-                val view = makeCheckBox(selectNum)
-                if (data.answer[i] == 0) {
-                    view.isChecked = false
-                    view.buttonDrawable =
-                        AppCompatResources.getDrawable(context, getImageType(selectNum))
-                } else {
+
+            for(num in 1..selectNum) {
+                val view = makeCheckBox(num)
+                if(data.answer.contains(num)) {
                     view.isChecked = true
-                    view.buttonDrawable =
-                        AppCompatResources.getDrawable(context, R.drawable.omr_selected)
+                    view.buttonDrawable = AppCompatResources.getDrawable(context, R.drawable.omr_selected)
+                }else {
+                    view.isChecked = false
+                    view.buttonDrawable = AppCompatResources.getDrawable(context, getImageType(num))
                 }
                 view.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) changeData(data, i, selectNum)
-                    else changeData(data, i, 0)
+                    if (isChecked) addData(data, num)
+                    else removeData(data, num)
                     onClick.invoke(Pair(isChecked, data.no))
                 }
                 omrInputContainer.addView(view)
@@ -92,9 +91,16 @@ class OmrInputAdapter(
             divider.layoutParams = params
         }
 
-        private fun changeData(data: ProblemTable, problemNum: Int, selectNum: Int) {
+        private fun addData(data: ProblemTable, num: Int) {
             val modAnswer = data.answer.toMutableList()
-            modAnswer[problemNum] = selectNum
+            modAnswer.add(num)
+            adapterList[adapterPosition] = data.copy(answer = modAnswer)
+            notifyItemChanged(adapterPosition)
+        }
+
+        private fun removeData(data: ProblemTable, num: Int) {
+            val modAnswer = data.answer.toMutableList()
+            modAnswer.remove(num)
             adapterList[adapterPosition] = data.copy(answer = modAnswer)
             notifyItemChanged(adapterPosition)
         }
@@ -107,8 +113,7 @@ class OmrInputAdapter(
                 width = 0
             }
             checkBox.layoutParams = param
-            checkBox.buttonDrawable =
-                AppCompatResources.getDrawable(context, getImageType(position))
+            checkBox.buttonDrawable = AppCompatResources.getDrawable(context, getImageType(position))
             return checkBox
         }
 
