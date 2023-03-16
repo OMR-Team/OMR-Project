@@ -3,6 +3,8 @@ package com.lok.dev.omrchecker.subject
 import android.animation.Animator
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.updateLayoutParams
@@ -35,6 +37,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
     private lateinit var omrInputFragment: OmrInputFragment
     private lateinit var answerInputFragment: AnswerInputFragment
     private lateinit var resultFragment: ResultFragment
+    private var backPressedCallback: OnBackPressedCallback? = null
 
     override fun createBinding() = ActivityOmrBinding.inflate(layoutInflater)
 
@@ -44,6 +47,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         collectViewModel()
         setClickListeners()
         setScreen()
+        backPressedCallback ?: setBackPressedCallback()
     }
 
     private fun collectViewModel() = with(viewModel) {
@@ -131,7 +135,6 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
     }
 
     private fun showCloseConfirmDialog() {
-
         launchConfirmDialog(
             type = TitleConfirmDialog::class.java,
             option = {
@@ -150,7 +153,6 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
                 finish()
             }
         )
-
     }
 
     private fun showProblemConfirmDialog() {
@@ -305,6 +307,12 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             else -> {
                 viewModel.changeScreenState(OmrState.OmrScreen)
             }
+        }
+    }
+
+    private fun setBackPressedCallback() {
+        backPressedCallback = this.onBackPressedDispatcher.addCallback(this) {
+            showCloseConfirmDialog()
         }
     }
 

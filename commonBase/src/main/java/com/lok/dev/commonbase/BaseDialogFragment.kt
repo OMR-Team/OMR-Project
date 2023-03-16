@@ -106,6 +106,8 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
     override fun onDismiss(dialog: DialogInterface) {
         if (dismissResult != null) {
             result?.invoke(dismissResult)
+        }else {
+            cancel.invoke()
         }
         super.onDismiss(dialog)
     }

@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
+import com.lok.dev.commonutil.convertDpToPx
 import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemOmrInputBinding
@@ -69,9 +70,11 @@ class OmrInputAdapter(
                 }
                 position == adapterList.lastIndex && (position % 10 < 5) -> {
                     container.background = AppCompatResources.getDrawable(context, R.drawable.bg_theme_blue_4_bottom_radius_16)
+                    setDividerHorizontalMargin()
                 }
                 position == adapterList.lastIndex && (position % 10 >= 5) -> {
                     container.background = AppCompatResources.getDrawable(context, R.drawable.bg_theme_white_bottom_radius_16)
+                    setDividerHorizontalMargin()
                 }
                 position % 10 < 5 -> {
                     container.background = AppCompatResources.getDrawable(context, R.color.theme_blue_4)
@@ -80,6 +83,13 @@ class OmrInputAdapter(
                     container.background = AppCompatResources.getDrawable(context, R.color.white)
                 }
             }
+        }
+
+        private fun setDividerHorizontalMargin() = with(binding) {
+            val params = divider.layoutParams as ViewGroup.MarginLayoutParams
+            params.leftMargin = context.convertDpToPx(8F).toInt()
+            params.rightMargin = context.convertDpToPx(8F).toInt()
+            divider.layoutParams = params
         }
 
         private fun changeData(data: ProblemTable, problemNum: Int, selectNum: Int) {
