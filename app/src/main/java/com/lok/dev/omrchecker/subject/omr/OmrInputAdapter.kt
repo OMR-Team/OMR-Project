@@ -1,11 +1,13 @@
 package com.lok.dev.omrchecker.subject.omr
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.GridLayout
 import android.widget.GridLayout.spec
+import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -15,14 +17,18 @@ import com.lok.dev.commonutil.convertDpToPx
 import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemOmrInputBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class OmrInputAdapter(
     private val context: Context,
-    lifecycleCoroutineScope: LifecycleCoroutineScope,
+    private val lifecycleCoroutineScope: LifecycleCoroutineScope,
     private val selectNum: Int,
     private val onClick: (Pair<Boolean, Int>) -> Unit
 ) : BaseAdapter<ItemOmrInputBinding, ProblemTable>(lifecycleCoroutineScope) {
+
+    var canTouch = true
 
     override fun getBinding(parent: ViewGroup, viewType: Int) = ViewHolder(
         ItemOmrInputBinding.inflate(
@@ -41,18 +47,31 @@ class OmrInputAdapter(
             omrInputContainer.removeAllViews()
 
             for(num in 1..selectNum) {
-                val view = makeCheckBox(num)
+                val view = makeImageView(num)
                 if(data.answer.contains(num)) {
-                    view.isChecked = true
-                    view.buttonDrawable = AppCompatResources.getDrawable(context, R.drawable.omr_selected)
+                    view.isSelected = true
+                    view.setImageResource(R.drawable.omr_selected)
                 }else {
-                    view.isChecked = false
-                    view.buttonDrawable = AppCompatResources.getDrawable(context, getImageType(num))
+                    view.isSelected = false
+                    view.setImageResource(getImageType(num))
                 }
-                view.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) addData(data, num)
-                    else removeData(data, num)
-                    onClick.invoke(Pair(isChecked, data.no))
+                view.setOnClickListener {
+                    if(canTouch) {
+                        canTouch = false
+                        onClick.invoke(Pair(!view.isSelected, data.no))
+                        if (!view.isSelected) {
+                            addData(data, num)
+                            view.isSelected = true
+                        }
+                        else {
+                            removeData(data, num)
+                            view.isSelected = false
+                        }
+                        lifecycleCoroutineScope.launch {
+                            delay(1000)
+                            canTouch = true
+                        }
+                    }
                 }
                 omrInputContainer.addView(view)
             }
@@ -105,16 +124,16 @@ class OmrInputAdapter(
             notifyItemChanged(adapterPosition)
         }
 
-        private fun makeCheckBox(position: Int): CheckBox {
-            val checkBox = CheckBox(context)
+        private fun makeImageView(position: Int): ImageView {
+            val imageView = ImageView(context)
             val param = GridLayout.LayoutParams().apply {
                 columnSpec = spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
                 height = ViewGroup.LayoutParams.WRAP_CONTENT
                 width = 0
             }
-            checkBox.layoutParams = param
-            checkBox.buttonDrawable = AppCompatResources.getDrawable(context, getImageType(position))
-            return checkBox
+            imageView.layoutParams = param
+            imageView.setImageResource(getImageType(position))
+            return imageView
         }
 
         private fun getImageType(position: Int): Int {
