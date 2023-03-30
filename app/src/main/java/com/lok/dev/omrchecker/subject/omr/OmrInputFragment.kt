@@ -43,13 +43,16 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
         }
 
         omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
-            viewModel.addProblemTable(adapter?.adapterList?.toMutableList() ?: mutableListOf())
+            // TODO problemTable 로 복원시키는 로직 작성
+            //viewModel.addProblemTable(adapter?.adapterList?.toMutableList() ?: mutableListOf())
         }
 
-        omrViewModel.omrInput.onResult(viewLifecycleOwner.lifecycleScope) { problemList ->
-            adapter?.set(problemList)
+        omrViewModel.omrInput.onResult(viewLifecycleOwner.lifecycleScope) { problemTables ->
+
+            // TODO set override 필요없는 데이터 수정하기
+            adapter?.set(convertToProblemList(problemTables), omrViewModel.tableData.selectNum)
             if(omrViewModel.isTemp) {
-                updateProgress(problemList)
+                updateProgress(problemTables)
                 omrViewModel.isTemp = false
             }
         }
@@ -75,6 +78,17 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
         list.forEach {
             omrViewModel.updateProblemProgress(Pair(it.answer.any { num -> num != 0 } , it.answer.count { num -> num != 0 }))
         }
+    }
+
+    private fun convertToProblemList(list: List<ProblemTable>) : List<MutableList<Pair<Int, Boolean>>> {
+        val problemList = List(list.size) { mutableListOf<Pair<Int, Boolean>>() }
+        val selectNum = omrViewModel.tableData.selectNum
+        list.forEachIndexed { index, tableData ->
+            for(i in 1..selectNum) {
+                problemList[index].add(Pair(i, tableData.answer.contains(i)))
+            }
+        }
+        return problemList
     }
 
 }
