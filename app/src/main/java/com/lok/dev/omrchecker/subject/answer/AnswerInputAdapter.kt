@@ -3,25 +3,22 @@ package com.lok.dev.omrchecker.subject.answer
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.GridLayout
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.recyclerview.widget.GridLayoutManager
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.commonutil.convertDpToPx
-import com.lok.dev.coredatabase.entity.AnswerTable
-import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemAnswerInputBinding
 
 class AnswerInputAdapter(
     private val context: Context,
-    lifecycleCoroutineScope: LifecycleCoroutineScope,
+    private val lifecycleCoroutineScope: LifecycleCoroutineScope,
     private val selectNum: Int,
     private val onClick: (Pair<Boolean, Int>) -> Unit
-) : BaseAdapter<ItemAnswerInputBinding, AnswerTable>(lifecycleCoroutineScope) {
+) : BaseAdapter<ItemAnswerInputBinding, MutableList<Pair<Int, Boolean>>>(lifecycleCoroutineScope) {
 
     override fun getBinding(parent: ViewGroup, viewType: Int) = ViewHolder(
         ItemAnswerInputBinding.inflate(
@@ -29,31 +26,35 @@ class AnswerInputAdapter(
         )
     )
 
+    private val itemAdapterList = mutableListOf<AnswerItemInputAdapter>()
+
+    fun setList(list: List<MutableList<Pair<Int, Boolean>>>) {
+        itemAdapterList.clear()
+        list.forEachIndexed { index, _ ->
+            val itemAdapter = AnswerItemInputAdapter(this@AnswerInputAdapter.context, lifecycleCoroutineScope, index) {
+                val problemNum = it.first   // 문제 번호
+                val answerNum = it.second   // 답안 번호
+                val isSelected = it.third   // 선택 여부
+                adapterList[problemNum][answerNum.minus(1)] = Pair(answerNum, isSelected)
+                onClick.invoke(Pair(isSelected, problemNum))
+            }
+            itemAdapterList.add(itemAdapter)
+        }
+        set(list)
+    }
+
     inner class ViewHolder(
         override val binding: ItemAnswerInputBinding
     ) : BaseViewHolder<ItemAnswerInputBinding>(binding) {
         override fun bind(position: Int) = with(binding) {
-            val data = adapterList[position]
 
-            omrNum.text = data.no.toString()
+            omrNum.text = position.plus(1).toString()
 
-            omrAnswerContainer.removeAllViews()
-            for(num in 1..selectNum) {
-                val view = makeCheckBox(num)
-                if(data.answer.contains(num)) {
-                    view.isChecked = true
-                    view.buttonDrawable = AppCompatResources.getDrawable(context, R.drawable.answer_selected)
-                }else {
-                    view.isChecked = false
-                    view.buttonDrawable = AppCompatResources.getDrawable(context, getImageType(num))
-                }
-                view.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) addData(data, num)
-                    else removeData(data, num)
-                    onClick.invoke(Pair(isChecked, data.no))
-                }
-                omrAnswerContainer.addView(view)
-            }
+            val spanCnt = if(selectNum < 5) selectNum else 5
+            answerList.layoutManager = GridLayoutManager(context, spanCnt, GridLayoutManager.VERTICAL, false)
+            answerList.adapter = itemAdapterList[position]
+
+            itemAdapterList[position].set(adapterList[position])
 
             divider.isVisible = position % 5 == 4
 
@@ -89,48 +90,6 @@ class AnswerInputAdapter(
             divider.layoutParams = params
         }
 
-        private fun addData(data: AnswerTable, num: Int) {
-            val modAnswer = data.answer.toMutableList()
-            modAnswer.add(num)
-            adapterList[adapterPosition] = data.copy(answer = modAnswer)
-            notifyItemChanged(adapterPosition)
-        }
-
-        private fun removeData(data: AnswerTable, num: Int) {
-            val modAnswer = data.answer.toMutableList()
-            modAnswer.remove(num)
-            adapterList[adapterPosition] = data.copy(answer = modAnswer)
-            notifyItemChanged(adapterPosition)
-        }
-
-        private fun makeCheckBox(position: Int): CheckBox {
-            val checkBox = CheckBox(context)
-            val param = GridLayout.LayoutParams().apply {
-                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
-                height = ViewGroup.LayoutParams.WRAP_CONTENT
-                width = 0
-            }
-            checkBox.layoutParams = param
-            checkBox.buttonDrawable =
-                AppCompatResources.getDrawable(context, getImageType(position))
-            return checkBox
-        }
-
-        private fun getImageType(position: Int): Int {
-            return when (position) {
-                1 -> R.drawable.answer_num_1
-                2 -> R.drawable.answer_num_2
-                3 -> R.drawable.answer_num_3
-                4 -> R.drawable.answer_num_4
-                5 -> R.drawable.answer_num_5
-                6 -> R.drawable.answer_num_6
-                7 -> R.drawable.answer_num_7
-                8 -> R.drawable.answer_num_8
-                9 -> R.drawable.answer_num_9
-                10 -> R.drawable.answer_num_10
-                else -> R.drawable.answer_num_1
-            }
-        }
     }
 
 }

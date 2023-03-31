@@ -19,16 +19,39 @@ class AnswerInputViewModel @Inject constructor(
     val answerList = mutableListOf<AnswerTable>()
     val scoreList = mutableListOf<AnswerTable>()
 
-    fun addAnswerTable(answerList: MutableList<AnswerTable>) = CoroutineScope(ioDispatcher).launch {
+    fun addAnswerTable(answerList: List<AnswerTable>) = CoroutineScope(ioDispatcher).launch {
 
+        val modAnswerList = answerList.toMutableList()
         scoreList.forEachIndexed { index, scoreInfo ->
             val modAnswerTable = answerList[index].copy(score = scoreInfo.score)
-            answerList[index] = modAnswerTable
+            modAnswerList[index] = modAnswerTable
         }
 
-        answerList.forEach{ answerTable ->
+        modAnswerList.forEach{ answerTable ->
             addAnswerUseCase.invoke(answerTable)
         }
+    }
+
+    fun convertToAnswerList(list: List<AnswerTable>, selectNum: Int): List<MutableList<Pair<Int, Boolean>>> {
+        val answerList = List(list.size) { mutableListOf<Pair<Int, Boolean>>() }
+        list.forEachIndexed { index, tableData ->
+            for(i in 1..selectNum) {
+                answerList[index].add(Pair(i, tableData.answer.contains(i)))
+            }
+        }
+        return answerList
+    }
+
+    fun convertToAnswerTable(list: List<List<Pair<Int, Boolean>>>?, id: Int): List<AnswerTable> {
+        val tableList = mutableListOf<AnswerTable>()
+        list?.forEachIndexed { index, answerList->
+            val selectList = mutableListOf<Int>()
+            answerList.forEach { answerPair ->
+                if(answerPair.second) selectList.add(answerPair.first)
+            }
+            tableList.add(AnswerTable(id = id, no = index, answer = selectList, score = null))
+        }
+        return tableList
     }
 
 }

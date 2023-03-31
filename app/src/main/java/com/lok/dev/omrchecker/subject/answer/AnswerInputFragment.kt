@@ -11,7 +11,6 @@ import com.lok.dev.commonutil.getChangeTextStyle
 import com.lok.dev.commonutil.onResult
 import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.coredatabase.entity.AnswerTable
-import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentAnswerInputBinding
 import com.lok.dev.omrchecker.subject.OmrViewModel
@@ -45,11 +44,11 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
         }
 
         omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
-            viewModel.addAnswerTable(adapter?.adapterList?.toMutableList() ?: mutableListOf())
+            viewModel.addAnswerTable(viewModel.convertToAnswerTable(adapter?.adapterList, omrViewModel.tableData.id))
         }
 
         omrViewModel.answerInput.onResult(viewLifecycleOwner.lifecycleScope) { answerList ->
-            adapter?.set(answerList)
+            adapter?.setList(viewModel.convertToAnswerList(answerList, omrViewModel.tableData.selectNum))
             if(omrViewModel.isTemp) {
                 updateProgress(answerList)
                 omrViewModel.isTemp = false

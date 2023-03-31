@@ -22,20 +22,15 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="12"/>
 
-        <GridLayout
-            android:id="@+id/omrAnswerContainer"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/answerList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:columnCount="5"
-            android:useDefaultMargins="true"
             android:paddingVertical="4dp"
-            android:layout_marginEnd="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/omrNum"
-            app:layout_constraintEnd_toEndOf="parent">
-
-        </GridLayout>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <View
             android:id="@+id/divider"
