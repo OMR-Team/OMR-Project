@@ -33,8 +33,14 @@ class AnswerItemInputAdapter(
             val answerNum = data.first      // 답안 번호
             val isSelected = data.second    // 선택 여부
 
-            if(isSelected) answerItem.setBackgroundResource(R.drawable.answer_selected)
-            else answerItem.setBackgroundResource(getImageType(answerNum))
+            if(isSelected) {
+                answerItem.isChecked = true
+                answerItem.setBackgroundResource(R.drawable.answer_selected)
+            }
+            else {
+                answerItem.isChecked = false
+                answerItem.setBackgroundResource(getImageType(answerNum))
+            }
 
             answerItem.setOnCheckedChangeListener { _, isChecked ->
                 onClick.invoke(Triple(problemNum, answerNum, isChecked))

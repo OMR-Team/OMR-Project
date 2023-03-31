@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonutil.onResult
+import com.lok.dev.commonutil.setTextWatcher
 import com.lok.dev.commonutil.showToast
 import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.coredatabase.entity.AnswerTable
@@ -42,6 +43,7 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<Answer
         viewModel.scoreInputList.addAll(answerViewModel.answerList)
 
         setClickListeners()
+        setTextWatcher()
     }
 
     private fun collectViewModel() = with(viewModel) {
@@ -84,6 +86,19 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<Answer
                 hideKeyboard(editScoreInputAll)
             }else {
                 requireContext().showToast(R.string.omr_score_input_all_warn)
+            }
+        }
+
+    }
+
+    private fun setTextWatcher() = with(binding) {
+        editScoreInputAll.setTextWatcher {
+            if(it.isNotEmpty()) {
+                scoreConfirmAll.isEnabled = true
+                scoreConfirmAll.setBackgroundResource(R.drawable.bg_border_blue_primary_radius_24)
+            }else {
+                scoreConfirmAll.isEnabled = false
+                scoreConfirmAll.setBackgroundResource(R.drawable.bg_border_black_3_radius_24)
             }
         }
 

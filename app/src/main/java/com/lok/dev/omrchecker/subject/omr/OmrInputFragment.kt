@@ -100,11 +100,10 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
 
     /** 임시저장 불러오기 후, 진행바 업데이트 **/
     private fun updateProgress(list: List<ProblemTable>) {
-        list.forEach {
-            omrViewModel.updateProblemProgress(
-                Pair(it.answer.any { num -> num != 0 },
-                    it.answer.count { num -> num != 0 })
-            )
+        list.forEach { problemTable ->
+            repeat(problemTable.answer.size) {
+                omrViewModel.updateProblemProgress(Pair(true, problemTable.no))
+            }
         }
     }
 

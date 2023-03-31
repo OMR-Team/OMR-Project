@@ -97,8 +97,10 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
 
     /** 임시저장 불러오기 후, 진행바 업데이트 **/
     private fun updateProgress(list: List<AnswerTable>) {
-        list.forEach {
-            omrViewModel.updateAnswerProgress(Pair(it.answer.any { num -> num != 0 } , it.answer.count { num -> num != 0 }))
+        list.forEach { answerTable ->
+            repeat(answerTable.answer.size) {
+                omrViewModel.updateAnswerProgress(Pair(true, answerTable.no))
+            }
         }
     }
 }
