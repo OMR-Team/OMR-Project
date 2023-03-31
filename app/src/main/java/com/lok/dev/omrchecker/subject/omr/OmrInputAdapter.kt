@@ -1,13 +1,8 @@
 package com.lok.dev.omrchecker.subject.omr
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.GridLayout
-import android.widget.GridLayout.spec
-import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -15,11 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.commonutil.convertDpToPx
-import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemOmrInputBinding
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class OmrInputAdapter(
@@ -37,17 +29,14 @@ class OmrInputAdapter(
 
     private val itemAdapterList = mutableListOf<OmrItemInputAdapter>()
 
-    fun set(list: List<MutableList<Pair<Int, Boolean>>>, selectNum: Int) {
+    fun setList(list: List<MutableList<Pair<Int, Boolean>>>) {
         itemAdapterList.clear()
         list.forEachIndexed { index, _ ->
             val itemAdapter = OmrItemInputAdapter(this@OmrInputAdapter.context, lifecycleCoroutineScope, index) {
-
-                val problemNum = it.first
-                val answerNum = it.second
-                val isSelected = it.third
-
+                val problemNum = it.first   // 문제 번호
+                val answerNum = it.second   // 답안 번호
+                val isSelected = it.third   // 선택 여부
                 adapterList[problemNum][answerNum.minus(1)] = Pair(answerNum, isSelected)
-
                 onClick.invoke(Pair(isSelected, problemNum))
             }
             itemAdapterList.add(itemAdapter)
@@ -67,6 +56,38 @@ class OmrInputAdapter(
             omrInputList.adapter = itemAdapterList[position]
 
             itemAdapterList[position].set(adapterList[position])
+
+            divider.isVisible = position % 5 == 4
+            setBackgroundUI(position)
+        }
+
+        private fun setBackgroundUI(position: Int) = with(binding) {
+            when {
+                position == 0 -> {
+                    container.background = AppCompatResources.getDrawable(context, R.drawable.bg_theme_blue_4_top_radius_16)
+                }
+                position == adapterList.lastIndex && (position % 10 < 5) -> {
+                    container.background = AppCompatResources.getDrawable(context, R.drawable.bg_theme_blue_4_bottom_radius_16)
+                    setDividerHorizontalMargin()
+                }
+                position == adapterList.lastIndex && (position % 10 >= 5) -> {
+                    container.background = AppCompatResources.getDrawable(context, R.drawable.bg_theme_white_bottom_radius_16)
+                    setDividerHorizontalMargin()
+                }
+                position % 10 < 5 -> {
+                    container.background = AppCompatResources.getDrawable(context, R.color.theme_blue_4)
+                }
+                else -> {
+                    container.background = AppCompatResources.getDrawable(context, R.color.white)
+                }
+            }
+        }
+
+        private fun setDividerHorizontalMargin() = with(binding) {
+            val params = divider.layoutParams as ViewGroup.MarginLayoutParams
+            params.leftMargin = context.convertDpToPx(8F).toInt()
+            params.rightMargin = context.convertDpToPx(8F).toInt()
+            divider.layoutParams = params
         }
 
     }

@@ -35,21 +35,13 @@ class OmrItemInputAdapter(
             val answerNum = data.first      // 답안 번호
             val isSelected = data.second    // 선택 여부
 
-            if(isSelected) {
-                omrItem.isChecked = true
-                omrItem.setBackgroundResource(R.drawable.omr_selected)
-            }else {
-                omrItem.isChecked = false
-                omrItem.setBackgroundResource(getImageType(answerNum))
-            }
+            if (isSelected) omrItem.setBackgroundResource(R.drawable.omr_selected)
+            else omrItem.setBackgroundResource(getImageType(answerNum))
 
             omrItem.setOnCheckedChangeListener { _, isChecked ->
                 onClick.invoke(Triple(problemNum, answerNum, isChecked))
-                if(isChecked) {
-                    omrItem.setBackgroundResource(R.drawable.omr_selected)
-                }else {
-                    omrItem.setBackgroundResource(getImageType(answerNum))
-                }
+                if (isChecked) omrItem.setBackgroundResource(R.drawable.omr_selected)
+                else omrItem.setBackgroundResource(getImageType(answerNum))
             }
         }
 

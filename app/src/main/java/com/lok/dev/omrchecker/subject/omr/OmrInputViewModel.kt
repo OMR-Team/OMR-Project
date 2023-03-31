@@ -16,11 +16,35 @@ class OmrInputViewModel @Inject constructor(
     private val addProblemUseCase: AddProblemUseCase
 ) : BaseViewModel() {
 
+    var id = 0
+    var cnt = 0
 
-    fun addProblemTable(problemList: MutableList<ProblemTable>) = CoroutineScope(ioDispatcher).launch {
+    fun addProblemTable(problemList: List<ProblemTable>) = CoroutineScope(ioDispatcher).launch {
 
         problemList.forEach { problemTable ->
             addProblemUseCase.invoke(problemTable)
         }
+    }
+
+    fun convertToProblemList(list: List<ProblemTable>, selectNum : Int): List<MutableList<Pair<Int, Boolean>>> {
+        val problemList = List(list.size) { mutableListOf<Pair<Int, Boolean>>() }
+        list.forEachIndexed { index, tableData ->
+            for (i in 1..selectNum) {
+                problemList[index].add(Pair(i, tableData.answer.contains(i)))
+            }
+        }
+        return problemList
+    }
+
+    fun convertToProblemTable(list: List<List<Pair<Int, Boolean>>>?, id: Int, cnt: Int): List<ProblemTable> {
+        val tableList = mutableListOf<ProblemTable>()
+        list?.forEachIndexed { index, problemList ->
+            val answerList = mutableListOf<Int>()
+            problemList.forEach { answerPair ->
+                if (answerPair.second) answerList.add(answerPair.first)
+            }
+            tableList.add(ProblemTable(id = id, cnt = cnt, no = index, answer = answerList))
+        }
+        return tableList
     }
 }

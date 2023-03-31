@@ -55,8 +55,6 @@ class AnswerInputAdapter(
                 omrAnswerContainer.addView(view)
             }
 
-
-
             divider.isVisible = position % 5 == 4
 
             setBackgroundUI(position)

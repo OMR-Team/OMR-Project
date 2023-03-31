@@ -38,29 +38,54 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
 
     private fun collectViewModel() {
         omrViewModel.progressState.onResult(viewLifecycleOwner.lifecycleScope) { progress ->
-            val text = String.format(getString(R.string.omr_input_cnt), progress, omrViewModel.tableData.problemNum)
-            binding.omrInputCnt.text = requireActivity().getChangeTextStyle(text, progress.toString(), R.color.theme_blue_primary)
+            val text = String.format(
+                getString(R.string.omr_input_cnt),
+                progress,
+                omrViewModel.tableData.problemNum
+            )
+            binding.omrInputCnt.text = requireActivity().getChangeTextStyle(
+                text,
+                progress.toString(),
+                R.color.theme_blue_primary
+            )
         }
 
         omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
-            // TODO problemTable 로 복원시키는 로직 작성
-            //viewModel.addProblemTable(adapter?.adapterList?.toMutableList() ?: mutableListOf())
+            viewModel.addProblemTable(
+                viewModel.convertToProblemTable(
+                    adapter?.adapterList,
+                    omrViewModel.tableData.id,
+                    omrViewModel.tableData.cnt
+                )
+            )
         }
 
         omrViewModel.omrInput.onResult(viewLifecycleOwner.lifecycleScope) { problemTables ->
 
-            // TODO set override 필요없는 데이터 수정하기
-            adapter?.set(convertToProblemList(problemTables), omrViewModel.tableData.selectNum)
-            if(omrViewModel.isTemp) {
+            adapter?.setList(
+                viewModel.convertToProblemList(
+                    problemTables,
+                    omrViewModel.tableData.selectNum
+                )
+            )
+            if (omrViewModel.isTemp) {
                 updateProgress(problemTables)
                 omrViewModel.isTemp = false
+            }
+            if (problemTables.isNotEmpty()) {
+                viewModel.id = problemTables[0].id
+                viewModel.cnt = problemTables[0].cnt
             }
         }
 
     }
 
     private fun initAdapter() {
-        adapter = OmrInputAdapter(requireContext(), viewLifecycleOwner.lifecycleScope, omrViewModel.tableData.selectNum) { pair ->
+        adapter = OmrInputAdapter(
+            requireContext(),
+            viewLifecycleOwner.lifecycleScope,
+            omrViewModel.tableData.selectNum
+        ) { pair ->
             omrViewModel.updateProblemProgress(pair)
         }
         binding.omrInputList.adapter = adapter
@@ -69,26 +94,18 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
     private fun setScreen() = with(binding) {
         val text = String.format(getString(R.string.omr_input_cnt), 0, omrViewModel.tableData.problemNum)
         omrInputCnt.text = requireActivity().getChangeTextStyle(text, "0", R.color.theme_blue_primary)
-        if(omrViewModel.isTemp) omrViewModel.getProblemTable()
+        if (omrViewModel.isTemp) omrViewModel.getProblemTable()
         else omrViewModel.makeProblemTable()
     }
 
     /** 임시저장 불러오기 후, 진행바 업데이트 **/
     private fun updateProgress(list: List<ProblemTable>) {
         list.forEach {
-            omrViewModel.updateProblemProgress(Pair(it.answer.any { num -> num != 0 } , it.answer.count { num -> num != 0 }))
+            omrViewModel.updateProblemProgress(
+                Pair(it.answer.any { num -> num != 0 },
+                    it.answer.count { num -> num != 0 })
+            )
         }
-    }
-
-    private fun convertToProblemList(list: List<ProblemTable>) : List<MutableList<Pair<Int, Boolean>>> {
-        val problemList = List(list.size) { mutableListOf<Pair<Int, Boolean>>() }
-        val selectNum = omrViewModel.tableData.selectNum
-        list.forEachIndexed { index, tableData ->
-            for(i in 1..selectNum) {
-                problemList[index].add(Pair(i, tableData.answer.contains(i)))
-            }
-        }
-        return problemList
     }
 
 }
