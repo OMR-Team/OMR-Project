@@ -15,7 +15,7 @@ interface SubjectDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addSubject(tagTable: SubjectTable)
 
-    @Update
-    fun updateSubject(subjectTable: SubjectTable)
+    @Query("UPDATE SubjectTable SET updateDate = :updateDate WHERE id = :subjectId")
+    fun updateSubject(updateDate: Long, subjectId: Int)
 
 }

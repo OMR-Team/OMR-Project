@@ -11,8 +11,8 @@ interface OMRDao {
     @Query("SELECT * FROM OMRTable")
     fun selectAllOMRTable(): Flow<List<OMRTable>>
 
-    @Query("SELECT * FROM OMRTable WHERE subject = :subject ")
-    fun selectOMRTableBySubject(subject:SubjectTable): Flow<List<OMRTable>>
+    @Query("SELECT * FROM OMRTable WHERE subjectId = :subjectId")
+    fun selectOMRTableBySubject(subjectId: Int): Flow<List<OMRTable>>
 
     @Throws(SQLException::class)
     @Insert(onConflict = OnConflictStrategy.REPLACE)

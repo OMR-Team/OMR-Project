@@ -28,7 +28,7 @@ class SettingViewModel @Inject constructor(
 
     fun addOmrTest(title: String, problemNum: Int, selectNum: Int, callBack: (OMRTable) -> Unit) = CoroutineScope(ioDispatcher).launch {
         val omrTable = OMRTable(
-            subject = subjectData.value,
+            subjectId = subjectData.value.id,
             title = title,
             problemNum = problemNum,
             selectNum = selectNum

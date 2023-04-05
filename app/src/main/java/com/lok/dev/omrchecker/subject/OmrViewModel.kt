@@ -12,6 +12,7 @@ import com.lok.dev.coredata.usecase.UpdateSubjectUseCase
 import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.coredatabase.entity.ProblemTable
+import com.lok.dev.coredatabase.entity.SubjectTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +36,7 @@ class OmrViewModel @Inject constructor(
     private val answerSelected = mutableMapOf<Int, Int>()
 
     lateinit var tableData : OMRTable
+    var subjectData: SubjectTable? = null
     var isTemp = false
     var hasScore = false
 
@@ -119,7 +121,7 @@ class OmrViewModel @Inject constructor(
     fun updateOMRTable(isTemp : Boolean, page: Int) = CoroutineScope(ioDispatcher).launch {
         val currentTime = System.currentTimeMillis()
         updateOmrUseCase.invoke(tableData.copy(isTemp = isTemp, page = page, updateDate = currentTime))
-        updateSubjectUseCase.invoke(tableData.subject.copy(updateDate = currentTime))
+        updateSubjectUseCase.invoke(currentTime, tableData.subjectId)
     }
 
     fun getProblemTable() = CoroutineScope(ioDispatcher).launch {

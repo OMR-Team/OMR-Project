@@ -11,5 +11,5 @@ class SubjectDatabaseRepositoryImpl @Inject constructor(
 
     override fun getSubjectList(): Flow<List<SubjectTable>> = subjectDao.selectAllSubjectList()
     override fun addSubject(subjectTable: SubjectTable) = subjectDao.addSubject(subjectTable)
-    override fun updateSubjectTable(subjectTable: SubjectTable) = subjectDao.updateSubject(subjectTable)
+    override fun updateSubjectTable(updateDate: Long, subjectId: Int) = subjectDao.updateSubject(updateDate, subjectId)
 }

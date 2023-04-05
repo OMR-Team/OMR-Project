@@ -32,7 +32,7 @@ class TestFragment @Inject constructor() : BaseFragment<FragmentTestBinding>() {
     private fun addListeners() = with(binding) {
         btnInsert.setOnClickListener {
             val data = OMRTable(
-                subject = SubjectTable(name = "테스트"),
+                subjectId = 1,
                 title = "테스트야",
                 cnt = 0,
                 problemNum = 10,

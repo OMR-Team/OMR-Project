@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
+import com.lok.dev.commonmodel.CommonConstants
 import com.lok.dev.commonutil.onUiState
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.coredatabase.entity.SubjectTable
@@ -43,7 +44,7 @@ class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBindin
         initView()
         addListeners()
         collectViewModel()
-        viewModel.getOmrList(subjectData)
+        viewModel.getOmrList(subjectData?.id ?: 0)
     }
 
     private fun initView() = with(binding) {
@@ -91,6 +92,7 @@ class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBindin
         val intent = Intent(requireContext(), OmrActivity::class.java)
         intent.putExtras(Bundle().apply {
             putParcelable("omrTable", omrTable)
+            putParcelable(CommonConstants.BUNDLE_SUBJECT_DATA, subjectData)
         })
         this.startActivity(intent)
     }

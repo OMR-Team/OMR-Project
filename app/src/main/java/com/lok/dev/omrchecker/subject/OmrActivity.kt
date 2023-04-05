@@ -11,9 +11,11 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseActivity
 import com.lok.dev.commonbase.util.launchConfirmDialog
+import com.lok.dev.commonmodel.CommonConstants
 import com.lok.dev.commonmodel.state.AnimationState
 import com.lok.dev.commonutil.*
 import com.lok.dev.coredatabase.entity.OMRTable
+import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ActivityOmrBinding
 import com.lok.dev.omrchecker.dialog.TitleConfirmDialog
@@ -92,6 +94,9 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             viewModel.tableData = it
             viewModel.isTemp = it.isTemp
         } ?: showErrorDialog()
+        intent.safeParcelable<SubjectTable>(CommonConstants.BUNDLE_SUBJECT_DATA)?.let {
+            viewModel.subjectData = it
+        }
     }
 
     private fun showErrorDialog() {
@@ -290,7 +295,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
 
     private fun setScreen() = with(binding) {
         testName.text = viewModel.tableData.title
-        subjectName.text = viewModel.tableData.subject.name
+        subjectName.text = viewModel.subjectData?.name ?: ""
         val data = viewModel.tableData
         when {
             data.isTemp && data.page == PAGE_OMR_INPUT -> {

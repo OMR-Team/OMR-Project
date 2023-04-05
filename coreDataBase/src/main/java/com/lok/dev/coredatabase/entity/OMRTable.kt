@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 @Entity
 data class OMRTable(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,               // 시험 id
-    @ColumnInfo(name = "subject") val subject: SubjectTable,        // 폴더명
+    @ColumnInfo(name = "subjectId") val subjectId: Int,             // 폴더id
     @ColumnInfo(name = "title") val title: String = "",             // 시험명
     @ColumnInfo(name = "cnt") val cnt: Int = 1,                     // 회차
     @ColumnInfo(name = "correctCnt") val correctCnt: Int = 0,       // 맞은 수

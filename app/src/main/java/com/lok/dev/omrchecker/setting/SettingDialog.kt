@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonmodel.CommonConstants
+import com.lok.dev.commonmodel.CommonConstants.BUNDLE_SUBJECT_DATA
 import com.lok.dev.commonutil.*
 import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.commonutil.convertDpToPx
@@ -113,6 +114,7 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
         val intent = Intent(requireContext(), OmrActivity::class.java)
         intent.putExtras(Bundle().apply {
             putParcelable("omrTable", omrTable)
+            putParcelable(BUNDLE_SUBJECT_DATA, viewModel.subjectData.value)
         })
         this.startActivity(intent)
     }

@@ -8,6 +8,6 @@ class UpdateSubjectUseCase @Inject constructor(
     private val subjectDatabaseRepository: SubjectDatabaseRepository
 ) {
 
-    fun invoke(subjectTable: SubjectTable) = subjectDatabaseRepository.updateSubjectTable(subjectTable)
+    fun invoke(updateDate: Long, subjectId: Int) = subjectDatabaseRepository.updateSubjectTable(updateDate, subjectId)
 
 }
