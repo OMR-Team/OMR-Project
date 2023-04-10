@@ -44,7 +44,9 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
         }
 
         omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
-            viewModel.addAnswerTable(viewModel.convertToAnswerTable(adapter?.adapterList, omrViewModel.tableData.id))
+            val answerTable = viewModel.convertToAnswerTable(adapter?.adapterList, omrViewModel.tableData.id)
+            omrViewModel.answerTable = viewModel.getAnswerList(answerTable)
+            viewModel.addAnswerTable(omrViewModel.answerTable)
         }
 
         omrViewModel.answerInput.onResult(viewLifecycleOwner.lifecycleScope) { answerList ->
@@ -53,6 +55,8 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
                 updateProgress(answerList)
                 omrViewModel.isTemp = false
                 viewModel.answerList.addAll(answerList)
+                if(answerList.count { it.score == 0.0 } == 0) omrViewModel.hasScore = true
+                viewModel.scoreList.addAll(answerList)
             }
         }
 
@@ -71,7 +75,10 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
             launchDialogFragment(
                 dialogFragment = ScoreInputDialog(),
                 result = { scoreList ->
-                    if (!scoreList.isNullOrEmpty()) viewModel.scoreList.addAll(scoreList)
+                    if (!scoreList.isNullOrEmpty()) {
+                        viewModel.scoreList.clear()
+                        viewModel.scoreList.addAll(scoreList)
+                    }
                 }
             )
         }

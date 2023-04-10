@@ -5,14 +5,8 @@ import com.lok.dev.commonbase.BaseViewModel
 import com.lok.dev.commonmodel.state.mutableResultState
 import com.lok.dev.commonutil.di.IoDispatcher
 import com.lok.dev.commonutil.onState
-import com.lok.dev.coredata.usecase.GetAnswerTableUseCase
-import com.lok.dev.coredata.usecase.GetProblemTableUseCase
-import com.lok.dev.coredata.usecase.UpdateOmrUseCase
-import com.lok.dev.coredata.usecase.UpdateSubjectUseCase
-import com.lok.dev.coredatabase.entity.AnswerTable
-import com.lok.dev.coredatabase.entity.OMRTable
-import com.lok.dev.coredatabase.entity.ProblemTable
-import com.lok.dev.coredatabase.entity.SubjectTable
+import com.lok.dev.coredata.usecase.*
+import com.lok.dev.coredatabase.entity.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -29,16 +23,20 @@ class OmrViewModel @Inject constructor(
     private val updateOmrUseCase: UpdateOmrUseCase,
     private val updateSubjectUseCase: UpdateSubjectUseCase,
     private val getProblemTableUseCase: GetProblemTableUseCase,
-    private val getAnswerTableUseCase: GetAnswerTableUseCase
+    private val getAnswerTableUseCase: GetAnswerTableUseCase,
+    private val addHistoryUseCase: AddHistoryUseCase
 ) : BaseViewModel() {
 
     private val problemSelected = mutableMapOf<Int, Int>()
     private val answerSelected = mutableMapOf<Int, Int>()
 
     lateinit var tableData : OMRTable
+    var answerTable = listOf<AnswerTable>()
+    var problemTable = listOf<ProblemTable>()
     var subjectData: SubjectTable? = null
     var isTemp = false
     var hasScore = false
+    var screen: OmrActivity.OmrState = OmrActivity.OmrState.AnswerScreen
 
     /** 문제 입력 진행도 **/
     private val _progressState = MutableStateFlow(0)
@@ -75,6 +73,7 @@ class OmrViewModel @Inject constructor(
     fun changeScreenState(state: OmrActivity.OmrState) {
         viewModelScope.launch {
             _screenState.emit(state)
+            screen = state
         }
     }
 
@@ -122,6 +121,23 @@ class OmrViewModel @Inject constructor(
         val currentTime = System.currentTimeMillis()
         updateOmrUseCase.invoke(tableData.copy(isTemp = isTemp, page = page, updateDate = currentTime))
         updateSubjectUseCase.invoke(currentTime, tableData.subjectId)
+        if(!isTemp) addHistoryTable()
+    }
+
+    private fun addHistoryTable() {
+        var correct = 0
+        var totalScore = 0.0
+        val score = problemTable.sumOf { problemTable ->
+            answerTable.firstOrNull { answerTable -> problemTable.no == answerTable.no  }?.let { answer ->
+                totalScore += answer.score ?: 0.0
+                if(problemTable.answer == answer.answer) {
+                    correct++
+                    answer.score ?: 0.0
+                }
+                else 0.0
+            } ?: 0.0
+        }
+        addHistoryUseCase.invoke(HistoryTable(tableData.id, tableData.cnt, score, totalScore, correct))
     }
 
     fun getProblemTable() = CoroutineScope(ioDispatcher).launch {
