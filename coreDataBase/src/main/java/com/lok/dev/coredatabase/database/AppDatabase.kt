@@ -20,4 +20,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getSubjectDao(): SubjectDao
     abstract fun getProblemDao(): ProblemDao
     abstract fun getAnswerDao(): AnswerDao
+    abstract fun getResultDao(): ResultDao
+    abstract fun getHistoryDao(): HistoryDao
 }

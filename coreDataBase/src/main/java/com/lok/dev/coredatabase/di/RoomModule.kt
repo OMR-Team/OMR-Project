@@ -46,4 +46,13 @@ object RoomModule {
     @Singleton
     @Provides
     fun provideAnswerDao(appDatabase: AppDatabase) : AnswerDao = appDatabase.getAnswerDao()
+
+    @Singleton
+    @Provides
+    fun provideResultDao(appDatabase: AppDatabase) : ResultDao = appDatabase.getResultDao()
+
+    @Singleton
+    @Provides
+    fun provideHistoryDao(appDatabase: AppDatabase) : HistoryDao = appDatabase.getHistoryDao()
+
 }

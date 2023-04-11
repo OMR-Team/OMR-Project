@@ -23,6 +23,7 @@ import com.lok.dev.omrchecker.subject.answer.AnswerInputFragment
 import com.lok.dev.omrchecker.subject.omr.OmrInputFragment
 import com.lok.dev.omrchecker.subject.result.ResultFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OmrActivity : BaseActivity<ActivityOmrBinding>() {
@@ -329,7 +330,8 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
 
     private fun setBackPressedCallback() {
         backPressedCallback = this.onBackPressedDispatcher.addCallback(this) {
-            showCloseConfirmDialog()
+            if(viewModel.screen == OmrState.ResultScreen) finish()
+            else showCloseConfirmDialog()
         }
     }
 
