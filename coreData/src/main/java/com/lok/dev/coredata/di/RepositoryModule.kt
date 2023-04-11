@@ -34,4 +34,14 @@ interface RepositoryModule {
     fun bindsAnswerDatabaseRepository(
         answerDatabaseRepository: AnswerDatabaseRepositoryImpl
     ): AnswerDatabaseRepository
+
+    @Binds
+    fun bindsResultDatabaseRepository(
+        resultDatabaseRepository: ResultDatabaseRepositoryImpl
+    ): ResultDatabaseRepository
+
+    @Binds
+    fun bindsHistoryDatabaseRepository(
+        historyDatabaseRepository: HistoryDatabaseRepositoryImpl
+    ): HistoryDatabaseRepository
 }

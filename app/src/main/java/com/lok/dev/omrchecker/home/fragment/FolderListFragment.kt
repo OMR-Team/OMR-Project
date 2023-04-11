@@ -11,17 +11,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lok.dev.commonbase.BaseFragment
+import com.lok.dev.commonbase.util.launchConfirmDialog
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonmodel.state.FolderState
-import com.lok.dev.commonutil.addFragment
-import com.lok.dev.commonutil.getWindowWidth
-import com.lok.dev.commonutil.onResult
-import com.lok.dev.commonutil.onUiState
+import com.lok.dev.commonutil.*
 import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.custom.SortMenu
 import com.lok.dev.omrchecker.custom.SortStandard
 import com.lok.dev.omrchecker.databinding.FragmentFolderListBinding
+import com.lok.dev.omrchecker.dialog.TitleConfirmDialog
 import com.lok.dev.omrchecker.home.adapter.FolderListAdapter
 import com.lok.dev.omrchecker.home.viewmodel.FolderListViewModel
 import com.lok.dev.omrchecker.setting.SettingDialog
@@ -94,6 +93,11 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
                 showMenu(compoundButton)
             }
         }
+
+        throttleFirstClick(btnDelete) {
+            showDeleteDialog()
+        }
+
     }
 
     private fun collectViewModel() = with(viewModel) {
@@ -151,6 +155,21 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
         launchDialogFragment(
             dialogFragment = SettingDialog(),
             fullScreen = true
+        )
+    }
+
+    private fun showDeleteDialog() {
+        launchConfirmDialog(
+            type = TitleConfirmDialog::class.java,
+            option = {
+                title = this@FolderListFragment.getString(R.string.folder_list_delete_title)
+                subTitle = this@FolderListFragment.getString(R.string.folder_list_delete_sub_title)
+                cancelText = R.string.text_cancel
+                confirmText = R.string.text_delete
+            },
+            result = {
+                // TODO 폴더 삭제 로직 구현 필요
+            }
         )
     }
 

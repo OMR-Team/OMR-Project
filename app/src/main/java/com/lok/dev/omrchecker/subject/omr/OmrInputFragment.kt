@@ -51,13 +51,13 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
         }
 
         omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
-            viewModel.addProblemTable(
-                viewModel.convertToProblemTable(
-                    adapter?.adapterList,
-                    omrViewModel.tableData.id,
-                    omrViewModel.tableData.cnt
-                )
+            val problemTable = viewModel.convertToProblemTable(
+                adapter?.adapterList,
+                omrViewModel.tableData.id,
+                omrViewModel.tableData.cnt
             )
+            omrViewModel.problemTable = problemTable
+            viewModel.addProblemTable(problemTable)
         }
 
         omrViewModel.omrInput.onResult(viewLifecycleOwner.lifecycleScope) { problemTables ->
