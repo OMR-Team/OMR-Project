@@ -184,6 +184,18 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
 
     private fun showAnswerConfirmDialog() {
         when {
+            viewModel.answerProgressState.value != viewModel.tableData.problemNum && !viewModel.hasScore -> {
+                launchConfirmDialog(
+                    type = TitleConfirmDialog::class.java,
+                    option = {
+                        title = this@OmrActivity.getString(R.string.omr_answer_score_warn_title)
+                        subTitle = this@OmrActivity.getString(R.string.omr_answer_warn_sub_title)
+                    },
+                    result = {
+                        showResultScreen()
+                    }
+                )
+            }
             viewModel.answerProgressState.value != viewModel.tableData.problemNum -> {
                 launchConfirmDialog(
                     type = TitleConfirmDialog::class.java,
@@ -201,7 +213,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
                     type = TitleConfirmDialog::class.java,
                     option = {
                         title = this@OmrActivity.getString(R.string.omr_score_warn_title)
-                        subTitle = this@OmrActivity.getString(R.string.omr_score_warn_sub_title)
+                        subTitle = this@OmrActivity.getString(R.string.omr_answer_warn_sub_title)
                     },
                     result = {
                         showResultScreen()
@@ -224,17 +236,17 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
         when (state) {
             OmrState.OmrScreen -> {
                 omrInputFragment = OmrInputFragment()
-                replaceFragment(R.id.omrFragment, omrInputFragment, AnimationState.Right)
+                replaceFragment(R.id.omrFragment, omrInputFragment, AnimationState.Left)
                 changeScreenUI(OmrState.OmrScreen)
             }
             OmrState.AnswerScreen -> {
                 answerInputFragment = AnswerInputFragment()
-                replaceFragment(R.id.omrFragment, answerInputFragment, AnimationState.Right)
+                replaceFragment(R.id.omrFragment, answerInputFragment, AnimationState.Left)
                 changeScreenUI(OmrState.AnswerScreen)
             }
             OmrState.ResultScreen -> {
                 resultFragment = ResultFragment()
-                replaceFragment(R.id.omrFragment, resultFragment, AnimationState.Right)
+                replaceFragment(R.id.omrFragment, resultFragment, AnimationState.Left)
                 changeScreenUI(OmrState.ResultScreen)
             }
         }

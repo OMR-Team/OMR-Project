@@ -9,6 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseDialogFragment
+import com.lok.dev.commonbase.util.launchConfirmDialog
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonmodel.CommonConstants
 import com.lok.dev.commonmodel.CommonConstants.BUNDLE_SUBJECT_DATA
@@ -20,6 +21,7 @@ import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentSettingBinding
+import com.lok.dev.omrchecker.dialog.TitleConfirmDialog
 import com.lok.dev.omrchecker.setting.subject.SubjectDialog
 import com.lok.dev.omrchecker.setting.viewmodel.SettingViewModel
 import com.lok.dev.omrchecker.subject.OmrActivity
@@ -34,7 +36,7 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
         FragmentSettingBinding.inflate(layoutInflater, container, false)
 
     override fun onDialogBackPressed() {
-        dismiss()
+        showDismissDialog()
     }
 
     override fun initDialogFragment(savedInstanceState: Bundle?) {
@@ -57,7 +59,7 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
         }
 
         throttleFirstClick(includeHeader.btnBack) {
-            dismiss()
+            showDismissDialog()
         }
 
         throttleFirstClick(txtTestStart) {
@@ -106,6 +108,19 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
                 it?.safeParcelable<SubjectTable>(CommonConstants.BUNDLE_SUBJECT_DATA)?.let { subject ->
                     viewModel.setSubject(subject)
                 }
+            }
+        )
+    }
+
+    private fun showDismissDialog() {
+        launchConfirmDialog(
+            type = TitleConfirmDialog::class.java,
+            option = {
+                title = this@SettingDialog.getString(R.string.omr_make_back_title)
+                subTitle = this@SettingDialog.getString(R.string.omr_make_back_sub_title)
+            },
+            result = {
+                dismiss()
             }
         )
     }

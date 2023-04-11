@@ -84,3 +84,22 @@ fun <Dialog : BaseConfirmDialog<*, Result>, Result> FragmentActivity.launchConfi
     }
 
 }
+
+fun <Dialog : BaseConfirmDialog<*, Result>, Result> Fragment.launchConfirmDialog(
+    type: Class<Dialog>,
+    args: Bundle? = null,
+    tag: String? = null,
+    fragmentManager: FragmentManager = childFragmentManager,
+    option: Dialog.() -> Unit = {},
+    result: (Result?) -> Unit = {},
+    cancel: () -> Unit = {}
+): Job = lifecycleScope.launchWhenResumed {
+    type.newInstance().also { dialog ->
+        option.invoke(dialog)
+        dialog.arguments = args
+        dialog.show(fragmentManager, tag)
+        dialog.result = result
+        dialog.cancel = cancel
+    }
+
+}
