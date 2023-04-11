@@ -9,7 +9,9 @@ class OMRDatabaseRepositoryImpl @Inject constructor(
     private val omrDao: OMRDao
 ) : OMRDatabaseRepository {
     override fun getOMRTable(): Flow<List<OMRTable>> = omrDao.selectAllOMRTable()
-    override fun getOMRTableBySubject(subjectId: Int): Flow<List<OMRTable>> = omrDao.selectOMRTableBySubject(subjectId)
+    override fun getOMRTableBySubject(subjectId: Int, isTemp: Boolean): Flow<List<OMRTable>> =
+        omrDao.selectOMRTableBySubject(subjectId, isTemp)
+
     override fun addOMRTable(omrTable: OMRTable): Long = omrDao.addOMRTable(omrTable)
     override fun updateOMRTable(omrTable: OMRTable) = omrDao.updateOMRTable(omrTable)
 }

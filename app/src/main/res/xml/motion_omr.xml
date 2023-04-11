@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        android:id="@+id/transitionDragUp"
+        motion:constraintSetEnd="@id/end"
+        motion:constraintSetStart="@id/start">
+
+        <OnSwipe
+            motion:dragDirection="dragUp"
+            motion:dragScale="1"
+            motion:touchAnchorId="@id/bgRv"
+            motion:touchAnchorSide="top" />
+
+        <!--        motion:moveWhenScrollAtTop="true"-->
+        <!--        motion:onTouchUp="stop"-->
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="192dp"
+            motion:layout_constraintTop_toBottomOf="@id/layoutHeader" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+
+        <Constraint
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            motion:layout_constraintTop_toBottomOf="@id/layoutHeader" />
+
+    </ConstraintSet>
+
+</MotionScene>

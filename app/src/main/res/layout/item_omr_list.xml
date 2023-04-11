@@ -3,51 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="omrData"
+            type="com.lok.dev.coredatabase.entity.OMRTable" />
+    </data>
+
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvCnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_radius_4"
+                android:backgroundTint="@color/theme_navy_1"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="@{@string/text_omr_cnt(omrData.cnt)}"
+                android:textColor="@color/white"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toTopOf="@id/tvTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="99회차" />
 
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
+                android:text="@{omrData.title}"
                 android:textSize="16dp"
+                app:layout_constraintBottom_toTopOf="@id/tvDate"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCnt"
                 tools:text="1월 모고" />
 
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/theme_black_5"
+                android:layout_marginTop="18dp"
+                android:letterSpacing="0.01"
+                android:textColor="@color/theme_black_2"
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
                 tools:text="2023.01.30" />
-
-            <TextView
-                android:id="@+id/tvCnt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/theme_black_6"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:textColor="@color/theme_black_1"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="99회차" />
 
             <TextView
                 android:id="@+id/tvCorrectEa"
@@ -56,7 +72,7 @@
                 android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="@string/omr_list_correct_ea" />
+                tools:text="정답 46 / 100" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

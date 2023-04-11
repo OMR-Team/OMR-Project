@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">OMRChecker</string>
 
+    <!--  OMR 리스트 창  -->
+    <string name="text_omr_ongoing">진행중인 테스트</string>
+    <string name="text_omr_cnt">%d회차</string>
+    <string name="text_omr_list_ongoing">진행중</string>
+
     <!-- OMR Input -->
     <string name="omr_input_next">다음</string>
     <string name="omr_input_title">푼 문제</string>

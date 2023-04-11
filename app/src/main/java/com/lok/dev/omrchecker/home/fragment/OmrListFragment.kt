@@ -11,10 +11,12 @@ import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonmodel.CommonConstants
 import com.lok.dev.commonutil.onUiState
+import com.lok.dev.commonutil.removeFragment
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.databinding.FragmentOmrListBinding
 import com.lok.dev.omrchecker.home.adapter.OmrListAdapter
+import com.lok.dev.omrchecker.home.adapter.OmrOngoingListAdapter
 import com.lok.dev.omrchecker.home.viewmodel.OmrListViewModel
 import com.lok.dev.omrchecker.setting.SettingDialog
 import com.lok.dev.omrchecker.setting.TagDialog
@@ -23,13 +25,20 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBinding>() {
+class OmrListFragment : BaseFragment<FragmentOmrListBinding>() {
 
+    override val enableBackPressed = true
     private val viewModel: OmrListViewModel by viewModels()
     private var subjectData: SubjectTable? = null
 
+    private val omrOngoingListAdapter by lazy {
+        OmrOngoingListAdapter(viewLifecycleOwner.lifecycleScope, requireContext()) { omrTable ->
+            startOmrActivity(omrTable)
+        }
+    }
+
     private val omrListAdapter by lazy {
-        OmrListAdapter(requireContext(), viewLifecycleOwner.lifecycleScope) { omrTable ->
+        OmrListAdapter(viewLifecycleOwner.lifecycleScope, requireContext()) { omrTable ->
             startOmrActivity(omrTable)
         }
     }
@@ -45,14 +54,20 @@ class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBindin
         addListeners()
         collectViewModel()
         viewModel.getOmrList(subjectData?.id ?: 0)
+        viewModel.getOmrOngoingList(subjectData?.id ?: 0)
     }
 
     private fun initView() = with(binding) {
         layoutHeader.textValue = subjectData?.name ?: ""
+        rvOngoing.adapter = omrOngoingListAdapter
         rvList.adapter = omrListAdapter
     }
 
     private fun addListeners() = with(binding) {
+        layoutHeader.btnBack.setOnClickListener {
+            requireActivity().removeFragment(this@OmrListFragment)
+        }
+
         btnSetting.setOnClickListener {
             addSettingFragment()
         }
@@ -70,6 +85,16 @@ class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBindin
     }
 
     private fun collectViewModel() = with(viewModel) {
+        omrOngoingListData.onUiState(
+            viewLifecycleOwner.lifecycleScope,
+            error = {
+                Log.e("아현", "$it")
+            },
+            success = {
+                omrOngoingListAdapter.updateList(it)
+            }
+        )
+
         omrListData.onUiState(
             viewLifecycleOwner.lifecycleScope,
             error = {
@@ -95,6 +120,10 @@ class OmrListFragment @Inject constructor() : BaseFragment<FragmentOmrListBindin
             putParcelable(CommonConstants.BUNDLE_SUBJECT_DATA, subjectData)
         })
         this.startActivity(intent)
+    }
+
+    override fun onFragmentBackPressed() {
+        requireActivity().removeFragment(this@OmrListFragment)
     }
 
 }

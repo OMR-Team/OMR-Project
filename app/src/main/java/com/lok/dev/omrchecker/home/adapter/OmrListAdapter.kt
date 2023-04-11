@@ -13,8 +13,8 @@ import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemOmrListBinding
 
 class OmrListAdapter(
-    private val context: Context,
     lifecycleCoroutineScope: LifecycleCoroutineScope,
+    private val context: Context,
     private val onClick: (OMRTable) -> Unit
 ) : BaseAdapter<ItemOmrListBinding, OMRTable>(lifecycleCoroutineScope) {
 
