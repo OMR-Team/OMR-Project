@@ -16,7 +16,7 @@
             </item>
             <item android:drawable="@drawable/ico_drop_down"
                 android:width="30dp" android:height="30dp"
-                android:gravity="right|top" android:start="1dp" android:top="10dp">
+                android:gravity="right|center_vertical" android:start="1dp">
             </item>
 
         </layer-list>

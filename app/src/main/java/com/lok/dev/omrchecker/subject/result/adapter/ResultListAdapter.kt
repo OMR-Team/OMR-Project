@@ -1,4 +1,4 @@
-package com.lok.dev.omrchecker.subject.result
+package com.lok.dev.omrchecker.subject.result.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,7 +13,8 @@ import com.lok.dev.omrchecker.databinding.ItemOmrResultBinding
 
 class ResultListAdapter(
     private val context: Context,
-    lifecycleCoroutineScope: LifecycleCoroutineScope
+    lifecycleCoroutineScope: LifecycleCoroutineScope,
+    private val onClick: (ResultJoinData) -> Unit
 ): BaseAdapter<ItemOmrResultBinding, ResultJoinData>(lifecycleCoroutineScope) {
 
     override fun getBinding(
@@ -28,10 +29,14 @@ class ResultListAdapter(
         override fun bind(position: Int) {
             val item = adapterList[position]
             binding.numResult.text = (item.no + 1).toString()
-            binding.myResult.setImageResource(getImageType(item.problem))
+            binding.myResult.setImageResource(getImageType(item.answer))
             if(item.answer != item.problem) {
                 binding.root.setBackgroundColor(context.color(R.color.theme_red_1))
                 binding.numResult.setBackgroundColor(context.color(R.color.theme_red))
+            }
+
+            binding.root.setOnClickListener {
+                onClick.invoke(item)
             }
         }
 
