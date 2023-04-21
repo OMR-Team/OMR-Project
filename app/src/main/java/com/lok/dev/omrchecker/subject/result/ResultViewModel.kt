@@ -8,7 +8,6 @@ import com.lok.dev.commonutil.di.IoDispatcher
 import com.lok.dev.commonutil.onState
 import com.lok.dev.coredata.usecase.GetHistoryUseCase
 import com.lok.dev.coredata.usecase.GetResultJoinUseCase
-import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.coredatabase.entity.HistoryTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher

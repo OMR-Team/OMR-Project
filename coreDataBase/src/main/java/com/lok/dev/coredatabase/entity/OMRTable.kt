@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity
+@Entity(primaryKeys = ["id", "cnt"])
 data class OMRTable(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,               // 시험 id
+    var id: Int = 0,                                    // 시험 id
+    val cnt: Int = 1,                                   // 회차
     @ColumnInfo(name = "subjectId") val subjectId: Int,             // 폴더id
     @ColumnInfo(name = "title") val title: String = "",             // 시험명
-    @ColumnInfo(name = "cnt") val cnt: Int = 1,                     // 회차
     @ColumnInfo(name = "correctCnt") val correctCnt: Int = 0,       // 맞은 수
     @ColumnInfo(name = "problemNum") val problemNum: Int = 0,       // 문제 수
     @ColumnInfo(name = "selectNum") val selectNum: Int = 0,         // 선지 수

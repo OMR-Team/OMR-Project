@@ -23,8 +23,8 @@ class OmrViewModel @Inject constructor(
     private val updateOmrUseCase: UpdateOmrUseCase,
     private val updateSubjectUseCase: UpdateSubjectUseCase,
     private val getProblemTableUseCase: GetProblemTableUseCase,
-    private val getAnswerTableUseCase: GetAnswerTableUseCase,
-    private val addHistoryUseCase: AddHistoryUseCase
+    private val addHistoryUseCase: AddHistoryUseCase,
+    private val addOmrUseCase: AddOmrUseCase
 ) : BaseViewModel() {
 
     private val problemSelected = mutableMapOf<Int, Int>()
@@ -54,10 +54,6 @@ class OmrViewModel @Inject constructor(
     private val _tempOmrInputState = mutableResultState<List<ProblemTable>>()
     val tempOmrInputState = _tempOmrInputState.asStateFlow()
 
-    /** 임시저장 답안 리스트 불러오기 상태 **/
-    private val _tempAnswerInputState = mutableResultState<List<AnswerTable>>()
-    val tempAnswerInputState = _tempAnswerInputState.asStateFlow()
-
     /** 문제 리스트 **/
     private val _omrInput = MutableSharedFlow<List<ProblemTable>>()
     val omrInput = _omrInput.asSharedFlow()
@@ -69,6 +65,10 @@ class OmrViewModel @Inject constructor(
     /** 문제 / 정답 목록 저장 **/
     private val _saveInputData = MutableSharedFlow<Unit>()
     val saveInputData = _saveInputData.asSharedFlow()
+
+    /** 결과 저장 상태 **/
+    private val _saveResultData = MutableSharedFlow<Long>()
+    val saveResultData = _saveResultData.asSharedFlow()
 
     fun changeScreenState(state: OmrActivity.OmrState) {
         viewModelScope.launch {
@@ -124,7 +124,7 @@ class OmrViewModel @Inject constructor(
         if(!isTemp) addHistoryTable()
     }
 
-    private fun addHistoryTable() {
+    private fun addHistoryTable() = viewModelScope.launch {
         var correct = 0
         var totalScore = 0.0
         val score = problemTable.sumOf { problemTable ->
@@ -137,7 +137,8 @@ class OmrViewModel @Inject constructor(
                 else 0.0
             } ?: 0.0
         }
-        addHistoryUseCase.invoke(HistoryTable(tableData.id, tableData.cnt, score, totalScore, correct))
+        val addState = addHistoryUseCase.invoke(HistoryTable(tableData.id, tableData.cnt, score, totalScore, correct))
+        _saveResultData.emit(addState)
     }
 
     fun getProblemTable() = CoroutineScope(ioDispatcher).launch {
@@ -156,9 +157,16 @@ class OmrViewModel @Inject constructor(
         }
     }
 
-    fun getAnswerTable() = CoroutineScope(ioDispatcher).launch {
-        getAnswerTableUseCase.invoke(tableData.id).onState(viewModelScope) {
-            _tempAnswerInputState.value = it
-        }
+    fun addOmrTest(callBack: (OMRTable) -> Unit) = CoroutineScope(ioDispatcher).launch {
+        val omrTable = OMRTable(
+            id = tableData.id,
+            cnt = tableData.cnt + 1,
+            subjectId = tableData.subjectId,
+            title = tableData.title,
+            problemNum = tableData.problemNum,
+            selectNum = tableData.selectNum
+        )
+        addOmrUseCase.invoke(omrTable)
+        callBack.invoke(omrTable)
     }
 }

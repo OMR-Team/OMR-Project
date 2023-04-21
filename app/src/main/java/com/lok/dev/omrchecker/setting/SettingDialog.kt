@@ -63,13 +63,7 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
         }
 
         throttleFirstClick(txtTestStart) {
-            val testName = etTitle.text.toString()
-            val problemNum = etProblemNum.text.toString().toInt()
-            val selectNum = spinner.selectedItem.toString().replace("개", "").toInt()
-            viewModel.addOmrTest(testName, problemNum, selectNum) { omrTable ->
-                startOmrActivity(omrTable)
-                dismiss()
-            }
+            viewModel.getMaxId()
         }
 
         throttleFirstClick(chipTag) {
@@ -97,6 +91,17 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
 
             binding.txtSubjectTitle.text = it.name
             setEnableAddOmr()
+        }
+
+        maxId.onResult(viewLifecycleOwner.lifecycleScope) {
+            val id = (it ?: 0) + 1
+            val testName = binding.etTitle.text.toString()
+            val problemNum = binding.etProblemNum.text.toString().toInt()
+            val selectNum = binding.spinner.selectedItem.toString().replace("개", "").toInt()
+            viewModel.addOmrTest(id, testName, problemNum, selectNum) { omrTable ->
+                startOmrActivity(omrTable)
+                dismiss()
+            }
         }
     }
 

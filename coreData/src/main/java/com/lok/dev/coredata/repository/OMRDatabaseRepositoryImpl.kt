@@ -8,6 +8,7 @@ import javax.inject.Inject
 class OMRDatabaseRepositoryImpl @Inject constructor(
     private val omrDao: OMRDao
 ) : OMRDatabaseRepository {
+    override suspend fun getMaxId():Int? = omrDao.selectMaxId()
     override fun getOMRTable(): Flow<List<OMRTable>> = omrDao.selectAllOMRTable()
     override fun getOMRTableBySubject(subjectId: Int, isTemp: Boolean): Flow<List<OMRTable>> =
         omrDao.selectOMRTableBySubject(subjectId, isTemp)

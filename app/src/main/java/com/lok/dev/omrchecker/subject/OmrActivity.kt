@@ -80,14 +80,9 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             }
         )
 
-        tempAnswerInputState.onUiState(lifecycleScope,
-            success = { list ->
-                viewModel.changeAnswerInput(list)
-            },
-            error = {
-                showToast(R.string.omr_error_temp_answer)
-            }
-        )
+        saveResultData.onResult(lifecycleScope) {
+            viewModel.changeScreenState(OmrState.ResultScreen)
+        }
     }
 
     private fun getExtra() {
@@ -229,8 +224,6 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
 
     private fun showResultScreen() {
         viewModel.saveInputData()
-        viewModel.updateOMRTable(false, PAGE_RESULT)
-        viewModel.changeScreenState(OmrState.ResultScreen)
     }
 
     private fun changeScreen(state: OmrState) {
@@ -238,43 +231,45 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             OmrState.OmrScreen -> {
                 omrInputFragment = OmrInputFragment()
                 replaceFragment(R.id.omrFragment, omrInputFragment, AnimationState.Left)
-                changeScreenUI(OmrState.OmrScreen)
             }
             OmrState.AnswerScreen -> {
                 answerInputFragment = AnswerInputFragment()
                 replaceFragment(R.id.omrFragment, answerInputFragment, AnimationState.Left)
-                changeScreenUI(OmrState.AnswerScreen)
             }
             OmrState.ResultScreen -> {
                 resultFragment = ResultFragment()
                 replaceFragment(R.id.omrFragment, resultFragment, AnimationState.Left)
-                changeScreenUI(OmrState.ResultScreen)
             }
         }
+        changeScreenUI(state)
     }
 
     private fun changeScreenUI(state: OmrState) = with(binding) {
         when (state) {
-            OmrState.OmrScreen -> {}
+            OmrState.OmrScreen -> {
+                problemInput.visible()
+                nextBtn.visible(true)
+                homeBtn.visible(false)
+            }
             OmrState.AnswerScreen -> {
-                binding.problemInput.visibility = View.INVISIBLE
-                binding.problemAni.visible()
-                binding.problemAni.addAnimatorListener(problemAnimatorListener)
-                binding.problemAni.playAnimation()
-                binding.answerInput.setImageResource(R.drawable.answerinput_complete)
+                problemInput.visibility = View.INVISIBLE
+                problemAni.visible()
+                problemAni.addAnimatorListener(problemAnimatorListener)
+                problemAni.playAnimation()
+                answerInput.setImageResource(R.drawable.answerinput_complete)
                 progressProblemBar.background =
                     AppCompatResources.getDrawable(this@OmrActivity, R.color.theme_blue_1)
                 problemDesc.setTextColor(getColor(R.color.theme_black_3))
             }
             OmrState.ResultScreen -> {
-                binding.answerInput.visibility = View.INVISIBLE
-                binding.answerAni.visible()
-                binding.answerAni.addAnimatorListener(answerAnimatorListener)
-                binding.answerAni.playAnimation()
-                binding.btnBack.visible(false)
-                binding.nextBtn.visible(false)
-                binding.homeBtn.visible(true)
-                binding.resultCheck.setImageResource(R.drawable.resultcheck_complete)
+                answerInput.visibility = View.INVISIBLE
+                answerAni.visible()
+                answerAni.addAnimatorListener(answerAnimatorListener)
+                answerAni.playAnimation()
+                btnBack.visible(false)
+                nextBtn.visible(false)
+                homeBtn.visible(true)
+                resultCheck.setImageResource(R.drawable.resultcheck_complete)
                 progressAnswerBar.background =
                     AppCompatResources.getDrawable(this@OmrActivity, R.color.theme_blue_1)
                 answerDesc.setTextColor(getColor(R.color.theme_black_3))

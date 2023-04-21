@@ -7,12 +7,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
+import com.lok.dev.commonutil.SingleToast.showToast
 import com.lok.dev.commonutil.getChangeTextStyle
 import com.lok.dev.commonutil.onResult
+import com.lok.dev.commonutil.onUiState
+import com.lok.dev.commonutil.showToast
 import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentAnswerInputBinding
+import com.lok.dev.omrchecker.subject.OmrActivity
 import com.lok.dev.omrchecker.subject.OmrViewModel
 import com.lok.dev.omrchecker.subject.score.ScoreInputDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,19 +51,31 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
             val answerTable = viewModel.convertToAnswerTable(adapter?.adapterList, omrViewModel.tableData.id)
             omrViewModel.answerTable = viewModel.getAnswerList(answerTable)
             viewModel.addAnswerTable(omrViewModel.answerTable)
+            omrViewModel.updateOMRTable(false, OmrActivity.PAGE_RESULT)
         }
 
         omrViewModel.answerInput.onResult(viewLifecycleOwner.lifecycleScope) { answerList ->
             adapter?.setList(viewModel.convertToAnswerList(answerList, omrViewModel.tableData.selectNum))
-            if(omrViewModel.isTemp) {
-                updateProgress(answerList)
-                omrViewModel.isTemp = false
-                viewModel.answerList.addAll(answerList)
-                if(answerList.count { it.score == 0.0 } == 0) omrViewModel.hasScore = true
-                viewModel.scoreList.addAll(answerList)
-            }
+            updateProgress(answerList)
+            omrViewModel.isTemp = false
+            viewModel.answerList.addAll(answerList)
+            if(answerList.count { it.score == 0.0 } == 0) omrViewModel.hasScore = true
+            viewModel.scoreList.addAll(answerList)
         }
 
+        viewModel.tempAnswerInputState.onUiState(viewLifecycleOwner.lifecycleScope,
+            success = {
+                      if(it.isNotEmpty()) {
+                          omrViewModel.changeAnswerInput(it)
+                      }
+                      else {
+                          makeAnswerTable()
+                      }
+            },
+            error = {
+                showToast(requireContext(), R.string.omr_error_temp_answer)
+            }
+        )
     }
 
     private fun initAdapter() {
@@ -88,8 +104,7 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
     private fun setScreen() = with(binding) {
         val text = String.format(getString(R.string.omr_input_cnt), 0, omrViewModel.tableData.problemNum)
         binding.omrAnswerCnt.text = requireActivity().getChangeTextStyle(text, "0", R.color.theme_red)
-        if(omrViewModel.isTemp) omrViewModel.getAnswerTable()
-        else makeAnswerTable()
+        viewModel.getAnswerTable(omrViewModel.tableData.id)
     }
 
     private fun makeAnswerTable() {

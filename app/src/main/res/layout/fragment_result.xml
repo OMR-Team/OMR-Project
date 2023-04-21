@@ -143,12 +143,11 @@
             android:id="@+id/btnReSet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/theme_blue_2"
-            android:fontFamily="@font/pretendard_regular"
+            android:background="@color/theme_blue_primary"
             android:gravity="center"
             android:paddingVertical="18dp"
             android:text="@string/omr_result_reset"
-            android:textColor="@color/theme_blue_primary"
+            android:textColor="@color/white"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 

@@ -8,6 +8,9 @@ import java.sql.SQLException
 @Dao
 interface OMRDao {
 
+    @Query("SELECT MAX(id) FROM OMRTable")
+    suspend fun selectMaxId(): Int?
+
     @Query("SELECT * FROM OMRTable")
     fun selectAllOMRTable(): Flow<List<OMRTable>>
 
