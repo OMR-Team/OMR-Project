@@ -7,5 +7,5 @@ interface HistoryDatabaseRepository {
 
     fun addHistoryTable(historyTable: HistoryTable): Long
 
-    fun getHistoryTable(id: Int, cnt: Int): Flow<HistoryTable>
+    fun getHistoryTable(id: Int): Flow<List<HistoryTable>>
 }

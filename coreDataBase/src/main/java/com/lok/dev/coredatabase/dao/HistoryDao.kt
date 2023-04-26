@@ -15,7 +15,7 @@ interface HistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addHistoryTable(historyTable: HistoryTable): Long
 
-    @Query("SELECT * FROM HistoryTable WHERE id = :id AND cnt = :cnt")
-    fun getHistoryTable(id: Int, cnt: Int): Flow<HistoryTable>
+    @Query("SELECT * FROM HistoryTable WHERE id = :id")
+    fun getHistoryTable(id: Int): Flow<List<HistoryTable>>
 
 }

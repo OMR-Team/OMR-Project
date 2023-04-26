@@ -54,7 +54,7 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
             omrViewModel.updateOMRTable(false, OmrActivity.PAGE_RESULT)
         }
 
-        omrViewModel.answerInput.onResult(viewLifecycleOwner.lifecycleScope) { answerList ->
+        viewModel.answerInput.onResult(viewLifecycleOwner.lifecycleScope) { answerList ->
             adapter?.setList(viewModel.convertToAnswerList(answerList, omrViewModel.tableData.selectNum))
             updateProgress(answerList)
             omrViewModel.isTemp = false
@@ -63,19 +63,14 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
             viewModel.scoreList.addAll(answerList)
         }
 
-        viewModel.tempAnswerInputState.onUiState(viewLifecycleOwner.lifecycleScope,
-            success = {
-                      if(it.isNotEmpty()) {
-                          omrViewModel.changeAnswerInput(it)
-                      }
-                      else {
-                          makeAnswerTable()
-                      }
-            },
-            error = {
-                showToast(requireContext(), R.string.omr_error_temp_answer)
+        viewModel.tempAnswerInputState.onResult(viewLifecycleOwner.lifecycleScope) {
+            if(it.isNotEmpty()) {
+                viewModel.changeAnswerInput(it)
             }
-        )
+            else {
+                makeAnswerTable()
+            }
+        }
     }
 
     private fun initAdapter() {
@@ -111,10 +106,9 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
         val answerInputList = mutableListOf<AnswerTable>()
         val answerList = mutableListOf<Int>()
         for (i in 1 .. omrViewModel.tableData.problemNum) {
-            answerInputList.add(AnswerTable(omrViewModel.tableData.id, i, answerList, null))
+            answerInputList.add(AnswerTable(omrViewModel.tableData.id, i, answerList, 0.0))
         }
-        omrViewModel.changeAnswerInput(answerInputList)
-        viewModel.answerList.addAll(answerInputList)
+        viewModel.changeAnswerInput(answerInputList)
     }
 
     /** 임시저장 불러오기 후, 진행바 업데이트 **/

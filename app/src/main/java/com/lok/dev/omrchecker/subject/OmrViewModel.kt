@@ -58,10 +58,6 @@ class OmrViewModel @Inject constructor(
     private val _omrInput = MutableSharedFlow<List<ProblemTable>>()
     val omrInput = _omrInput.asSharedFlow()
 
-    /** 답안 리스트 **/
-    private val _answerInput = MutableSharedFlow<List<AnswerTable>>()
-    val answerInput = _answerInput.asSharedFlow()
-
     /** 문제 / 정답 목록 저장 **/
     private val _saveInputData = MutableSharedFlow<Unit>()
     val saveInputData = _saveInputData.asSharedFlow()
@@ -80,12 +76,6 @@ class OmrViewModel @Inject constructor(
     fun changeOmrInput(list: List<ProblemTable>) {
         viewModelScope.launch {
             _omrInput.emit(list)
-        }
-    }
-
-    fun changeAnswerInput(list: List<AnswerTable>) {
-        viewModelScope.launch {
-            _answerInput.emit(list)
         }
     }
 
@@ -124,7 +114,7 @@ class OmrViewModel @Inject constructor(
         if(!isTemp) addHistoryTable()
     }
 
-    private fun addHistoryTable() = viewModelScope.launch {
+    private fun addHistoryTable() = CoroutineScope(ioDispatcher).launch {
         var correct = 0
         var totalScore = 0.0
         val score = problemTable.sumOf { problemTable ->

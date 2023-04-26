@@ -7,5 +7,5 @@ interface AnswerDatabaseRepository {
 
     fun addAnswerTable(answerTable: AnswerTable): Long
 
-    fun getAnswerTable(id: Int) : Flow<List<AnswerTable>>
+    suspend fun getAnswerTable(id: Int) : List<AnswerTable>
 }

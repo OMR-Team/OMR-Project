@@ -2,6 +2,8 @@ package com.lok.dev.omrchecker.subject.result.fragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -12,11 +14,16 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonutil.color
+import com.lok.dev.commonutil.onUiState
+import com.lok.dev.coredatabase.entity.HistoryTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.custom.ChartMarkerView
 import com.lok.dev.omrchecker.databinding.FragmentResultChartBinding
+import com.lok.dev.omrchecker.subject.result.ResultViewModel
 
 class ResultChartFragment : BaseFragment<FragmentResultChartBinding>() {
+
+    private val viewModel: ResultViewModel by activityViewModels()
 
     override fun createFragmentBinding(
         inflater: LayoutInflater,
@@ -25,7 +32,20 @@ class ResultChartFragment : BaseFragment<FragmentResultChartBinding>() {
 
     override fun initFragment() {
         setUpLineChart()
-        setDataToLineChart()
+        collectViewModel()
+    }
+
+    private fun collectViewModel() = with(viewModel) {
+        historyState.onUiState(lifecycleScope,
+            success = { list ->
+                val order = list.sortedByDescending { it.cnt }.chunked(5).first().reversed()
+                val entry = order.mapIndexed { index, historyTable ->
+                    Entry(index.toFloat(), historyTable.score.toFloat())
+                }
+                binding.chart.xAxis.valueFormatter = MyAxisFormatter(order)
+                setDataToLineChart(entry)
+            }
+        )
     }
 
     private fun setUpLineChart() {
@@ -49,7 +69,6 @@ class ResultChartFragment : BaseFragment<FragmentResultChartBinding>() {
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.granularity = 1f  // 축 레이블 표시 간격
             xAxis.setDrawAxisLine(false)
-            xAxis.valueFormatter = MyAxisFormatter()
             xAxis.yOffset = 20f
             xAxis.textColor = requireContext().color(R.color.theme_black_2)
             xAxis.textSize = 13F
@@ -69,9 +88,8 @@ class ResultChartFragment : BaseFragment<FragmentResultChartBinding>() {
         }
     }
 
-    private fun setDataToLineChart() {
+    private fun setDataToLineChart(data: List<Entry>) {
 
-        val data = week1()
         val weekOneSales = LineDataSet(data, "Week 1").apply {
             lineWidth = 1f
             valueTextSize = 15f
@@ -98,27 +116,11 @@ class ResultChartFragment : BaseFragment<FragmentResultChartBinding>() {
         binding.chart.invalidate()
     }
 
-    private fun week1(): ArrayList<Entry> {
-        val sales = ArrayList<Entry>()
-        sales.add(Entry(0f, 90f))
-        sales.add(Entry(1f, 80f))
-        sales.add(Entry(2f, 100f))
-        sales.add(Entry(3f, 70f))
-        sales.add(Entry(4f, 100f))
-        return sales
-    }
+    inner class MyAxisFormatter(val list: List<HistoryTable>) : IndexAxisValueFormatter() {
 
-    inner class MyAxisFormatter : IndexAxisValueFormatter() {
-
-        private var items = arrayListOf("1회차", "2회차", "3회차", "4회차", "5회차")
-
-        override fun getAxisLabel(value: Float, axis: AxisBase?): String? {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             val index = value.toInt()
-            return if (index < items.size) {
-                items[index]
-            } else {
-                null
-            }
+            return "${list[index].cnt}회차"
         }
     }
 

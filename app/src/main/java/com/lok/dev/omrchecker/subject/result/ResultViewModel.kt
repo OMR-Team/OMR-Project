@@ -27,17 +27,18 @@ class ResultViewModel @Inject constructor(
     private val _resultJoinState = mutableResultState<List<ResultJoinData>>()
     val resultJoinState = _resultJoinState.asStateFlow()
 
-    private val _historyState = mutableResultState<HistoryTable>()
+    private val _historyState = mutableResultState<List<HistoryTable>>()
     val historyState = _historyState.asStateFlow()
 
+    var historyList = listOf<HistoryTable>()
     fun getResultJoin(id: Int, no: Int) = CoroutineScope(ioDispatcher).launch {
         resultJoinUseCase.invoke(id, no).onState(viewModelScope) {
             _resultJoinState.value = it
         }
     }
 
-    fun getHistoryData(id: Int, cnt: Int) = CoroutineScope(ioDispatcher).launch {
-        getHistoryUseCase.invoke(id, cnt).onState(viewModelScope) {
+    fun getHistoryData(id: Int) = CoroutineScope(ioDispatcher).launch {
+        getHistoryUseCase.invoke(id).onState(viewModelScope) {
             _historyState.value = it
         }
     }

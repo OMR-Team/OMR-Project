@@ -7,5 +7,5 @@ class GetHistoryUseCase @Inject constructor(
     private val repository: HistoryDatabaseRepository
 ) {
 
-    operator fun invoke(id: Int, cnt: Int) = repository.getHistoryTable(id, cnt)
+    operator fun invoke(id: Int) = repository.getHistoryTable(id)
 }

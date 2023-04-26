@@ -11,5 +11,5 @@ class AnswerDatabaseRepositoryImpl @Inject constructor(
 
     override fun addAnswerTable(answerTable: AnswerTable) = answerDao.addAnswerTable(answerTable)
 
-    override fun getAnswerTable(id: Int): Flow<List<AnswerTable>> = answerDao.getAnswerTable(id)
+    override suspend fun getAnswerTable(id: Int): List<AnswerTable> = answerDao.getAnswerTable(id)
 }

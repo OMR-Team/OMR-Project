@@ -11,6 +11,8 @@ import com.lok.dev.coredatabase.entity.AnswerTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,13 +28,21 @@ class AnswerInputViewModel @Inject constructor(
     val scoreList = mutableListOf<AnswerTable>()
 
     /** 임시저장 답안 리스트 불러오기 상태 **/
-    private val _tempAnswerInputState = mutableResultState<List<AnswerTable>>()
-    val tempAnswerInputState = _tempAnswerInputState.asStateFlow()
+    private val _tempAnswerInputState = MutableSharedFlow<List<AnswerTable>>()
+    val tempAnswerInputState = _tempAnswerInputState.asSharedFlow()
+
+    /** 답안 리스트 **/
+    private val _answerInput = MutableSharedFlow<List<AnswerTable>>()
+    val answerInput = _answerInput.asSharedFlow()
+
+    fun changeAnswerInput(list: List<AnswerTable>) {
+        viewModelScope.launch {
+            _answerInput.emit(list)
+        }
+    }
 
     fun getAnswerTable(id: Int) = CoroutineScope(ioDispatcher).launch {
-        getAnswerTableUseCase.invoke(id).onState(viewModelScope) {
-            _tempAnswerInputState.value = it
-        }
+        _tempAnswerInputState.emit(getAnswerTableUseCase.invoke(id))
     }
 
     fun getAnswerList(answerList: List<AnswerTable>): List<AnswerTable> {

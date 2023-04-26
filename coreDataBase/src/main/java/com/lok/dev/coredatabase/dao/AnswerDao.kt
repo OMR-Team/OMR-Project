@@ -16,6 +16,6 @@ interface AnswerDao {
     fun addAnswerTable(answerTable: AnswerTable): Long
 
     @Query("SELECT * FROM AnswerTable WHERE id = :id")
-    fun getAnswerTable(id: Int): Flow<List<AnswerTable>>
+    suspend fun getAnswerTable(id: Int): List<AnswerTable>
 
 }

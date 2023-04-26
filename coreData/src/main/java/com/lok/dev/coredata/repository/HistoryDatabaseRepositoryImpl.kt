@@ -11,5 +11,5 @@ class HistoryDatabaseRepositoryImpl @Inject constructor(
 
     override fun addHistoryTable(historyTable: HistoryTable) = historyDao.addHistoryTable(historyTable)
 
-    override fun getHistoryTable(id: Int, cnt: Int): Flow<HistoryTable> = historyDao.getHistoryTable(id, cnt)
+    override fun getHistoryTable(id: Int): Flow<List<HistoryTable>> = historyDao.getHistoryTable(id)
 }

@@ -47,13 +47,13 @@ class ResultFragment @Inject constructor() : BaseFragment<FragmentResultBinding>
         initAdapter()
         collectViewModel()
         setOnClickListeners()
-        viewModel.getHistoryData(omrViewModel.tableData.id, omrViewModel.tableData.cnt)
-        viewModel.getResultJoin(omrViewModel.tableData.id, omrViewModel.tableData.cnt)
+        viewModel.getHistoryData(omrViewModel.tableData.id)
     }
 
     private fun initAdapter() = with(binding) {
         val tabTitleArray = listOf("답안 체크", "그래프")
         viewPager.adapter = viewPagerAdapter
+        viewPager.offscreenPageLimit = 2
         viewPagerAdapter.set(tabTitleArray)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitleArray[position]
@@ -63,10 +63,22 @@ class ResultFragment @Inject constructor() : BaseFragment<FragmentResultBinding>
 
     private fun collectViewModel() = with(viewModel) {
         historyState.onUiState(lifecycleScope,
-            success = {
-                binding.progress.setProgressAnimated((it.score / it.totalScore * 100).toFloat())
-                binding.txtScore.text = it.score.toString()
-                binding.txtScoreTotal.text = "/ ${it.totalScore}"
+            success = { list ->
+                binding.txtScoreMax.text = list.maxOf { it.score }.toString()
+            },
+            error = {
+                requireContext().showToast(R.string.omr_error_result_answer)
+            }
+        )
+
+        resultJoinState.onUiState(lifecycleScope,
+            success = { list ->
+                viewModel.historyList.firstOrNull { it.cnt == list.first().cnt }?.let {
+                    binding.progress.setProgressAnimated((it.score / it.totalScore * 100).toFloat())
+                    binding.txtScore.text = it.score.toString()
+                    binding.txtScoreTotal.text = "/ ${it.totalScore}"
+                    binding.txtScore2.text = it.score.toString()
+                }
             },
             error = {
                 requireContext().showToast(R.string.omr_error_result_answer)
