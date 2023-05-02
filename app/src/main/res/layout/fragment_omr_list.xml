@@ -78,22 +78,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutHeader">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSort"
-                    style="@style/Theme.OMR.SubChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sort_newest"
-                    app:closeIcon="@drawable/ico_drop_down"
-                    app:closeIconEndPadding="0dp"
-                    app:closeIconStartPadding="0dp"
-                    app:closeIconTint="@color/theme_black_1"
-                    app:closeIconVisible="true"
-                    app:textEndPadding="3dp" />
+                <com.lok.dev.omrchecker.custom.CustomSpinner
+                    android:id="@+id/spinnerSort"
+                    android:layout_width="87dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="-1dp"
+                    android:background="@drawable/border_sort_spinner_close"
+                    android:elevation="5dp"
+                    android:popupBackground="@drawable/border_result_spinner_open"
+                    android:popupElevation="10dp"
+                    android:spinnerMode="dropdown" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipTag"

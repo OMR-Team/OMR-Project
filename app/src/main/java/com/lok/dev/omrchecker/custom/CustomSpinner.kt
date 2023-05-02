@@ -4,11 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.Spinner
 
-class CustomSpinner : androidx.appcompat.widget.AppCompatSpinner {
-
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+class CustomSpinner @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : androidx.appcompat.widget.AppCompatSpinner(context, attrs, defStyleAttr) {
 
     /**
      * An interface which a client of this Spinner could use to receive

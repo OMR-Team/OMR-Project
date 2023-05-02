@@ -88,7 +88,7 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
             addSettingFragment()
         }
 
-        chipSort.setOnCheckedChangeListener { compoundButton, isChecked ->
+        spinnerSort.setOnCheckedChangeListener { compoundButton, isChecked ->
             if (isChecked) {
                 showMenu(compoundButton)
             }
@@ -139,7 +139,7 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
     }
 
     private val onClickMenu: (SortStandard) -> Unit = { standard ->
-        binding.chipSort.text = when (standard) {
+        binding.spinnerSort.text = when (standard) {
             SortStandard.NEWEST -> getString(R.string.sort_newest)
             SortStandard.ALPHABET -> getString(R.string.sort_alphabet)
             SortStandard.ADD -> getString(R.string.sort_add)
@@ -148,7 +148,7 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
     }
 
     private val onMenuDismiss = {
-        binding.chipSort.isChecked = false
+        binding.spinnerSort.isChecked = false
     }
 
     private fun addSettingFragment() {

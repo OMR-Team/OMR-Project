@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
-import com.lok.dev.commonutil.convertToDate
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemOmrListBinding
@@ -17,6 +18,14 @@ class OmrListAdapter(
     private val context: Context,
     private val onClick: (OMRTable) -> Unit
 ) : BaseAdapter<ItemOmrListBinding, OMRTable>(lifecycleCoroutineScope) {
+
+    private val asyncDiffer = AsyncListDiffer(this, DiffUtilCallback())
+
+    fun updateList(items: List<OMRTable>) {
+        asyncDiffer.submitList(items)
+    }
+
+    override fun getItemCount(): Int = asyncDiffer.currentList.size
 
     override fun getBinding(parent: ViewGroup, viewType: Int): BaseViewHolder<ItemOmrListBinding> =
         ItemOmrListViewHolder(
@@ -31,16 +40,9 @@ class OmrListAdapter(
         binding: ItemOmrListBinding
     ) : BaseViewHolder<ItemOmrListBinding>(binding) {
         override fun bind(position: Int): Unit = with(binding) {
-            val data = adapterList[position]
-            tvTitle.text = data.title
-            tvDate.apply {
-                text = data.updateDate.convertToDate()
-                setTextColor(
-                    if (data.isTemp) resources.getColor(R.color.theme_orange, null)
-                    else resources.getColor(R.color.theme_black_5, null)
-                )
-            }
-            tvCnt.text = context.getString(R.string.omr_list_cnt, data.cnt)
+            val data = asyncDiffer.currentList[position]
+            omrData = data
+
             tvCorrectEa.text = HtmlCompat.fromHtml(
                 context.getString(
                     R.string.omr_list_correct_ea,
@@ -52,6 +54,17 @@ class OmrListAdapter(
             container.throttleFirstClick {
                 onClick.invoke(data)
             }
+        }
+    }
+
+    class DiffUtilCallback : DiffUtil.ItemCallback<OMRTable>() {
+
+        override fun areItemsTheSame(oldItem: OMRTable, newItem: OMRTable): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: OMRTable, newItem: OMRTable): Boolean {
+            return oldItem.getDate() == newItem.getDate()
         }
     }
 }

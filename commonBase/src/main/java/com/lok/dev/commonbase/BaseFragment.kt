@@ -1,5 +1,6 @@
 package com.lok.dev.commonbase
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,11 @@ abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
     protected abstract fun createFragmentBinding(inflater: LayoutInflater, container: ViewGroup?) : Binding
 
     protected open fun initFragment() = Unit
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this, backPressedCallback)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

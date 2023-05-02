@@ -3,7 +3,7 @@ package com.lok.dev.coredatabase.entity
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.lok.dev.commonutil.convertToDate
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -20,4 +20,8 @@ data class OMRTable(
     @ColumnInfo(name = "isTemp") val isTemp: Boolean = false,       // 임시저장 여부
     @ColumnInfo(name = "page") val page: Int = 0,                   // OMR 화면
     @ColumnInfo(name = "updateDate") val updateDate: Long = System.currentTimeMillis(), // 최근 업데이트 날짜
-): Parcelable
+): Parcelable {
+
+    fun getDate() = updateDate.convertToDate()
+
+}

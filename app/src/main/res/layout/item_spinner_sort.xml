@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tvSpinner"
     android:layout_width="match_parent"
-    android:layout_height="44dp"
+    android:layout_height="40dp"
     android:elevation="5dp"
     android:gravity="center_vertical"
     android:paddingStart="12dp"
-    android:textColor="@color/theme_black_0.5"
-    android:textSize="16dp"
-    tools:text="1개" />
+    android:textColor="@color/theme_black_1"
+    android:textSize="15dp"
+    tools:text="최신순" />

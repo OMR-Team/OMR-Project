@@ -52,7 +52,7 @@ class OmrOngoingListAdapter(
         }
 
         override fun areContentsTheSame(oldItem: OMRTable, newItem: OMRTable): Boolean {
-            return oldItem == newItem
+            return oldItem.cnt == newItem.cnt
         }
     }
 }
