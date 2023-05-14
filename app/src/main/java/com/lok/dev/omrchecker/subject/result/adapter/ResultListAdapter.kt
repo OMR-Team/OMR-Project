@@ -45,7 +45,7 @@ class ResultListAdapter(
                 R.drawable.omr_result_m
             }
             else {
-                    when (position[0]) {
+                    when (position.getOrNull(0)) {
                     1 -> R.drawable.omr_result_1
                     2 -> R.drawable.omr_result_2
                     3 -> R.drawable.omr_result_3

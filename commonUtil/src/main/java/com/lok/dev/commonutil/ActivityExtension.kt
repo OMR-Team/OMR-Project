@@ -1,8 +1,11 @@
 package com.lok.dev.commonutil
 
+import android.content.Context
+import android.graphics.Point
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowInsets
+import android.view.WindowManager
 import android.view.WindowMetrics
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
@@ -55,4 +58,12 @@ fun FragmentActivity.getWindowWidth(): Int {
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         displayMetrics.widthPixels
     }
+}
+
+fun FragmentActivity.getDeviceHeight(): Int {
+    val mWindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    val display = mWindowManager.defaultDisplay
+    val size = Point()
+    display.getSize(size)
+    return size.y
 }

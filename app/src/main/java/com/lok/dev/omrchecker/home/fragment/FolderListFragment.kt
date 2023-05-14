@@ -1,11 +1,19 @@
 package com.lok.dev.omrchecker.home.fragment
 
+import android.R.attr.button
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import android.view.animation.Animation
+import android.view.animation.Animation.AnimationListener
+import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,7 +33,10 @@ import com.lok.dev.omrchecker.home.adapter.FolderListAdapter
 import com.lok.dev.omrchecker.home.viewmodel.FolderListViewModel
 import com.lok.dev.omrchecker.setting.SettingDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderListBinding>() {
@@ -40,12 +51,20 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
         )
     }
 
+    val containerBtnGap by lazy { 56.dp / 10 }
+    val containerSettingGap by lazy { 48.dp / 10 }
     private val folderLongClick: (SubjectTable) -> Unit = {
-        TranslateAnimation(0f, 0f, 0f, -56.dp.toFloat()).apply {
-            fillAfter = true
-            duration = 200
-            binding.btnEdit.startAnimation(this)
-            binding.btnDelete.startAnimation(this)
+        lifecycleScope.launch {
+            repeat(10) {
+                delay(10)
+                binding.containerBtn.updateLayoutParams<MarginLayoutParams> {
+                    bottomMargin += containerBtnGap
+                }
+
+                binding.containerSetting.updateLayoutParams<MarginLayoutParams> {
+                    topMargin -= containerSettingGap
+                }
+            }
         }
     }
 

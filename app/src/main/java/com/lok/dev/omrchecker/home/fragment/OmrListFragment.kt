@@ -67,6 +67,7 @@ class OmrListFragment : BaseFragment<FragmentOmrListBinding>() {
         layoutHeader.textValue = subjectData?.name ?: ""
         rvOngoing.adapter = omrOngoingListAdapter
         rvList.adapter = omrListAdapter
+        rvList.layoutManager = LayoutManagerWrapper(requireContext())
         settingSpinner()
     }
 
@@ -124,8 +125,14 @@ class OmrListFragment : BaseFragment<FragmentOmrListBinding>() {
     private fun collectViewModel() = with(viewModel) {
         isOngoingListEmpty.onResult(lifecycleScope) { isListEmpty ->
             when (isListEmpty) {
-                true -> binding.motionLayout.transitionToEnd()
-                false -> binding.motionLayout.transitionToStart()
+                true -> {
+                    binding.motionLayout.transitionToEnd()
+                    binding.motionLayout.enableTransition(R.id.transitionDragUp, false)
+                }
+                false -> {
+                    binding.motionLayout.enableTransition(R.id.transitionDragUp, true)
+                    binding.motionLayout.transitionToStart()
+                }
                 else -> {}
             }
         }

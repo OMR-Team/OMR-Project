@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.lok.dev.commonbase.BaseAdapter
 import com.lok.dev.commonbase.BaseViewHolder
+import com.lok.dev.commonutil.visible
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemOmrListBinding
@@ -41,15 +42,24 @@ class OmrListAdapter(
     ) : BaseViewHolder<ItemOmrListBinding>(binding) {
         override fun bind(position: Int): Unit = with(binding) {
             val data = asyncDiffer.currentList[position]
-            omrData = data
 
-            tvCorrectEa.text = HtmlCompat.fromHtml(
-                context.getString(
-                    R.string.omr_list_correct_ea,
-                    data.correctCnt,
-                    data.problemNum
-                ), HtmlCompat.FROM_HTML_MODE_LEGACY
-            )
+            tvTitle.text = data.title
+            tvDate.text = data.getDate()
+            tvCorrectEa.apply {
+                text = HtmlCompat.fromHtml(
+                    context.getString(
+                        R.string.omr_list_correct_ea,
+                        data.correctCnt,
+                        data.problemNum
+                    ), HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
+                visible(true)
+            }
+
+            tvCnt.apply {
+                text = context.getString(R.string.text_omr_cnt, data.cnt)
+                visible(data.cnt > 1)
+            }
 
             container.throttleFirstClick {
                 onClick.invoke(data)
