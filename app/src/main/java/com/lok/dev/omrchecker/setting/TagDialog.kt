@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseDialogFragment
@@ -58,7 +59,10 @@ class TagDialog : BaseDialogFragment<DialogTagBinding, Bundle>() {
                         removeFragment(tagEditFragment, animation = AnimationState.Right)
                     }
                 }
-                TagState.FINISH -> {
+                is TagState.Finish -> {
+                    result?.invoke(Bundle().apply {
+                      putIntArray("chooseTag", it.choose.toIntArray())
+                    })
                     dismiss()
                 }
             }

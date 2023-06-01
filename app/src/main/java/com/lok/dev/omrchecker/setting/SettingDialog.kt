@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.chip.Chip
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonbase.util.launchConfirmDialog
 import com.lok.dev.commonbase.util.launchDialogFragment
@@ -69,6 +70,12 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
         throttleFirstClick(chipTag) {
             launchDialogFragment(
                 dialogFragment = TagDialog(),
+                result = {
+                    val tagList = it?.getIntArray("chooseTag") ?: intArrayOf()
+                    if(tagList.isNotEmpty()) {
+                        viewModel.getTagList(tagList)
+                    }
+                },
                 bottomSlideAnimation = true
             )
         }
@@ -103,6 +110,19 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
                 dismiss()
             }
         }
+
+        selectTagList.onUiState(
+            viewLifecycleOwner.lifecycleScope,
+            success = {
+                it.forEach {
+                    Chip(requireContext()).apply {
+                        text = it.name
+
+                        binding.chipGroup.addView(this)
+                    }
+                }
+            }
+        )
     }
 
     private fun showSubjectDialog() {

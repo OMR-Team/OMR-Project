@@ -96,7 +96,7 @@ class TagChooseFragment(
         }
 
         btnChoose.setOnClickListener {
-            tagViewModel.setTagState(TagState.FINISH)
+            tagViewModel.setTagState(TagState.Finish(checkedTagIdList))
         }
 
         throttleFirstClick(btnAddTag) {
