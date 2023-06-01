@@ -30,7 +30,7 @@ class ResultListAdapter(
             val item = adapterList[position]
             binding.numResult.text = (item.no + 1).toString()
             binding.myResult.setImageResource(getImageType(item.answer))
-            if(item.answer != item.problem) {
+            if(item.answer.isEmpty() || item.problem.isEmpty() || item.answer != item.problem) {
                 binding.root.setBackgroundColor(context.color(R.color.theme_red_1))
                 binding.numResult.setBackgroundColor(context.color(R.color.theme_red))
             }
@@ -43,6 +43,9 @@ class ResultListAdapter(
         private fun getImageType(position: List<Int>): Int {
             return if(position.size > 1){
                 R.drawable.omr_result_m
+            }
+            else if(position.isEmpty()) {
+                R.drawable.problem_input_past
             }
             else {
                     when (position[0]) {

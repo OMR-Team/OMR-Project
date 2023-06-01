@@ -120,7 +120,7 @@ class ResultChartFragment : BaseFragment<FragmentResultChartBinding>() {
 
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             val index = value.toInt()
-            return "${list[index].cnt}회차"
+            return if(index < list.size) "${list[index].cnt}회차" else ""
         }
     }
 

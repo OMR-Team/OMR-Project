@@ -120,7 +120,7 @@ class OmrViewModel @Inject constructor(
         val score = problemTable.sumOf { problemTable ->
             answerTable.firstOrNull { answerTable -> problemTable.no == answerTable.no  }?.let { answer ->
                 totalScore += answer.score ?: 0.0
-                if(problemTable.answer == answer.answer) {
+                if(problemTable.answer.isNotEmpty() && answer.answer.isNotEmpty() && problemTable.answer == answer.answer) {
                     correct++
                     answer.score ?: 0.0
                 }
