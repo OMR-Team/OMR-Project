@@ -2,7 +2,6 @@ package com.lok.dev.omrchecker.subject.score
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -12,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lok.dev.commonbase.BaseDialogFragment
-import com.lok.dev.commonutil.onResult
 import com.lok.dev.commonutil.setTextWatcher
 import com.lok.dev.commonutil.showToast
 import com.lok.dev.commonutil.throttleFirstClick
@@ -46,11 +44,11 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<Answer
 
     private fun collectViewModel() = with(viewModel) {
 
-        scoreInputList.onResult(viewLifecycleOwner.lifecycleScope) {
+        scoreInputList.onResult {
             adapter?.set(it)
         }
 
-        scoreState.onResult(lifecycleScope) { totalScore ->
+        scoreState.onResult { totalScore ->
             binding.totalScore.text = totalScore.toString()
         }
     }

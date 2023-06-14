@@ -7,11 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
-import com.lok.dev.commonutil.SingleToast.showToast
 import com.lok.dev.commonutil.getChangeTextStyle
-import com.lok.dev.commonutil.onResult
-import com.lok.dev.commonutil.onUiState
-import com.lok.dev.commonutil.showToast
 import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.coredatabase.entity.AnswerTable
 import com.lok.dev.omrchecker.R
@@ -42,26 +38,26 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
     }
 
     private fun collectViewModel() {
-        omrViewModel.answerProgressState.onResult(viewLifecycleOwner.lifecycleScope) { progress ->
+        omrViewModel.answerProgressState.onResult { progress ->
             val text = String.format(getString(R.string.omr_input_cnt), progress, omrViewModel.tableData.problemNum)
             binding.omrAnswerCnt.text = requireActivity().getChangeTextStyle(text, progress.toString(), R.color.theme_red)
         }
 
-        omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
+        omrViewModel.saveInputData.onResult {
             val answerTable = viewModel.convertToAnswerTable(omrViewModel.tableData.id)
             omrViewModel.answerTable = viewModel.getAnswerList(answerTable)
             viewModel.addAnswerTable(omrViewModel.answerTable)
             omrViewModel.updateOMRTable(false, OmrActivity.PAGE_RESULT)
         }
 
-        viewModel.answerInput.onResult(viewLifecycleOwner.lifecycleScope) { answerList ->
+        viewModel.answerInput.onResult { answerList ->
             viewModel.convertToAnswerList(answerList, omrViewModel.tableData.selectNum)
             updateProgress(answerList)
             omrViewModel.isTemp = false
             if(answerList.count { it.score == 0.0 } == 0) omrViewModel.hasScore = true
         }
 
-        viewModel.tempAnswerInputState.onResult(viewLifecycleOwner.lifecycleScope) {
+        viewModel.tempAnswerInputState.onResult {
             if(it.isNotEmpty()) {
                 viewModel.changeAnswerInput(it)
             }
@@ -70,7 +66,7 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
             }
         }
 
-        viewModel.answerList.onResult(viewLifecycleOwner.lifecycleScope) {
+        viewModel.answerList.onResult {
             adapter?.setList(it)
         }
     }

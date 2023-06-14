@@ -11,10 +11,13 @@ import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonBase.R
+import com.lok.dev.commonutil.LifecycleOwnerWrapper
 import com.lok.dev.commonutil.convertDpToPx
 
-abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFragment() {
+abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFragment(), LifecycleOwnerWrapper {
 
     private var _binding: Binding? = null
     protected val binding get() = _binding!!
@@ -40,6 +43,8 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding, Result> : DialogFra
     protected open fun initDataBinding() = Unit
     protected open fun initDialogFragment(savedInstanceState: Bundle?) = Unit
     protected open fun onDialogBackPressed() { dismiss() }
+
+    override fun initLifeCycleOwner(): LifecycleOwner = viewLifecycleOwner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

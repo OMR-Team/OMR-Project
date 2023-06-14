@@ -11,15 +11,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonutil.convertDpToPx
-import com.lok.dev.commonutil.onUiState
 import com.lok.dev.commonutil.showToast
 import com.lok.dev.commonutil.spacing
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentResultScoreBinding
 import com.lok.dev.omrchecker.subject.OmrViewModel
 import com.lok.dev.omrchecker.subject.result.ResultAnswerDialog
-import com.lok.dev.omrchecker.subject.result.adapter.ResultListAdapter
 import com.lok.dev.omrchecker.subject.result.ResultViewModel
+import com.lok.dev.omrchecker.subject.result.adapter.ResultListAdapter
 
 class ResultScoreFragment : BaseFragment<FragmentResultScoreBinding>() {
 
@@ -78,7 +77,7 @@ class ResultScoreFragment : BaseFragment<FragmentResultScoreBinding>() {
     }
 
     private fun collectViewModel() = with(viewModel) {
-        resultJoinState.onUiState(lifecycleScope,
+        resultJoinState.onUiState(
             success = { list ->
                 listAdapter.set(list)
             },
@@ -87,7 +86,7 @@ class ResultScoreFragment : BaseFragment<FragmentResultScoreBinding>() {
             }
         )
 
-        historyState.onUiState(lifecycleScope,
+        historyState.onUiState(
             success = { list ->
                 viewModel.historyList = list
                 settingSpinner(list.count())

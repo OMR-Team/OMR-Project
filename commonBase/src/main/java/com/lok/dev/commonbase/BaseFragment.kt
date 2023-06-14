@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import com.lok.dev.commonutil.LifecycleOwnerWrapper
 import com.lok.dev.commonutil.convertDpToPx
 
-abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
+abstract class BaseFragment<Binding : ViewDataBinding> : Fragment(), LifecycleOwnerWrapper {
 
     private var _binding : Binding? = null
     protected val binding get() = _binding!!
@@ -24,6 +26,8 @@ abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
             }
         }
     }
+
+    override fun initLifeCycleOwner(): LifecycleOwner = viewLifecycleOwner
 
     protected abstract fun createFragmentBinding(inflater: LayoutInflater, container: ViewGroup?) : Binding
 

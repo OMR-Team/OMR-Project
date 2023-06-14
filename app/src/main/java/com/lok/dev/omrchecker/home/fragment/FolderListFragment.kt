@@ -101,7 +101,7 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
     }
 
     private fun collectViewModel() = with(viewModel) {
-        folderState.onResult(viewLifecycleOwner.lifecycleScope) { ordinal ->
+        folderState.onResult { ordinal ->
             binding.btnFolder.apply {
                 tag = ordinal
                 setImageResource(if (ordinal == FolderState.LINEAR.ordinal) R.drawable.ico_folder_grid_2 else R.drawable.ico_folder_list)
@@ -124,7 +124,6 @@ class FolderListFragment @Inject constructor() : BaseFragment<FragmentFolderList
         }
 
         subjectListData.onUiState(
-            viewLifecycleOwner.lifecycleScope,
             error = {
                 Log.i(this::class.java.simpleName, it.printStackTrace().toString())
             },

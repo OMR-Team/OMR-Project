@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonutil.getChangeTextStyle
-import com.lok.dev.commonutil.onResult
 import com.lok.dev.coredatabase.entity.ProblemTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentOmrInputBinding
@@ -37,7 +36,7 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
     }
 
     private fun collectViewModel() {
-        omrViewModel.progressState.onResult(viewLifecycleOwner.lifecycleScope) { progress ->
+        omrViewModel.progressState.onResult { progress ->
             val text = String.format(
                 getString(R.string.omr_input_cnt),
                 progress,
@@ -50,7 +49,7 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
             )
         }
 
-        omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
+        omrViewModel.saveInputData.onResult {
             val problemTable = viewModel.convertToProblemTable(
                 omrViewModel.tableData.id,
                 omrViewModel.tableData.cnt
@@ -59,7 +58,7 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
             viewModel.addProblemTable(problemTable)
         }
 
-        omrViewModel.omrInput.onResult(viewLifecycleOwner.lifecycleScope) { problemTables ->
+        omrViewModel.omrInput.onResult { problemTables ->
             viewModel.convertToProblemList(problemTables, omrViewModel.tableData.selectNum)
 
             if (omrViewModel.isTemp) {
@@ -72,7 +71,7 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
             }
         }
 
-        viewModel.problemList.onResult(viewLifecycleOwner.lifecycleScope) {
+        viewModel.problemList.onResult {
             adapter?.setList(it)
         }
 

@@ -6,9 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
-import com.lok.dev.commonutil.onUiState
 import com.lok.dev.coredatabase.entity.OMRTable
-import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.databinding.FragmentTestBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -49,7 +47,7 @@ class TestFragment @Inject constructor() : BaseFragment<FragmentTestBinding>() {
     }
 
     private fun collectViewModel() = with(viewModel) {
-        testState.onUiState(lifecycleScope,
+        testState.onUiState(
             loading = {
                 Log.d("123123123", "test 로딩중!!!")
             },

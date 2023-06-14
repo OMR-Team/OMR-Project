@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonmodel.CommonConstants
 import com.lok.dev.commonmodel.state.SubjectState
 import com.lok.dev.commonutil.addFragment
-import com.lok.dev.commonutil.onResult
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.DialogSubjectBinding
 import com.lok.dev.omrchecker.setting.viewmodel.SubjectViewModel
@@ -50,7 +48,7 @@ class SubjectDialog : BaseDialogFragment<DialogSubjectBinding, Bundle>() {
     }
 
     private fun collectViewModel() = with(viewModel) {
-        subjectState.onResult(lifecycleScope) {
+        subjectState.onResult {
             when(it) {
                 SubjectState.List -> {
                     if(childFragmentManager.backStackEntryCount > 1) {

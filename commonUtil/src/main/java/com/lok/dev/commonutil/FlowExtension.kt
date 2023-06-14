@@ -38,30 +38,6 @@ fun <T> Flow<T>.onStartAndEndDelay(
     if (delay != null) delay(delay)
 }
 
-fun <T> Flow<ResultUiState<T>>.onUiState(
-    scope: LifecycleCoroutineScope,
-    loading: () -> Unit = {},
-    success: (T) -> Unit = {},
-    error: (Throwable) -> Unit = {},
-    finish: () -> Unit = {}
-) {
-    onResult(scope) { state ->
-        when (state) {
-            ResultUiState.Loading -> loading()
-            is ResultUiState.Success -> success(state.data)
-            is ResultUiState.Error -> error(state.error)
-            ResultUiState.Finish -> finish()
-            else -> Unit
-        }
-    }
-}
-
-fun <T> Flow<T>.onResult(scope: LifecycleCoroutineScope, action: (T) -> Unit) {
-    scope.launch {
-        collect(action)
-    }
-}
-
 inline fun <T> Flow<T>.collect(
     externalScope: CoroutineScope,
     crossinline collect: (T) -> Unit

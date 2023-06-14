@@ -84,7 +84,6 @@ class TagEditFragment(
 
     private fun collectViewModel() = with(tagViewModel) {
         tagListData.onUiState(
-            viewLifecycleOwner.lifecycleScope,
             error = {
                 Log.e("아현", "$it")
             },
@@ -93,7 +92,7 @@ class TagEditFragment(
             }
         )
 
-        checkedEditTagCnt.onResult(viewLifecycleOwner.lifecycleScope) {
+        checkedEditTagCnt.onResult {
             if (it == 0) {
                 binding.btnDelete.text = getString(R.string.text_delete)
                 binding.btnDelete.isEnabled = false

@@ -8,12 +8,14 @@ import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.updateLayoutParams
-import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseActivity
 import com.lok.dev.commonbase.util.launchConfirmDialog
 import com.lok.dev.commonmodel.CommonConstants
 import com.lok.dev.commonmodel.state.AnimationState
-import com.lok.dev.commonutil.*
+import com.lok.dev.commonutil.safeParcelable
+import com.lok.dev.commonutil.showToast
+import com.lok.dev.commonutil.throttleFirstClick
+import com.lok.dev.commonutil.visible
 import com.lok.dev.coredatabase.entity.OMRTable
 import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.R
@@ -23,7 +25,6 @@ import com.lok.dev.omrchecker.subject.answer.AnswerInputFragment
 import com.lok.dev.omrchecker.subject.omr.OmrInputFragment
 import com.lok.dev.omrchecker.subject.result.ResultFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OmrActivity : BaseActivity<ActivityOmrBinding>() {
@@ -55,23 +56,23 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
 
     private fun collectViewModel() = with(viewModel) {
 
-        screenState.onResult(lifecycleScope) { screen ->
+        screenState.onResult { screen ->
             changeScreen(screen)
         }
 
-        progressState.onResult(lifecycleScope) { progress ->
+        progressState.onResult { progress ->
             binding.progressProblemBar.updateLayoutParams {
                 width = (progress.toDouble() / viewModel.tableData.problemNum * 100).dp
             }
         }
 
-        answerProgressState.onResult(lifecycleScope) { progress ->
+        answerProgressState.onResult { progress ->
             binding.progressAnswerBar.updateLayoutParams {
                 width = (progress.toDouble() / viewModel.tableData.problemNum * 100).dp
             }
         }
 
-        tempOmrInputState.onUiState(lifecycleScope,
+        tempOmrInputState.onUiState(
             success = { list ->
                 viewModel.changeOmrInput(list)
             },
@@ -80,7 +81,7 @@ class OmrActivity : BaseActivity<ActivityOmrBinding>() {
             }
         )
 
-        saveResultData.onResult(lifecycleScope) {
+        saveResultData.onResult {
             viewModel.changeScreenState(OmrState.ResultScreen)
         }
     }

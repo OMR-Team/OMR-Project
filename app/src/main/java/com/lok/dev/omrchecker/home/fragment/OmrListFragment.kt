@@ -122,7 +122,7 @@ class OmrListFragment : BaseFragment<FragmentOmrListBinding>() {
     }
 
     private fun collectViewModel() = with(viewModel) {
-        isOngoingListEmpty.onResult(lifecycleScope) { isListEmpty ->
+        isOngoingListEmpty.onResult { isListEmpty ->
             when (isListEmpty) {
                 true -> binding.motionLayout.transitionToEnd()
                 false -> binding.motionLayout.transitionToStart()
@@ -131,7 +131,6 @@ class OmrListFragment : BaseFragment<FragmentOmrListBinding>() {
         }
 
         omrOngoingListData.onUiState(
-            viewLifecycleOwner.lifecycleScope,
             error = { Log.e(tag, "omrOngoingListData: $it") },
             success = {
                 omrOngoingListAdapter.updateList(it)
@@ -139,7 +138,6 @@ class OmrListFragment : BaseFragment<FragmentOmrListBinding>() {
         )
 
         omrDoneListData.onUiState(
-            viewLifecycleOwner.lifecycleScope,
             error = { Log.e(tag, "omrListData: $it") },
             success = {
                 omrListAdapter.updateList(it)

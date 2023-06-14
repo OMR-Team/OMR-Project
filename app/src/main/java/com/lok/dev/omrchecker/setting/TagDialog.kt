@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonmodel.CommonConstants.TAG_STATE_REMOVE_TYPE_EDIT
 import com.lok.dev.commonmodel.state.AnimationState
 import com.lok.dev.commonmodel.state.TagState
 import com.lok.dev.commonutil.addFragment
-import com.lok.dev.commonutil.onResult
 import com.lok.dev.commonutil.removeFragment
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.DialogTagBinding
@@ -41,7 +38,7 @@ class TagDialog : BaseDialogFragment<DialogTagBinding, Bundle>() {
     }
 
     fun collectViewModel() = with(tagViewModel) {
-        tagStateData.onResult(viewLifecycleOwner.lifecycleScope) {
+        tagStateData.onResult {
             when (it) {
                 TagState.CHOOSE -> {
                     addFragment(

@@ -3,7 +3,6 @@ package com.lok.dev.omrchecker.subject.result.fragment
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -14,7 +13,6 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonutil.color
-import com.lok.dev.commonutil.onUiState
 import com.lok.dev.coredatabase.entity.HistoryTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.custom.ChartMarkerView
@@ -36,7 +34,7 @@ class ResultChartFragment : BaseFragment<FragmentResultChartBinding>() {
     }
 
     private fun collectViewModel() = with(viewModel) {
-        historyState.onUiState(lifecycleScope,
+        historyState.onUiState(
             success = { list ->
                 val order = list.sortedByDescending { it.cnt }.chunked(5).first().reversed()
                 val entry = order.mapIndexed { index, historyTable ->

@@ -5,17 +5,21 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import com.lok.dev.commonmodel.state.AnimationState
+import com.lok.dev.commonutil.LifecycleOwnerWrapper
 import com.lok.dev.commonutil.animFragment
 import com.lok.dev.commonutil.convertDpToPx
 
-abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity() {
+abstract class BaseActivity<Binding : ViewDataBinding> : AppCompatActivity(), LifecycleOwnerWrapper {
 
     protected val binding: Binding by lazy { createBinding() }
 
     protected abstract fun createBinding(): Binding
 
     protected open fun initActivity(savedInstanceState: Bundle?) = Unit
+
+    override fun initLifeCycleOwner(): LifecycleOwner = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

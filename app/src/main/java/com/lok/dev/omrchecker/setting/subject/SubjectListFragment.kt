@@ -7,7 +7,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonmodel.state.SubjectState
-import com.lok.dev.commonutil.onUiState
 import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.databinding.FragmentSubjectListBinding
 import com.lok.dev.omrchecker.setting.adapter.SubjectListAdapter
@@ -47,7 +46,7 @@ class SubjectListFragment @Inject constructor() : BaseFragment<FragmentSubjectLi
     }
 
     private fun collectViewModel() = with(viewModel) {
-        subjectListData.onUiState(viewLifecycleOwner.lifecycleScope,
+        subjectListData.onUiState(
             error = {
                 Log.i(this::class.java.simpleName, it.printStackTrace().toString())
             },

@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lok.dev.commonbase.BaseFragment
 import com.lok.dev.commonmodel.CommonConstants
-import com.lok.dev.commonutil.onResult
-import com.lok.dev.commonutil.onUiState
 import com.lok.dev.commonutil.showToast
 import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.coredatabase.entity.OMRTable
@@ -62,7 +59,7 @@ class ResultFragment @Inject constructor() : BaseFragment<FragmentResultBinding>
     }
 
     private fun collectViewModel() = with(viewModel) {
-        historyState.onUiState(lifecycleScope,
+        historyState.onUiState(
             success = { list ->
                 binding.txtScoreMax.text = list.maxOf { it.score }.toString()
             },
@@ -71,7 +68,7 @@ class ResultFragment @Inject constructor() : BaseFragment<FragmentResultBinding>
             }
         )
 
-        resultJoinState.onUiState(lifecycleScope,
+        resultJoinState.onUiState(
             success = { list ->
                 viewModel.historyList.firstOrNull { it.cnt == list.first().cnt }?.let {
                     binding.progress.setProgressAnimated((it.score / it.totalScore * 100).toFloat())

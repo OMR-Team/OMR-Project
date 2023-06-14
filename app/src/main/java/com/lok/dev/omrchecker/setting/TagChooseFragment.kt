@@ -69,7 +69,6 @@ class TagChooseFragment(
 
     private fun collectViewModel() = with(tagViewModel) {
         tagListData.onUiState(
-            viewLifecycleOwner.lifecycleScope,
             error = {
                 Log.e("아현", "$it")
             },
@@ -79,7 +78,7 @@ class TagChooseFragment(
             }
         )
 
-        checkedTagCnt.onResult(viewLifecycleOwner.lifecycleScope) {
+        checkedTagCnt.onResult {
             if (it == 0) {
                 binding.btnChoose.text = getString(R.string.text_choose)
                 binding.btnChoose.isEnabled = false

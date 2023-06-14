@@ -7,19 +7,19 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.Chip
 import com.lok.dev.commonbase.BaseDialogFragment
 import com.lok.dev.commonbase.util.launchConfirmDialog
 import com.lok.dev.commonbase.util.launchDialogFragment
 import com.lok.dev.commonmodel.CommonConstants
 import com.lok.dev.commonmodel.CommonConstants.BUNDLE_SUBJECT_DATA
-import com.lok.dev.commonutil.*
-import com.lok.dev.coredatabase.entity.SubjectTable
+import com.lok.dev.commonutil.AppConfig
 import com.lok.dev.commonutil.convertDpToPx
-import com.lok.dev.commonutil.onResult
+import com.lok.dev.commonutil.getDrawableString
+import com.lok.dev.commonutil.safeParcelable
 import com.lok.dev.commonutil.throttleFirstClick
 import com.lok.dev.coredatabase.entity.OMRTable
+import com.lok.dev.coredatabase.entity.SubjectTable
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.FragmentSettingBinding
 import com.lok.dev.omrchecker.dialog.TitleConfirmDialog
@@ -90,7 +90,7 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
     }
 
     private fun collectViewModel() = with(viewModel) {
-        subjectData.onResult(viewLifecycleOwner.lifecycleScope) {
+        subjectData.onResult {
             AppConfig.folderData.firstOrNull { data -> data.id == it.folderId }?.let { data ->
                 val resId = requireContext().getDrawableString("folder_${data.fileName}") ?: R.drawable.folder_black
                 binding.btnSubjectPlus.setImageResource(resId)
@@ -100,7 +100,7 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
             setEnableAddOmr()
         }
 
-        maxId.onResult(viewLifecycleOwner.lifecycleScope) {
+        maxId.onResult {
             val id = (it ?: 0) + 1
             val testName = binding.etTitle.text.toString()
             val problemNum = binding.etProblemNum.text.toString().toInt()
@@ -112,7 +112,6 @@ class SettingDialog : BaseDialogFragment<FragmentSettingBinding, Bundle>() {
         }
 
         selectTagList.onUiState(
-            viewLifecycleOwner.lifecycleScope,
             success = {
                 it.forEach {
                     Chip(requireContext()).apply {
