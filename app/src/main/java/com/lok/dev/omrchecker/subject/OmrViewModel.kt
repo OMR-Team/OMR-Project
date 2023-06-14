@@ -85,22 +85,18 @@ class OmrViewModel @Inject constructor(
         }
     }
 
-    fun updateProblemProgress(pair: Pair<Boolean, Int>) {
-        val isChecked = pair.first
-        val problemNum = pair.second
+    fun updateProblemProgress(problemNum: Int, isSelected: Boolean) {
         when {
-            isChecked -> problemSelected[problemNum] = problemSelected.getOrDefault(problemNum, 0).plus(1)
+            isSelected -> problemSelected[problemNum] = problemSelected.getOrDefault(problemNum, 0).plus(1)
             problemSelected.getOrDefault(problemNum, 0) == 1 -> problemSelected.remove(problemNum)
             else -> problemSelected[problemNum] = problemSelected.getOrDefault(problemNum, 0).minus(1)
         }
         _progressState.value = problemSelected.size
     }
 
-    fun updateAnswerProgress(pair: Pair<Boolean, Int>) {
-        val isChecked = pair.first
-        val problemNum = pair.second
+    fun updateAnswerProgress(problemNum: Int, isSelected: Boolean) {
         when {
-            isChecked -> answerSelected[problemNum] = answerSelected.getOrDefault(problemNum, 0).plus(1)
+            isSelected -> answerSelected[problemNum] = answerSelected.getOrDefault(problemNum, 0).plus(1)
             answerSelected.getOrDefault(problemNum, 0) == 1 -> answerSelected.remove(problemNum)
             else -> answerSelected[problemNum] = answerSelected.getOrDefault(problemNum, 0).minus(1)
         }

@@ -52,7 +52,6 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
 
         omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
             val problemTable = viewModel.convertToProblemTable(
-                adapter?.adapterList,
                 omrViewModel.tableData.id,
                 omrViewModel.tableData.cnt
             )
@@ -61,13 +60,8 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
         }
 
         omrViewModel.omrInput.onResult(viewLifecycleOwner.lifecycleScope) { problemTables ->
+            viewModel.convertToProblemList(problemTables, omrViewModel.tableData.selectNum)
 
-            adapter?.setList(
-                viewModel.convertToProblemList(
-                    problemTables,
-                    omrViewModel.tableData.selectNum
-                )
-            )
             if (omrViewModel.isTemp) {
                 updateProgress(problemTables)
                 omrViewModel.isTemp = false
@@ -78,6 +72,10 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
             }
         }
 
+        viewModel.problemList.onResult(viewLifecycleOwner.lifecycleScope) {
+            adapter?.setList(it)
+        }
+
     }
 
     private fun initAdapter() {
@@ -85,8 +83,12 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
             requireContext(),
             viewLifecycleOwner.lifecycleScope,
             omrViewModel.tableData.selectNum
-        ) { pair ->
-            omrViewModel.updateProblemProgress(pair)
+        ) { changeData ->
+            val problemNum = changeData.first   // 문제 번호
+            val answerNum = changeData.second   // 답안 번호
+            val isSelected = changeData.third   // 선택 여부
+            viewModel.updateProblemList(problemNum, answerNum, isSelected)
+            omrViewModel.updateProblemProgress(problemNum, isSelected)
         }
         binding.omrInputList.adapter = adapter
     }
@@ -102,7 +104,7 @@ class OmrInputFragment @Inject constructor() : BaseFragment<FragmentOmrInputBind
     private fun updateProgress(list: List<ProblemTable>) {
         list.forEach { problemTable ->
             repeat(problemTable.answer.size) {
-                omrViewModel.updateProblemProgress(Pair(true, problemTable.no))
+                omrViewModel.updateProblemProgress(problemTable.no, true)
             }
         }
     }

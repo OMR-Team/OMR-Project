@@ -10,11 +10,16 @@ import javax.inject.Inject
 @HiltViewModel
 class ScoreInputViewModel @Inject constructor(): BaseViewModel() {
 
-    var scoreInputList = mutableListOf<AnswerTable>()
+    private val _scoreInputList = MutableStateFlow<List<AnswerTable>>(listOf())
+    val scoreInputList = _scoreInputList.asStateFlow()
     val scoreMap = mutableMapOf<Int, Double>()
 
     private val _scoreState = MutableStateFlow(0.0)
     val scoreState = _scoreState.asStateFlow()
+
+    fun setScoreInputList(list : List<AnswerTable>) {
+        _scoreInputList.value = list
+    }
 
     fun updateScore(data: Pair<Int, Double>) {
         scoreMap[data.first] = data.second
@@ -22,9 +27,11 @@ class ScoreInputViewModel @Inject constructor(): BaseViewModel() {
     }
 
     fun changeAllScore(score: Double) {
-        scoreInputList.forEachIndexed { index, data ->
-            scoreInputList[index] = data.copy(score = score)
-            scoreMap[index.plus(1)] = score
+        val modList = scoreInputList.value.toMutableList()
+        modList.forEachIndexed { index, data ->
+            modList[index] = data.copy(score = score)
+            scoreMap[index] = score
         }
+        _scoreInputList.value = modList
     }
 }

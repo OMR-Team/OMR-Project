@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -24,7 +25,9 @@ class AnswerInputViewModel @Inject constructor(
     private val getAnswerTableUseCase: GetAnswerTableUseCase,
 ) : BaseViewModel() {
 
-    val answerList = mutableListOf<AnswerTable>()
+    private val _answerList = MutableStateFlow<List<List<Pair<Int, Boolean>>>>(listOf())
+    val answerList = _answerList.asStateFlow()
+
     val scoreList = mutableListOf<AnswerTable>()
 
     /** 임시저장 답안 리스트 불러오기 상태 **/
@@ -38,6 +41,7 @@ class AnswerInputViewModel @Inject constructor(
     fun changeAnswerInput(list: List<AnswerTable>) {
         viewModelScope.launch {
             _answerInput.emit(list)
+            scoreList.addAll(list)
         }
     }
 
@@ -60,19 +64,19 @@ class AnswerInputViewModel @Inject constructor(
         }
     }
 
-    fun convertToAnswerList(list: List<AnswerTable>, selectNum: Int): List<MutableList<Pair<Int, Boolean>>> {
-        val answerList = List(list.size) { mutableListOf<Pair<Int, Boolean>>() }
+    fun convertToAnswerList(list: List<AnswerTable>, selectNum: Int) {
+        val tempList = List(list.size) { mutableListOf<Pair<Int, Boolean>>() }
         list.forEachIndexed { index, tableData ->
             for(i in 1..selectNum) {
-                answerList[index].add(Pair(i, tableData.answer.contains(i)))
+                tempList[index].add(Pair(i, tableData.answer.contains(i)))
             }
         }
-        return answerList
+        _answerList.value = tempList
     }
 
-    fun convertToAnswerTable(list: List<List<Pair<Int, Boolean>>>?, id: Int): List<AnswerTable> {
+    fun convertToAnswerTable(id: Int): List<AnswerTable> {
         val tableList = mutableListOf<AnswerTable>()
-        list?.forEachIndexed { index, answerList->
+        answerList.value.forEachIndexed { index, answerList->
             val selectList = mutableListOf<Int>()
             answerList.forEach { answerPair ->
                 if(answerPair.second) selectList.add(answerPair.first)
@@ -80,6 +84,14 @@ class AnswerInputViewModel @Inject constructor(
             tableList.add(AnswerTable(id = id, no = index, answer = selectList, score = null))
         }
         return tableList
+    }
+
+    fun updateAnswerList(problemNum: Int, answerNum: Int, isSelected: Boolean) {
+        val modProblemList = answerList.value.toMutableList()
+        val modProblemTable = modProblemList[problemNum].toMutableList()
+        modProblemTable[answerNum.minus(1)] = Pair(answerNum, isSelected)
+        modProblemList[problemNum] = modProblemTable
+        _answerList.value = modProblemList
     }
 
 }

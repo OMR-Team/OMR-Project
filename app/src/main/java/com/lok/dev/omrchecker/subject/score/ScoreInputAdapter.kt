@@ -30,7 +30,7 @@ class ScoreInputAdapter(
 
             val data = adapterList[position]
 
-            numScore.text = data.no.toString()
+            numScore.text = data.no.plus(1).toString()
 
             if(data.score != null && data.score != 0.0) editScore.setText(data.score.toString())
             else editScore.setText("")

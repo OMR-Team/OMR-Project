@@ -39,14 +39,17 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<Answer
 
         collectViewModel()
         initAdapter()
-        adapter?.set(answerViewModel.answerList)
-        viewModel.scoreInputList.addAll(answerViewModel.answerList)
-
+        viewModel.setScoreInputList(answerViewModel.scoreList)
         setClickListeners()
         setTextWatcher()
     }
 
     private fun collectViewModel() = with(viewModel) {
+
+        scoreInputList.onResult(viewLifecycleOwner.lifecycleScope) {
+            adapter?.set(it)
+        }
+
         scoreState.onResult(lifecycleScope) { totalScore ->
             binding.totalScore.text = totalScore.toString()
         }
@@ -67,13 +70,12 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<Answer
         }
 
         throttleFirstClick(btnComplete) {
-            if(!adapter?.adapterList.isNullOrEmpty()) omrViewModel.hasScore = true
-            setResultOnDismiss(adapter?.adapterList ?: mutableListOf())
+            if(viewModel.scoreMap.isNotEmpty()) omrViewModel.hasScore = true
+            setResultOnDismiss(viewModel.scoreInputList.value)
         }
 
         throttleFirstClick(scoreEraseAll) {
             viewModel.changeAllScore(0.0)
-            adapter?.set(viewModel.scoreInputList)
             editScoreInputAll.setText("")
             hideKeyboard(editScoreInputAll)
         }
@@ -82,7 +84,6 @@ class ScoreInputDialog : BaseDialogFragment<DialogScoreInputBinding, List<Answer
             val score = editScoreInputAll.text.toString()
             if(score.isNotEmpty()) {
                 viewModel.changeAllScore(score.toDouble())
-                adapter?.set(viewModel.scoreInputList)
                 hideKeyboard(editScoreInputAll)
             }else {
                 requireContext().showToast(R.string.omr_score_input_all_warn)

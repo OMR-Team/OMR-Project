@@ -18,8 +18,8 @@ class OmrInputAdapter(
     private val context: Context,
     private val lifecycleCoroutineScope: LifecycleCoroutineScope,
     private val selectNum: Int,
-    private val onClick: (Pair<Boolean, Int>) -> Unit
-) : BaseAdapter<ItemOmrInputBinding, MutableList<Pair<Int, Boolean>>>(lifecycleCoroutineScope) {
+    private val onClick: (Triple<Int, Int, Boolean>) -> Unit
+) : BaseAdapter<ItemOmrInputBinding, List<Pair<Int, Boolean>>>(lifecycleCoroutineScope) {
 
     override fun getBinding(parent: ViewGroup, viewType: Int) = ViewHolder(
         ItemOmrInputBinding.inflate(
@@ -29,15 +29,11 @@ class OmrInputAdapter(
 
     private val itemAdapterList = mutableListOf<OmrItemInputAdapter>()
 
-    fun setList(list: List<MutableList<Pair<Int, Boolean>>>) {
+    fun setList(list: List<List<Pair<Int, Boolean>>>) {
         itemAdapterList.clear()
         list.forEachIndexed { index, _ ->
             val itemAdapter = OmrItemInputAdapter(this@OmrInputAdapter.context, lifecycleCoroutineScope, index) {
-                val problemNum = it.first   // 문제 번호
-                val answerNum = it.second   // 답안 번호
-                val isSelected = it.third   // 선택 여부
-                adapterList[problemNum][answerNum.minus(1)] = Pair(answerNum, isSelected)
-                onClick.invoke(Pair(isSelected, problemNum))
+                onClick.invoke(it)
             }
             itemAdapterList.add(itemAdapter)
         }

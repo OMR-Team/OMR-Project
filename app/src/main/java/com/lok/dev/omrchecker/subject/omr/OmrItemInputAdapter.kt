@@ -46,8 +46,6 @@ class OmrItemInputAdapter(
 
             omrItem.setOnCheckedChangeListener { _, isChecked ->
                 onClick.invoke(Triple(problemNum, answerNum, isChecked))
-                if (isChecked) omrItem.setBackgroundResource(R.drawable.omr_selected)
-                else omrItem.setBackgroundResource(getImageType(answerNum))
             }
         }
 

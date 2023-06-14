@@ -44,8 +44,6 @@ class AnswerItemInputAdapter(
 
             answerItem.setOnCheckedChangeListener { _, isChecked ->
                 onClick.invoke(Triple(problemNum, answerNum, isChecked))
-                if(isChecked) answerItem.setBackgroundResource(R.drawable.answer_selected)
-                else answerItem.setBackgroundResource(getImageType(answerNum))
             }
 
         }

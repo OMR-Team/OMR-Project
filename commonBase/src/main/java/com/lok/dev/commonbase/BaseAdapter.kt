@@ -12,7 +12,7 @@ abstract class BaseAdapter<B : ViewDataBinding, T>(
     private val lifecycleScope: LifecycleCoroutineScope
 ) : RecyclerView.Adapter<BaseViewHolder<B>>() {
 
-    val adapterList = mutableListOf<T>()
+    protected val adapterList = mutableListOf<T>()
 
     protected abstract fun getBinding(parent: ViewGroup, viewType: Int): BaseViewHolder<B>
 

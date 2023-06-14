@@ -48,19 +48,17 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
         }
 
         omrViewModel.saveInputData.onResult(viewLifecycleOwner.lifecycleScope) {
-            val answerTable = viewModel.convertToAnswerTable(adapter?.adapterList, omrViewModel.tableData.id)
+            val answerTable = viewModel.convertToAnswerTable(omrViewModel.tableData.id)
             omrViewModel.answerTable = viewModel.getAnswerList(answerTable)
             viewModel.addAnswerTable(omrViewModel.answerTable)
             omrViewModel.updateOMRTable(false, OmrActivity.PAGE_RESULT)
         }
 
         viewModel.answerInput.onResult(viewLifecycleOwner.lifecycleScope) { answerList ->
-            adapter?.setList(viewModel.convertToAnswerList(answerList, omrViewModel.tableData.selectNum))
+            viewModel.convertToAnswerList(answerList, omrViewModel.tableData.selectNum)
             updateProgress(answerList)
             omrViewModel.isTemp = false
-            viewModel.answerList.addAll(answerList)
             if(answerList.count { it.score == 0.0 } == 0) omrViewModel.hasScore = true
-            viewModel.scoreList.addAll(answerList)
         }
 
         viewModel.tempAnswerInputState.onResult(viewLifecycleOwner.lifecycleScope) {
@@ -71,11 +69,23 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
                 makeAnswerTable()
             }
         }
+
+        viewModel.answerList.onResult(viewLifecycleOwner.lifecycleScope) {
+            adapter?.setList(it)
+        }
     }
 
     private fun initAdapter() {
-        adapter = AnswerInputAdapter(requireContext(), viewLifecycleOwner.lifecycleScope, omrViewModel.tableData.selectNum) { pair ->
-            omrViewModel.updateAnswerProgress(pair)
+        adapter = AnswerInputAdapter(
+            requireContext(),
+            viewLifecycleOwner.lifecycleScope,
+            omrViewModel.tableData.selectNum
+        ) { changeData ->
+            val problemNum = changeData.first   // 문제 번호
+            val answerNum = changeData.second   // 답안 번호
+            val isSelected = changeData.third   // 선택 여부
+            viewModel.updateAnswerList(problemNum, answerNum, isSelected)
+            omrViewModel.updateAnswerProgress(problemNum, isSelected)
         }
         binding.omrAnswerList.adapter = adapter
     }
@@ -115,7 +125,7 @@ class AnswerInputFragment @Inject constructor() : BaseFragment<FragmentAnswerInp
     private fun updateProgress(list: List<AnswerTable>) {
         list.forEach { answerTable ->
             repeat(answerTable.answer.size) {
-                omrViewModel.updateAnswerProgress(Pair(true, answerTable.no))
+                omrViewModel.updateAnswerProgress(answerTable.no, true)
             }
         }
     }
