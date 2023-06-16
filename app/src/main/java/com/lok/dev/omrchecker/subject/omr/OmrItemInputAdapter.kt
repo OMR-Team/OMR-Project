@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.lok.dev.commonbase.BaseAdapter
+import com.lok.dev.commonbase.BaseDiffUtilAdapter
 import com.lok.dev.commonbase.BaseViewHolder
 import com.lok.dev.omrchecker.R
 import com.lok.dev.omrchecker.databinding.ItemOmrItemInputBinding
@@ -14,8 +15,7 @@ class OmrItemInputAdapter(
     lifecycleCoroutineScope: LifecycleCoroutineScope,
     private val problemNum: Int,
     private val onClick: (Triple<Int, Int, Boolean>) -> Unit
-) : BaseAdapter<ItemOmrItemInputBinding, Pair<Int, Boolean>>(lifecycleCoroutineScope) {
-
+) : BaseDiffUtilAdapter<ItemOmrItemInputBinding, Pair<Int, Boolean>>(lifecycleCoroutineScope) {
 
     override fun getBinding(
         parent: ViewGroup,
@@ -65,5 +65,11 @@ class OmrItemInputAdapter(
             }
         }
     }
+
+    override fun areItemsTheSame(oldItem: Pair<Int, Boolean>, newItem: Pair<Int, Boolean>): Boolean =
+        oldItem.second == newItem.second
+
+    override fun areContentsTheSame(oldItem: Pair<Int, Boolean>, newItem: Pair<Int, Boolean>): Boolean =
+        oldItem == newItem
 
 }

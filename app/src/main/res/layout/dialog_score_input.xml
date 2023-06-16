@@ -98,7 +98,7 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_black_7_radius_4"
                             android:fontFamily="@font/pretendard_medium"
-                            android:maxLength="5"
+                            android:maxLength="4"
                             android:inputType="numberDecimal"
                             android:gravity="end"
                             android:hint="0"

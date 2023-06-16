@@ -50,7 +50,7 @@ class AnswerInputAdapter(
             answerList.layoutManager = GridLayoutManager(context, spanCnt, GridLayoutManager.VERTICAL, false)
             answerList.adapter = itemAdapterList[position]
 
-            itemAdapterList[position].set(adapterList[position])
+            itemAdapterList[position].submit(adapterList[position])
 
             divider.isVisible = position % 5 == 4
 
